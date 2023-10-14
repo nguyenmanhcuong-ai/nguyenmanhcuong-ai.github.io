@@ -8,15 +8,75 @@ import multer from 'multer';
 import path from 'path';
 import bodyParser from 'body-parser';
 
-// Create a Sequelize instance with your database configuration
-const sequelize = new Sequelize({
-  dialect: 'postgres',
-  username: 'postgres',
-  password: 'Cuongai@0910',
-  database: 'postgres',
+
+
+import pkg from 'pg';
+
+const { Client } = pkg;
+
+const connectionInfo = {
+  user: 'postgres',
   host: 'db.ivtijeamwvrwtaqqstuo.supabase.co',
+  database: 'postgres',
+  password: 'Cuongai@0910',
+  port: 5432,
+};
+
+// Hàm để lấy dữ liệu từ PostgreSQL
+async function getDataFromPostgreSQL() {
+  const client = new Client(connectionInfo);
+
+  try {
+    // Kết nối đến cơ sở dữ liệu
+    await client.connect();
+
+    // Truy vấn dữ liệu từ bảng "Moments"
+    const query = 'SELECT * FROM "Moments";';
+    const result = await client.query(query);
+
+    // Đóng kết nối cơ sở dữ liệu
+    await client.end();
+
+    return result.rows; // Trả về dữ liệu từ truy vấn
+  } catch (error) {
+    console.error('Lỗi khi lấy dữ liệu từ PostgreSQL:', error);
+    throw error;
+  }
+}
+
+// Sử dụng hàm để lấy dữ liệu và in ra kết quả
+getDataFromPostgreSQL()
+  .then((data) => {
+    console.log('Dữ liệu từ PostgreSQL:', data);
+  })
+  .catch((error) => {
+    console.error('Lỗi:', error);
+  });
+
+  app.get('/', async (req, res) => {
+    try {
+      // Gọi hàm để lấy dữ liệu từ PostgreSQL
+      const moments = await getDataFromPostgreSQL();
+  
+      // Truyền dữ liệu vào template EJS (moments.ejs) và hiển thị
+      res.render('moments', { moments });
+    } catch (error) {
+      console.error('Lỗi khi lấy dữ liệu:', error);
+      res.status(500).send('Lỗi khi lấy dữ liệu');
+    }
+  });
+  
+
+
+/*// Create a Sequelize instance with your database configuration
+const sequelize = new Sequelize({
+  dialect: 'mysql',
+  username: 'root',
+  password: null,
+  database: 'photo',
+  host: 'localhost',
   dialectOptions: {
-    port: 5432, // Thay đổi thành cổng bạn muốn sử dụng
+    port: 3306, // Thay đổi thành cổng bạn muốn sử dụng
     }
 });
 
@@ -37,7 +97,7 @@ sequelize
     location: Sequelize.STRING,
     occasion: Sequelize.STRING,
     description: Sequelize.STRING,
-  });
+  });*/
 
   
 
@@ -63,7 +123,7 @@ app.set('view engine', 'ejs');
 app.use(express.static('public'));
 
 
-app.get('/', async (req, res) => {
+/*app.get('/', async (req, res) => {
   try {
     // Lấy tất cả các dòng dữ liệu từ bảng Moment
     const moments = await Moment.findAll();
@@ -74,7 +134,7 @@ app.get('/', async (req, res) => {
     console.error('Lỗi khi lấy dữ liệu:', error);
     res.status(500).send('Lỗi khi lấy dữ liệu');
   }
-});
+});*/
 
 
 // Sample data (you can replace this with a database)
