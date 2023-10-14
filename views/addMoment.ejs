@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Add a Moment</title>
+  <link
+    rel="stylesheet"
+    href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+  />
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+
+    .container {
+      margin-top: 20px;
+      max-width: 500px;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .form-group label {
+      font-weight: bold;
+    }
+
+    .form-group textarea {
+      height: 100px;
+    }
+
+    .image-preview {
+      max-height: 200px;
+      display: none; /* Initially hide the preview */
+    }
+  </style>
+  <script>
+    function previewImage(input) {
+      var img = document.getElementById('image-preview');
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+          img.src = e.target.result;
+          img.style.display = 'block';
+        };
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+  </script>
+</head>
+<body>
+  <div class="container">
+    <h1 class="text-center">Add a Moment</h1>
+    <form action="/add" method="post" enctype="multipart/form-data">
+      <div class="form-group">
+        <label for="date">Date Taken:</label>
+        <input type="date" class="form-control" id="date" name="date" required>
+      </div>
+      <div class="form-group">
+        <label for="location">Location:</label>
+        <input
+          type="text"
+          class="form-control"
+          id="location"
+          name="location"
+          required
+        >
+      </div>
+      <div class="form-group">
+        <label for="occasion">Occasion:</label>
+        <input
+          type="text"
+          class="form-control"
+          id="occasion"
+          name="occasion"
+          required
+        >
+      </div>
+      <div class="form-group">
+        <label for="description">Description:</label>
+        <textarea
+          class="form-control"
+          id="description"
+          name="description"
+          required
+        ></textarea>
+      </div>
+      <div class="form-group">
+        <label for="image">Choose Image:</label>
+        <input
+          type="file"
+          class="form-control-file"
+          id="image"
+          name="image"
+          accept="image/*"
+          required
+          onchange="previewImage(this);"
+        >
+      </div>
+      <img id="image-preview" class="image-preview img-fluid" alt="Image Preview">
+      <div class="form-group text-center">
+        <button type="submit" class="btn btn-primary">Add Moment</button>
+      </div>
+    </form>
+  </div>
+</body>
+</html>

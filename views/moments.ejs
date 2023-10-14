@@ -1,0 +1,129 @@
+<!-- views/moments.ejs -->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Precious Moments</title>
+    <!-- Add Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Add Custom CSS -->
+    <style>
+        body {
+      background-color: #f8f9fa; /* Set a light background color */
+      background-image: url('https://dl8.glitter-graphics.net/pub/707/707658idt14mszrv.gif'); /* Replace 'flowers-background.jpg' with your image URL */
+      background-size: cover;
+      background-attachment: fixed;
+    }
+        .moment-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .moment {
+            width: calc(33.33% - 10px);
+            margin: 5px;
+            border-radius: 10px;
+            transition: transform 0.3s;
+        }
+
+        .moment:hover {
+            transform: translateY(-5px);
+        }
+
+        .moment img {
+            width: 100%;
+            max-height: 300px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .moment p {
+            font-family: 'Arial', sans-serif;
+            font-size: 18px;
+            margin: 10px 0;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 36px;
+        }
+
+        .btn-action {
+            margin-right: 5px;
+        }
+
+        /* Fixed navigation bar at the top */
+        .fixed-navbar {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            background-color: #3498db;
+            z-index: 999;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 10px 0;
+        }
+
+        /* Style for the navigation links */
+        .fixed-navbar a {
+            color: #fff;
+            margin: 0 10px;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .fixed-navbar a:hover {
+            color: #ffcc00; /* Change to your desired hover color */
+        }
+
+        /* Custom title header */
+        .title-header {
+            text-align: center;
+            padding: 20px 0;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- Fixed navigation bar at the top -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-navbar" style="background-color: #ff77aa;">
+        <div class="container">
+            <a class="navbar-brand" href="#">Cuong Nguyen's Moments</a>
+            <a href="/add" class="btn btn-success">Add Moment</a>
+        </div>
+    </nav>
+
+    <!-- Custom title header -->
+    <div class="title-header">
+        <h1>Precious Moments</h1>
+    </div>
+    <div class="total"></div>
+        <p>Total Pictures: <%= moments.length %></p>
+    </div>
+    <div class="moment-list">
+        <% moments.forEach(function(moment) { %>
+            <div class="moment card" id="moment-<%= moment.id %>">
+                <a href="/moment/<%= moment.id %>">
+                    <img src="<%= moment.urlpicture  %>" alt="<%= moment.description %>" class="card-img-top">
+                </a>
+                <div class="card-body">
+                    <h5 class="card-title"><strong>Occasion:</strong>
+                        <%= moment.occasion %>
+                    </h5>
+                    <p class="card-text"><strong>Date Taken:</strong>
+                        <%= moment.date %>
+                    </p>
+                    <p class="card-text"><strong>Location:</strong>
+                        <%= moment.location %>
+                    </p>
+                    <p class="card-text"><strong>Description:</strong>
+                        <%= moment.description %>
+                </div>
+            </div>
+            <% }); %>
+    </div>
+</body>
+
+</html>

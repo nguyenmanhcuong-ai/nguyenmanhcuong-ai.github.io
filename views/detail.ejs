@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Moment Details</title>
+  <!-- Add Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <!-- Add Custom CSS -->
+  <style>
+    body {
+      background-color: #f8f9fa; /* Set a light background color */
+      background-image: url('https://dep.anh9.com/imgs/13116Background-dep-hoa-dao-tung-bay-theo-gio.jpg'); /* Replace 'flowers-background.jpg' with your image URL */
+      background-size: cover;
+      background-attachment: fixed;
+    }
+
+    .moment-detail {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px;
+      background-color: rgba(255, 255, 255, 0.9); /* Add an alpha value to create a semi-transparent background */
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      text-align: center;
+    }
+
+    .moment-detail img {
+      max-width: 100%;
+      border-radius: 10px;
+      margin: 20px 0;
+    }
+
+    .moment-detail p {
+      font-family: 'Arial', sans-serif;
+      font-size: 24px;
+      margin: 15px 0;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 40px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Moment Details</h1>
+  <div class="moment-detail">
+    <img src="<%= moment.urlpicture %>" alt="<%= moment.description %>" />
+    <p>Date Taken: <%= moment.date %></p>
+    <p>Location: <%= moment.location %></p>
+    <p>Occasion: <%= moment.occasion %></p>
+    <p>Description: <%= moment.description %></p>
+  </div>
+</body>
+</html>
