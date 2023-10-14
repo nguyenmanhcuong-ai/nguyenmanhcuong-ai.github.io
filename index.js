@@ -22,6 +22,8 @@ const connectionInfo = {
   port: 5432,
 };
 
+
+
 // Hàm để lấy dữ liệu từ PostgreSQL
 async function getDataFromPostgreSQL() {
   const client = new Client(connectionInfo);
@@ -66,19 +68,40 @@ getDataFromPostgreSQL()
     }
   });
   
+  const sequelize = new Sequelize({
+    dialect: 'postgres',
+    username: 'postgres',
+    password: 'Cuongai@0910',
+    database: 'postgres',
+    host: 'db.ivtijeamwvrwtaqqstuo.supabase.co',
+    dialectOptions: {
+      port: 5432, // Thay đổi thành cổng bạn muốn sử dụng
+    }
+  });  
+
+  const Moment = sequelize.define('Moment', {
+    urlpicture: Sequelize.STRING,
+    date: Sequelize.DATE,
+    location: Sequelize.STRING,
+    occasion: Sequelize.STRING,
+    description: Sequelize.STRING,
+  }, {
+    timestamps: false, // Sử dụng 'createdAt' và 'updatedAt'
+  });
 
 
-/*// Create a Sequelize instance with your database configuration
-const sequelize = new Sequelize({
+
+// Create a Sequelize instance with your database configuration
+/*const sequelize = new Sequelize({
   dialect: 'mysql',
   username: 'root',
   password: null,
   database: 'photo',
   host: 'localhost',
   dialectOptions: {
-    port: 3306, // Thay đổi thành cổng bạn muốn sử dụng
+    port: 5432, // Thay đổi thành cổng bạn muốn sử dụng
     }
-});
+});*/
 
 // Test the database connection
 sequelize
@@ -91,7 +114,7 @@ sequelize
   });
 
 
-  const Moment = sequelize.define('Moment', {
+  /*const Moment = sequelize.define('Moment', {
     urlpicture: Sequelize.STRING,
     date: Sequelize.DATE,
     location: Sequelize.STRING,
@@ -160,17 +183,18 @@ app.get('/moment/:id', async (req, res) => {
   const id = req.params.id;
   
   try {
-    // Retrieve a specific moment from the database by its ID
+    // Lấy thông tin chi tiết của ảnh từ cơ sở dữ liệu bằng ID
     const moment = await Moment.findByPk(id);
     
     if (moment) {
+      // Render một trang HTML để hiển thị chi tiết ảnh
       res.render('detail', { moment });
     } else {
       res.status(404).send('Moment not found');
     }
   } catch (error) {
-    console.error('Error when retrieving a moment:', error);
-    res.status(500).send('Error when retrieving a moment');
+    console.error('Lỗi khi lấy chi tiết ảnh:', error);
+    res.status(500).send('Lỗi khi lấy chi tiết ảnh');
   }
 });
 
