@@ -276,13 +276,34 @@
     font-family: 'Georgia', 'serif'; /* Font chữ nghệ thuật */
 }
 
+#myBtn2 {
+position: fixed;
+bottom: 10px;
+right: 10px;
+z-index: 99;
+border: none;
+outline: none;
+color: white;
+cursor: pointer;
+border-radius: 30px;
+background-color: #00cc00;
+width:60px;
+height:60px;
+padding:10px;
+opacity: 0.9;
+}
+ 
+#myBtn2:hover {
+background-color: #555;
+}
 
     </style>
 </head>
-
 <body>
 
     <!-- Fixed navigation bar at the top -->
+    <button id="myBtn2" style="background:#71a6eb" onclick="window.location.href='https://m.me/09nmc'"><img src='/uploads/fbmess.png' title='Chat Messenger' width='40px'/></button>
+
     <nav class="navbar">
         <div class="container">
             <div class="logo">
@@ -388,7 +409,6 @@
                 </div>
             </div>
         </div>
-                    
 </body>
 
 </html>
