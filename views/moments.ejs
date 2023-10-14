@@ -25,6 +25,60 @@
             font-family: Arial, sans-serif;
         }
 
+                /* Footer CSS */
+                .footer {
+    background-color: #000;
+    color: #ecf0f1;
+    padding: 10px 0;
+    text-align: center;
+    position: relative;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer-menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.footer-menu li {
+    display: block; /* Hiển thị các mục danh sách dọc */
+    margin-bottom: 10px; /* Khoảng cách giữa các mục danh sách */
+    margin-left: 40px;
+    text-align: left;
+
+}
+
+.footer-menu a {
+    text-decoration: none;
+    color: #ecf0f1;
+    font-family: 'Raleway', 'serif'; /* Font chữ nghệ thuật */
+
+}
+
+.footer-info {
+    text-align: right;
+    margin-right: 30px; /* Canh lề phải để tạo khoảng cách cho phần thông tin */
+    font-family: 'Raleway', 'serif'; /* Font chữ nghệ thuật */
+
+}
+
+.footer-icons img {
+    width: 50px; /* Đặt kích thước chiều rộng */
+    height: auto; /* Giữ tỷ lệ khung hình */
+    margin: 5px; /* Tạo khoảng cách giữa các biểu tượng */
+    margin-left: 55px;
+}
+
+
+        
+
+
         .moment-list {
             display: flex;
             flex-wrap: wrap;
@@ -154,7 +208,7 @@
         }
         /*kkkkkkkkkkkkkkkkkkkkkkkkk*/
         .navbar {
-    background-color: #0B0C10; /* Màu nền của thanh navigation bar */
+    background-color: #000; /* Màu nền của thanh navigation bar */
     color: #C5C6C7; /* Màu chữ trên thanh navigation bar */
     padding: 30px 0;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Hiệu ứng bóng đổ */
@@ -172,7 +226,7 @@
 }
 
 .logo img {
-    width: 100px; /* Kích thước logo */
+    width: 200px; /* Kích thước logo */
     height: auto;
 }
 
@@ -192,8 +246,9 @@
 }
 
 .menu a {
+    font-family: 'Raleway', serif;
     text-decoration: none;
-    color: #C5C6C7; /* Màu chữ trên thanh navigation bar */
+    color: #fff; /* Màu chữ trên thanh navigation bar */
     font-weight: bold;
     transition: color 0.3s;
     background-color: 0.3s; /* Hiệu ứng chuyển đổi màu */
@@ -231,12 +286,12 @@
     <nav class="navbar">
         <div class="container">
             <div class="logo">
-                <a href="#"><img src="logo.png" alt="Logo"></a>
+                <a href="#"><img src="/uploads/C.png" alt="Logo"></a>
             </div>
             <ul class="menu">
                 <li><a href="/">Trang Chủ</a></li> <!-- Thay đổi nút Home thành Trang Chủ và đặt liên kết đến trang chính (moments.ejs) -->
                 <li><a href="https://www.facebook.com/09nmc">Cường Nguyễn</a></li> <!-- Thay đổi nút Shop thành Cường Nguyễn và đặt liên kết đến trang Facebook của bạn -->
-                <li><a href="#">Blog</a></li>
+                <li><a href="/add">Add Moment</a></li>
                 <li><a href="#">Contact</a></li>
             </ul>
         </div>
@@ -301,6 +356,39 @@
         </div>
     </div>
 
+
+
+
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="footer-content">
+                <div class="footer-menu">
+                    <ul>
+                        <li><a href="/">Trang Chủ</a></li>
+                        <li><a href="https://www.facebook.com/09nmc">Cường Nguyễn</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-icons">
+                    <a href="https://www.facebook.com/09nmc"><img src="/uploads/fb.jpg" alt="Facebook"></a>
+                    <a href="/uploads/qrzl.jpg"><img src="/uploads/zalo-icon.png" alt="Zalo"></a>
+                    <a href="/uploads/qrig.jpg""><img src="/uploads/jg.jpg" alt="Instagram"></a>
+                    <a href="https://www.tiktok.com/@daylamanhcuong"><img src="/uploads/tt.jpg" alt="TikTok"></a>
+                    <a href="#"><img src="/uploads/twt.jpg" alt="Twitter"></a>
+                </div>
+
+
+                <div class="footer-info">
+                    <p>Địa chỉ: Địa chỉ của bạn</p>
+                    <p>Số điện thoại: Số điện thoại của bạn</p>
+                    <p>Email: Email của bạn</p>
+                </div>
+            </div>
+        </div>
+                    
 </body>
 
 </html>
