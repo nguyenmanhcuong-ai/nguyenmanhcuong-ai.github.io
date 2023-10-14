@@ -8,12 +8,23 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <!-- Add Custom CSS -->
     <style>
+        /*body {
+            background-color: #f8f9fa;
+            /* Set a light background color */
+        /*background-image: url('https://dl8.glitter-graphics.net/pub/707/707658idt14mszrv.gif');
+        /* Replace 'flowers-background.jpg' with your image URL */
+        /*background-size: cover;*/
+        /*background-attachment: fixed;
+        }*/
+
         body {
-      background-color: #f8f9fa; /* Set a light background color */
-      background-image: url('https://dl8.glitter-graphics.net/pub/707/707658idt14mszrv.gif'); /* Replace 'flowers-background.jpg' with your image URL */
-      background-size: cover;
-      background-attachment: fixed;
-    }
+            background-color: #f8f9fa;
+            background-image: url('https://dl8.glitter-graphics.net/pub/707/707658idt14mszrv.gif');
+            background-size: cover;
+            background-attachment: fixed;
+            font-family: Arial, sans-serif;
+        }
+
         .moment-list {
             display: flex;
             flex-wrap: wrap;
@@ -38,6 +49,7 @@
             border-radius: 10px;
         }
 
+
         .moment p {
             font-family: 'Arial', sans-serif;
             font-size: 18px;
@@ -53,6 +65,7 @@
             margin-right: 5px;
         }
 
+        /* code sau
         /* Fixed navigation bar at the top */
         .fixed-navbar {
             position: sticky;
@@ -73,7 +86,8 @@
         }
 
         .fixed-navbar a:hover {
-            color: #ffcc00; /* Change to your desired hover color */
+            color: #ffcc00;
+            /* Change to your desired hover color */
         }
 
         /* Custom title header */
@@ -82,27 +96,161 @@
             padding: 20px 0;
         }
 
+        .navbar {
+    background-color: #0B0C10;
+    color: #C5C6C7;
+    padding: 0;
+    margin: 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+        .navbar-brand {
+            color: #fff;
+            /* Màu chữ của tiêu đề hoặc logo */
+            font-size: 24px;
+            /* Kích thước chữ */
+            padding: 20px 0;
+            /* Tạo khoảng cách giữa logo và danh sách menu */
+        }
+
+        .nav-link {
+            color: #fff;
+            /* Màu chữ của các mục menu */
+            font-size: 18px;
+            /* Kích thước chữ */
+            padding: 10px 20px;
+            /* Tạo khoảng cách giữa mục menu */
+        }
+
+        .nav-link:hover {
+            background-color: #ffcc00;
+            /* Màu nền khi rê chuột qua */
+            color: #3498db;
+            /* Màu chữ khi rê chuột qua */
+        }
+
+        /* CSS để tạo hiệu ứng hover */
+        .moment-card {
+            transition: transform 0.3s;
+        }
+
+        .moment-card:hover {
+            transform: scale(1.05);
+            /* Phóng to lên 5% khi rê chuột vào */
+        }
+
+        .moment-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .moment-image {
+            max-height: 300px;
+            object-fit: cover;
+        }
+
+        .moment-details {
+            padding: 10px;
+        }
+        /*kkkkkkkkkkkkkkkkkkkkkkkkk*/
+        .navbar {
+    background-color: #0B0C10; /* Màu nền của thanh navigation bar */
+    color: #C5C6C7; /* Màu chữ trên thanh navigation bar */
+    padding: 30px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Hiệu ứng bóng đổ */
+
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    flex: 1;
+}
+
+.logo img {
+    width: 100px; /* Kích thước logo */
+    height: auto;
+}
+
+.menu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.menu li {
+    margin-right: 20px;
+}
+
+.menu li:last-child {
+    margin-right: 0;
+}
+
+.menu a {
+    text-decoration: none;
+    color: #C5C6C7; /* Màu chữ trên thanh navigation bar */
+    font-weight: bold;
+    transition: color 0.3s;
+    background-color: 0.3s; /* Hiệu ứng chuyển đổi màu */
+    padding: 10px 20px; /* Khoảng cách giữa các mục menu */
+    border-radius: 5px; /* Độ bo tròn viền */
+    font-size: 20px; /* Đặt kích thước chữ tại đây, ví dụ 20px */
+
+}
+
+.menu a:hover {
+    color: #000; /* Màu chữ khi hover */
+    background-color: #f0f0f0; /* Màu nền khi hover */
+}
+
+/*thanh title*/
+.custom-title {
+    background-color: #ebe4e0; /* Màu nền nhạt hơn, giống màu cà phê sữa */
+    padding: 20px;
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    margin: 0;
+    color: #542a00; /* Màu chữ */
+    font-size: 36px; /* Kích thước chữ */
+    font-family: 'Georgia', 'serif'; /* Font chữ nghệ thuật */
+}
+
+
     </style>
 </head>
 
 <body>
 
     <!-- Fixed navigation bar at the top -->
-    <nav class="navbar navbar-expand-lg navbar-light fixed-navbar" style="background-color: #ff77aa;">
+    <nav class="navbar">
         <div class="container">
-            <a class="navbar-brand" href="#">Cuong Nguyen's Moments</a>
-            <a href="/add" class="btn btn-success">Add Moment</a>
+            <div class="logo">
+                <a href="#"><img src="logo.png" alt="Logo"></a>
+            </div>
+            <ul class="menu">
+                <li><a href="/">Trang Chủ</a></li> <!-- Thay đổi nút Home thành Trang Chủ và đặt liên kết đến trang chính (moments.ejs) -->
+                <li><a href="https://www.facebook.com/09nmc">Cường Nguyễn</a></li> <!-- Thay đổi nút Shop thành Cường Nguyễn và đặt liên kết đến trang Facebook của bạn -->
+                <li><a href="#">Blog</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
         </div>
     </nav>
-
+    
     <!-- Custom title header -->
     <div class="title-header">
-        <h1>Precious Moments</h1>
+        <h1 class="custom-title">PREIOUS MOMENTS</h1>
     </div>
     <div class="total"></div>
-        <p>Total Pictures: <%= moments.length %></p>
+    <p>Total Pictures: <%= moments.length %>
+    </p>
     </div>
-    <div class="moment-list">
+    <!--iv class="moment-list">
         <% moments.forEach(function(moment) { %>
             <div class="moment card" id="moment-<%= moment.id %>">
                 <a href="/moment/<%= moment.id %>">
@@ -123,7 +271,36 @@
                 </div>
             </div>
             <% }); %>
+    </div>-->
+    <div class="container mt-5">
+        <div class="row">
+            <% moments.forEach(function(moment) { %>
+                <div class="col-md-4 mb-4">
+                    <div class="card moment-card">
+                        <a href="/moment/<%= moment.id %>">
+                            <img src="<%= moment.urlpicture %>" class="card-img-top moment-image"
+                                alt="<%= moment.description %>">
+                        </a>
+                        <div class="moment-details">
+                            <h5 class="card-title">
+                                <%= moment.occasion %>
+                            </h5>
+                            <p class="card-text"><strong>Date Taken:</strong>
+                                <%= moment.date %>
+                            </p>
+                            <p class="card-text"><strong>Location:</strong>
+                                <%= moment.location %>
+                            </p>
+                            <p class="card-text"><strong>Description:</strong>
+                                <%= moment.description %>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <% }); %>
+        </div>
     </div>
+
 </body>
 
 </html>
