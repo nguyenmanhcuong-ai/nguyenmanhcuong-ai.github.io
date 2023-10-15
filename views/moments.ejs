@@ -350,6 +350,17 @@ background-color: #555;
   }(document, 'script', 'facebook-jssdk'));
 </script>
 
+<!-- Bổ sung mã JavaScript sau phần chat plugin -->
+<script>
+  // Sử dụng sự kiện DOMContentLoaded để đảm bảo trang web đã tải xong trước khi thực hiện mã JavaScript
+  document.addEventListener("DOMContentLoaded", function() {
+    // Lấy chatbox
+    var chatbox = document.getElementById('fb-customer-chat');
+
+    // Hiển thị chat plugin
+    chatbox.setAttribute("class", "fb-customerchat show");
+  });
+</script>
 
 
 
