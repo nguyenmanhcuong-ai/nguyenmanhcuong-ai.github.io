@@ -297,11 +297,23 @@ opacity: 0.9;
 background-color: #555;
 }
 
+
+/* Ẩn cửa sổ chat khi người dùng cuộn */
+.fb-customerchat {
+  display: none;
+}
+
+/* Hiển thị cửa sổ chat khi người dùng cuộn lên đầu trang */
+.fb-customerchat.show {
+  display: block;
+}
+
+
     </style>
 </head>
 <body>
 
-<!-- Messenger Plugin chat Code -->
+<!--<!-- Messenger Plugin chat Code -->
 <div id="fb-root"></div>
 
 <!-- Your Plugin chat code -->
@@ -330,7 +342,42 @@ background-color: #555;
     js.src = 'https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js';
     fjs.parentNode.insertBefore(js, fjs);
   }(document, 'script', 'facebook-jssdk'));
+</script>-->
+
+<!-- Messenger Plugin chat Code -->
+<div id="fb-root"></div>
+
+<!-- Your Plugin chat code -->
+<div id="fb-customer-chat" class="fb-customerchat">
+</div>
+
+<script>
+  var chatbox = document.getElementById('fb-customer-chat');
+  chatbox.setAttribute("page_id", "107592234942427");
+  chatbox.setAttribute("attribution", "biz_inbox");
+
+  // Đặt thuộc tính 'greeting_dialog_display' thành 'show' để hiển thị cửa sổ chat từ đầu
+  chatbox.setAttribute("greeting_dialog_display", "show");
 </script>
+
+<!-- Your SDK code -->
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      xfbml            : true,
+      version          : 'v18.0'
+    });
+  };
+
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = 'https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js';
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+</script>
+
 
 
 
