@@ -48,7 +48,7 @@
 
 .footer-menu li {
     display: block; /* Hiển thị các mục danh sách dọc */
-    margin-bottom: 10px; /* Khoảng cách giữa các mục danh sách */
+    margin-bottom: 30px; /* Khoảng cách giữa các mục danh sách */
     margin-left: 40px;
     text-align: left;
 
@@ -62,7 +62,7 @@
 }
 
 .footer-info {
-    text-align: right;
+    text-align: left;
     margin-right: 30px; /* Canh lề phải để tạo khoảng cách cho phần thông tin */
     font-family: 'Raleway', 'serif'; /* Font chữ nghệ thuật */
 
@@ -72,8 +72,25 @@
     width: 50px; /* Đặt kích thước chiều rộng */
     height: auto; /* Giữ tỷ lệ khung hình */
     margin: 5px; /* Tạo khoảng cách giữa các biểu tượng */
-    margin-left: 55px;
+    margin-left: 85px;
+    margin-top:100px
 }
+.footer-icons p {
+    
+    text-align: center;
+    margin-left: 95px;
+
+}
+/* Copyright styling */
+
+.footer-copyright {
+    font-size: 14px;
+    font-family: 'Raleway', 'serif';
+    /* Điều chỉnh các thuộc tính CSS khác theo yêu cầu của bạn */
+    text-align: left;
+}
+
+
 
 
         
@@ -297,18 +314,6 @@ opacity: 0.9;
 background-color: #555;
 }
 
-
-/* Ẩn cửa sổ chat khi người dùng cuộn */
-.fb-customerchat {
-  display: none;
-}
-
-/* Hiển thị cửa sổ chat khi người dùng cuộn lên đầu trang */
-.fb-customerchat.show {
-  display: block;
-}
-
-
     </style>
 </head>
 <body>
@@ -324,9 +329,6 @@ background-color: #555;
   var chatbox = document.getElementById('fb-customer-chat');
   chatbox.setAttribute("page_id", "107592234942427");
   chatbox.setAttribute("attribution", "biz_inbox");
-
-  // Đặt thuộc tính 'greeting_dialog_display' thành 'show' để hiển thị cửa sổ chat từ đầu
-  chatbox.setAttribute("greeting_dialog_display", "show");
 </script>
 
 <!-- Your SDK code -->
@@ -346,9 +348,6 @@ background-color: #555;
     fjs.parentNode.insertBefore(js, fjs);
   }(document, 'script', 'facebook-jssdk'));
 </script>
-
-
-
 
 
 
@@ -452,14 +451,21 @@ background-color: #555;
                     <a href="/uploads/qrzl.jpg"><img src="/uploads/zalo-icon.png" alt="Zalo"></a>
                     <a href="/uploads/qrig.jpg""><img src="/uploads/jg.jpg" alt="Instagram"></a>
                     <a href="https://www.tiktok.com/@daylamanhcuong"><img src="/uploads/tt.jpg" alt="TikTok"></a>
-                    <a href="#"><img src="/uploads/twt.jpg" alt="Twitter"></a>
+                    <a href="#"><img src="/uploads/twt.jpg" alt="Twitter"></a><br><br><br><br>
+                    <p class="footer-copyright">&copy; by Cường Mạnh Nguyễn 10/10/2023 - Version 1.5.23</p>
+
                 </div>
 
 
                 <div class="footer-info">
-                    <p>Địa chỉ: Địa chỉ của bạn</p>
-                    <p>Số điện thoại: Số điện thoại của bạn</p>
-                    <p>Email: Email của bạn</p>
+                    <p>Địa chỉ: Phường Tân Kiểng, Quận 7, Tp Hồ Chí Minh</p>
+                    <p>Hoặc NTHX, Quận Bình Thạnh, Tp Hồ Chí Minh</p>
+                    <p>Hoặc Xa lộ Hà Nội, Tp Thủ Đức</p>
+                    
+                    <p>Số điện thoại: 0362443830</p>
+                    <p>Email: minhph313@gmail.com</p>
+                    <!--<p class="footer-copyright">&copy; by Cường Mạnh Nguyễn 10/10/2023 - Version 1.8.23</p>
+                    -->
                 </div>
             </div>
         </div>
