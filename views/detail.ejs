@@ -7,8 +7,8 @@
   <!-- Add Custom CSS -->
   <style>
     body {
-      background-color: #f8f9fa; /* Set a light background color */
-      background-image: url('https://dep.anh9.com/imgs/13116Background-dep-hoa-dao-tung-bay-theo-gio.jpg'); /* Replace 'flowers-background.jpg' with your image URL */
+      background-color: #f8f9fa; /* Đặt màu nền nhạt */
+      background-image: url('https://dep.anh9.com/imgs/13116Background-dep-hoa-dao-tung-bay-theo-gio.jpg'); /* Thay 'flowers-background.jpg' bằng URL hình ảnh của bạn */
       background-size: cover;
       background-attachment: fixed;
     }
@@ -16,8 +16,8 @@
     .moment-detail {
       max-width: 800px;
       margin: 0 auto;
-      padding: 40px;
-      background-color: rgba(255, 255, 255, 0.9); /* Add an alpha value to create a semi-transparent background */
+      padding: 30px;
+      background-color: rgba(255, 255, 255, 0.9); /* Thêm giá trị alpha để tạo nền mờ mờ */
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
       text-align: center;
@@ -39,9 +39,74 @@
       text-align: center;
       font-size: 40px;
     }
+
+    /* CSS cho phần bình luận */
+    #comments {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    text-align: left;
+  }
+
+  #comments li {
+    font-family: 'Arial', sans-serif;
+    font-size: 20px;
+    margin: 20px 0;
+    /*border-left: 3px solid #000;*/
+    padding: 10px;
+    background-color: #f9f9f9;
+}
+
+
+
+  /* CSS cho phần nhập tên và bình luận */
+.comment-input {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  margin-top: 20px;
+  max-width: 800px;
+  margin: 0 auto; /* Đặt lề tự động để căn giữa ngang */
+}
+
+
+  .comment-input label {
+  display: block; /* Hiển thị trên một dòng riêng biệt */
+  text-align: center; /* Căn giữa theo chiều ngang */
+  font-size: 24px; /* Kích thước chữ */
+  margin-top: 10px; /* Khoảng cách phía trên */
+  color: #007bff; /* Màu sắc của chữ */
+}
+
+
+  .comment-input input,
+  .comment-input textarea,
+  .comment-input button {
+    width: 100%;
+    margin: 2px 0;
+    padding: px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+
+  .comment-input button {
+    background-color: #007bff; /* Màu nền của nút Gửi */
+    color: #fff; /* Màu chữ của nút Gửi */
+    cursor: pointer;
+  }
+
+  .comment-input button:hover {
+    background-color: #0056b3; /* Màu nền của nút Gửi khi di chuột qua */
+  }
   </style>
 </head>
 <body>
+  <!--<body onkeydown="return false">-->
+
   <h1>Moment Details</h1>
   <div class="moment-detail">
     <img src="<%= moment.urlpicture %>" alt="<%= moment.description %>" />
@@ -50,5 +115,149 @@
     <p>Occasion: <%= moment.occasion %></p>
     <p>Description: <%= moment.description %></p>
   </div>
+  
+
+    <!-- Phần nhập tên và bình luận -->
+    <div class="comment-input">
+      <label for="commentInput">Comment</label>
+      <input type="text" id="displayName" name="displayName" placeholder="Nhập tên của bạn">
+      <textarea id="commentInput" name="commentText" placeholder="Viết bình luận của bạn..."></textarea>
+      <button id="commentButton" type="button">Enter để gửi</button>
+      <ul id="comments"></ul>
+    </div>
+    
+  </div>
+  <!--<div id="commentList">
+    <h2>Các bình luận gần đây:</h2>
+  </div>-->
+    <!-- Bổ sung thư viện jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <script>
+$(document).ready(function () {
+  // Bắt sự kiện khi người dùng nhấn Enter trong trường nhập bình luận
+  $("#commentInput").on("keypress", function (event) {
+    if (event.which === 13) {
+      event.preventDefault(); // Ngăn chặn sự kiện mặc định của phím Enter
+      submitComment();
+    }
+  });
+
+  // Bắt sự kiện khi người dùng nhấn button "Gửi"
+  $("#commentButton").on("click", function () {
+    submitComment();
+  });
+
+  function submitComment() {
+    var displayName = $("#displayName").val();
+    var commentText = $("#commentInput").val();
+    var momentId = getMomentIdFromURL();
+
+    // Kiểm tra xem tên hiển thị, bình luận và momentId có nội dung không rỗng
+    if (displayName.trim() !== "" && commentText.trim() !== "" && momentId) {
+      // Gửi bình luận lên máy chủ, bao gồm displayName, commentText và momentId
+      $.ajax({
+        method: "POST",
+        url: "/moment/id",
+        data: {
+          displayName: displayName,
+          commentText: commentText,
+          momentId: momentId
+        },
+        success: function (data) {
+          var commentElement = document.createElement('li');
+          commentElement.innerHTML = '<strong>' + displayName + ':</strong> ' + commentText;
+
+          // Tìm danh sách bình luận
+          var commentsList = document.getElementById('comments');
+
+          // Thêm bình luận mới vào đầu danh sách
+          commentsList.insertBefore(commentElement, commentsList.firstChild);
+
+          // Xóa nội dung trong trường nhập tên và trường nhập bình luận
+          $("#displayName").val("");
+          $("#commentInput").val("");
+        },
+        error: function (error) {
+          console.error("Lỗi khi gửi bình luận:", error);
+        }
+      });
+    }
+  }
+
+  // Hàm để lấy momentId từ URL
+  function getMomentIdFromURL() {
+    var url = window.location.pathname;
+    var parts = url.split('/');
+    return parts[parts.length - 1];
+  }
+});
+  
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Lấy momentId từ URL
+  const momentId = getMomentIdFromURL();
+
+  // Gọi hàm để tải và hiển thị tất cả bình luận
+  loadAllComments(momentId);
+});
+
+function getMomentIdFromURL() {
+  var url = window.location.pathname;
+  var parts = url.split('/');
+  return parts[parts.length - 1];
+}
+
+function loadAllComments(momentId) {
+  // Sử dụng Fetch API để gửi yêu cầu GET để lấy tất cả bình luận
+  fetch(`/comments/${momentId}`)
+    .then((response) => response.json())
+    .then((comments) => {
+      // Lặp qua danh sách bình luận và hiển thị chúng
+      const commentsList = document.getElementById('comments');
+      commentsList.innerHTML = '';
+      comments.forEach((comment) => {
+        const commentElement = document.createElement('li');
+        commentElement.innerHTML = `<strong>${comment.name}:</strong> ${comment.comment}`;
+        commentsList.appendChild(commentElement);
+      });
+    })
+    .catch((error) => {
+      console.error('Lỗi khi tải bình luận:', error);
+    });
+}
+
+document.addEventListener("keydown", function (event){
+    if (event.ctrlKey){
+       event.preventDefault();
+    }
+    if(event.keyCode == 123){
+       event.preventDefault();
+    }
+});
+
+document.addEventListener('contextmenu', event => event.preventDefault()
+);
+
+
+  </script>
+  <!--<script type='text/javascript'>
+    checkCtrl = false ('*').keydown(function(e) {
+        if (e.keyCode == '17') {
+            checkCtrl = false
+        }
+    }).keyup(function(ev) {
+        if (ev.keyCode == '17') {
+            checkCtrl = false
+        }
+    }).keydown(function(event) {
+        if (checkCtrl) {
+            if (event.keyCode == '85') {
+                return false;
+            }
+        }
+    })-->
+</script>
+
 </body>
 </html>
