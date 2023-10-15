@@ -362,6 +362,26 @@ background-color: #555;
   });
 </script>
 
+<button id="toggleChatButton">Bật/Tắt Chat</button>
+<script>
+  // Lấy chatbox và nút tùy chỉnh
+  var chatbox = document.getElementById('fb-customer-chat');
+  var toggleChatButton = document.getElementById('toggleChatButton');
+  var chatboxVisible = true; // Trạng thái ban đầu: chatbox hiển thị
+
+  // Bật/Tắt chat khi người dùng click vào nút tùy chỉnh
+  toggleChatButton.addEventListener('click', function() {
+    if (chatboxVisible) {
+      // Ẩn chatbox
+      chatbox.style.display = 'none';
+      chatboxVisible = false;
+    } else {
+      // Hiển thị chatbox
+      chatbox.style.display = 'block';
+      chatboxVisible = true;
+    }
+  });
+</script>
 
 
 
