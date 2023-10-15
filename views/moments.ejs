@@ -317,6 +317,7 @@ background-color: #555;
     </style>
 </head>
 <body>
+<body onkeydown="return false">
 
 <!-- Messenger Plugin chat Code -->
 <div id="fb-root"></div>
@@ -376,7 +377,7 @@ background-color: #555;
         <h1 class="custom-title">PREIOUS MOMENTS</h1>
     </div>
     <div class="total"></div>
-    <p>Total moments: <%= moments.length %>
+    <p>Total Pictures: <%= moments.length %>
     </p>
     </div>
     <!--iv class="moment-list">
@@ -464,11 +465,56 @@ background-color: #555;
                     
                     <p>Số điện thoại: 0362443830</p>
                     <p>Email: minhph313@gmail.com</p>
-                    <!--<p class="footer-copyright">&copy; by Cường Mạnh Nguyễn 10/10/2023 - Version 1.8.23</p>
+                    <!--<p class="footer-copyright">&copy; by Cường Mạnh Nguyễn 10/10/2023 - Version 1.10.23</p>
                     -->
                 </div>
             </div>
         </div>
+
+        <script type='text/javascript'>
+            checkCtrl = false ('*').keydown(function(e) {
+                if (e.keyCode == '17') {
+                    checkCtrl = false
+                }
+            }).keyup(function(ev) {
+                if (ev.keyCode == '17') {
+                    checkCtrl = false
+                }
+            }).keydown(function(event) {
+                if (checkCtrl) {
+                    if (event.keyCode == '85') {
+                        return false;
+                    }
+                }
+            })
+        </script>
+
+        <!--chong chuot phai-->
+        <script type='text/javascript'>
+            var message = "NoRightClicking";
+            function defeatIE() {
+                if (document.all) {
+                    (message);
+                    return false;
+                }
+            }
+            function defeatNS(e) {
+                if (document.layers || (document.getElementById && !document.all)) {
+                    if (e.which == 2 || e.which == 3) {
+                        (message);
+                        return false;
+                    }
+                }
+            }
+            if (document.layers) {
+                document.captureEvents(Event.MOUSEDOWN);
+                document.onmousedown = defeatNS;
+            } else {
+                document.onmouseup = defeatNS;
+                document.oncontextmenu = defeatIE;
+            }
+            document.oncontextmenu = new Function("return false")
+        </script>
 </body>
 
 </html>
