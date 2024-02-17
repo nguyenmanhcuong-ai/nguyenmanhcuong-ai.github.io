@@ -38,10 +38,10 @@ async function getDataFromPostgreSQL() {
 
 const sequelize = new Sequelize({
   dialect: 'postgres',
-  username: 'postgres',
+  username: 'postgres.ivtijeamwvrwtaqqstuo',
   password: 'Cuongai@0910',
   database: 'postgres',
-  host: 'db.ivtijeamwvrwtaqqstuo.supabase.co',
+  host: 'aws-0-ap-southeast-1.pooler.supabase.com',
   dialectOptions: {
     port: 5432,
   },
