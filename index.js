@@ -7,8 +7,8 @@ import pkg from 'pg';
 const { Client } = pkg;
 
 const connectionInfo = {
-  user: 'postgres',
-  host: 'db.ivtijeamwvrwtaqqstuo.supabase.co',
+  user: 'postgres.ivtijeamwvrwtaqqstuo',
+  host: 'aws-0-ap-southeast-1.pooler.supabase.com',
   database: 'postgres',
   password: 'Cuongai@0910',
   port: 5432,
@@ -67,6 +67,12 @@ const Comment = sequelize.define('Comment', {
 
 Comment.belongsTo(Moment, { foreignKey: 'momentId' });
 
+const Fmoment = sequelize.define('Fmoment', {
+  urlpicture: DataTypes.STRING,
+  },{
+    timestamps: false, // Disable timestamps
+  });
+
 // Mở kết nối Sequelize
 sequelize
   .authenticate()
@@ -95,6 +101,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
 
+
 app.get('/', async (req, res) => {
   try {
     const moments = await getDataFromPostgreSQL();
@@ -103,7 +110,9 @@ app.get('/', async (req, res) => {
     console.error('Lỗi khi lấy dữ liệu:', error);
     res.status(500).send('Lỗi khi lấy dữ liệu');
   }
+
 });
+
 
 app.get('/moment/:id', async (req, res) => {
   const id = req.params.id;
