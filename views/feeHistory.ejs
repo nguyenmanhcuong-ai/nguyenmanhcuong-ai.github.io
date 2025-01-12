@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/uploads/MC2.png" type="image/x-icon">
+    <title><%= title %></title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Merriweather:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #1e88e5;
+            --secondary-color: #f0f4f8;
+            --text-color: #333;
+            --border-color: #e0e0e0;
+            --accent-color: #ffd54f;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--secondary-color);
+            margin: 0;
+            padding: 20px;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-family: 'Merriweather', serif;
+            text-align: center;
+            font-size: 36px;
+            color: var(--primary-color);
+            margin-bottom: 30px;
+            font-weight: 700;
+            border-bottom: 3px solid var(--accent-color);
+            padding-bottom: 10px;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        th, td {
+            padding: 16px 20px;
+            text-align: left;
+        }
+
+        th {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 14px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        td {
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .status {
+            font-weight: bold;
+            padding: 6px 12px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        .status-paid {
+            background-color: #e8f5e9;
+            color: #4caf50;
+        }
+
+        .status-unpaid {
+            background-color: #ffebee;
+            color: #f44336;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 40px;
+            font-size: 18px;
+            color: #666;
+            font-style: italic;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+        }
+
+        .back-button {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 30px;
+            font-size: 16px;
+            margin-top: 30px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .back-button:hover {
+            background-color: #1565c0;
+            transform: translateY(-2px);
+        }
+
+        @media screen and (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            table, th, td {
+                font-size: 14px;
+            }
+
+            th, td {
+                padding: 12px 15px;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><%= title %></h1>
+        <div class="table-container">
+            <% if (feeRecords.length > 0) { %>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID Sinh Viên</th>
+                            <th>Họ Tên</th>
+                            <th>ID Lớp</th>
+                            <th>Trạng Thái</th>
+                            <th>Tháng Đóng</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% feeRecords.forEach(record => { %>
+                            <tr>
+                                <td><%= record.iduser %></td>
+                                <td><%= record.users.fullname %></td>
+                                <td><%= record.idclass %></td>
+                                <td>
+                                    <span class="status <%= record.pay_status ? 'status-paid' : 'status-unpaid' %>">
+                                        <%= record.pay_status ? 'Đã nộp' : 'Chưa nộp' %>
+                                    </span>
+                                </td>
+                                <td><%= record.month_fee %></td>
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            <% } else { %>
+                <div class="no-data">Không có lịch sử đóng phí cho sinh viên này.</div>
+            <% } %>
+        </div>
+        <a class="back-button" href="/admin/dashboard">Quay lại Dashboard</a>
+    </div>
+</body>
+</html>

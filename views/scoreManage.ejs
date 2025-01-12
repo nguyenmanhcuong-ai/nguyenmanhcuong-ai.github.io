@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản Lý Điểm</title>
+    <link rel="icon" href="/uploads/MC2.png" type="image/x-icon">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f0f4f8;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .card {
+            background-color: white;
+            border-radius: 1rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .table-header {
+            background-color: #f8fafc;
+        }
+        .transition-all {
+            transition: all 0.3s ease;
+        }
+        .gpa-score {
+            color: #ef4444;
+            font-weight: bold;
+        }
+        @media print {
+            .no-print {
+                display: none;
+            }
+            .card {
+                box-shadow: none;
+                margin-bottom: 20px;
+            }
+            body {
+                background-color: white;
+            }
+            .print-break {
+                page-break-before: always;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex flex-col min-h-screen">
+    <div class="gradient-bg text-white py-12 px-4 sm:px-6 lg:px-8 no-print">
+        <div class="max-w-7xl mx-auto">
+            <h1 class="text-4xl font-bold mb-2">QUẢN LÝ ĐIỂM</h1>
+            <h2 class="text-2xl font-semibold mb-2">(<%= fullname %>)</h2>
+            <p class="text-xl">Xem và theo dõi điểm số của bạn</p>
+        </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 flex-grow">
+        <div class="card p-6 mb-8">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-semibold text-gray-800">Chi tiết điểm số</h2>
+                <button onclick="window.print()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded no-print">
+                    In bảng điểm và biểu đồ
+                </button>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full table-auto">
+                    <thead>
+                        <tr class="table-header text-gray-700 uppercase text-sm leading-normal">
+                            <th class="py-3 px-4 text-left">Tên lớp</th>
+                            <th class="py-3 px-4 text-center">Quá trình 1</th>
+                            <th class="py-3 px-4 text-center">Quá trình 2</th>
+                            <th class="py-3 px-4 text-center">Quá trình 3</th>
+                            <th class="py-3 px-4 text-center">Điểm Giữa Kỳ</th>
+                            <th class="py-3 px-4 text-center">Điểm Cuối Kỳ</th>
+                            <th class="py-3 px-4 text-center">GPA</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-gray-600 text-base">
+                        <% if (scores.length > 0) { %>
+                            <% scores.forEach(score => { %>
+                                <tr class="border-b border-gray-200 hover:bg-gray-50 transition-all">
+                                    <td class="py-3 px-4 text-left whitespace-nowrap"><%= score.className %></td>
+                                    <td class="py-3 px-4 text-center font-bold"><%= score.score1 || '—' %></td>
+                                    <td class="py-3 px-4 text-center font-bold"><%= score.score2 || '—' %></td>
+                                    <td class="py-3 px-4 text-center font-bold"><%= score.score3 || '—' %></td>
+                                    <td class="py-3 px-4 text-center font-bold"><%= score.mid_score || '—' %></td>
+                                    <td class="py-3 px-4 text-center font-bold"><%= score.final_score || '—' %></td>
+                                    <td class="py-3 px-4 text-center font-medium gpa-score"><%= score.gpa_score || '—' %></td>
+                                </tr>
+                            <% }) %>
+                        <% } else { %>
+                            <tr>
+                                <td colspan="7" class="py-3 px-4 text-center text-gray-500">Không có thông tin điểm nào.</td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card p-6 mb-8 print-break">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-6">Biểu đồ điểm số</h2>
+            <canvas id="scoreChart"></canvas>
+        </div>
+
+        <div class="text-center mb-12 no-print">
+            <a href="/admin/dashboard" class="inline-block bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded-lg transition-all">
+                Quay lại trang chủ
+            </a>
+        </div>
+    </div>
+
+    <footer class="bg-gray-800 text-white py-8 no-print">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <h3 class="text-xl font-bold">Hệ thống Quản lý Điểm</h3>
+                    <p class="mt-2">© 2024 Bản quyền thuộc về Trường Đại học</p>
+                </div>
+                <div>
+                    <ul class="flex space-x-4">
+                        <li><a href="#" class="hover:text-gray-300 transition-all">Chính sách</a></li>
+                        <li><a href="#" class="hover:text-gray-300 transition-all">Điều khoản</a></li>
+                        <li><a href="#" class="hover:text-gray-300 transition-all">Liên hệ</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const scoreCtx = document.getElementById('scoreChart').getContext('2d');
+        const scores = <%- JSON.stringify(scores) %>;
+
+        const colors = [
+            'rgba(239, 68, 68, 1)',
+            'rgba(99, 102, 241, 1)',
+            'rgba(251, 191, 36, 1)',
+            'rgba(16, 185, 129, 1)',
+            'rgba(139, 92, 246, 1)',
+        ];
+
+        const datasets = scores.map((score, index) => ({
+            label: score.className,
+            data: [score.score1 || 0, score.score2 || 0, score.score3 || 0, score.mid_score || 0, score.final_score || 0, score.gpa_score || 0],
+            backgroundColor: colors[index % colors.length],
+            borderColor: colors[index % colors.length],
+            borderWidth: 1
+        }));
+
+        new Chart(scoreCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Quá trình 1', 'Quá trình 2', 'Quá trình 3', 'Giữa Kỳ', 'Cuối Kỳ', 'GPA'],
+                datasets: datasets
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Điểm',
+                            font: {
+                                size: 14,
+                                weight: 'bold'
+                            }
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Loại điểm',
+                            font: {
+                                size: 14,
+                                weight: 'bold'
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Biểu đồ điểm số',
+                        font: {
+                            size: 18,
+                            weight: 'bold'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

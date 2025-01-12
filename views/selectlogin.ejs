@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="vi">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Cổng thông tin sinh viên - Cường Nguyễn - Đăng nhập</title>
+        <link rel="icon" href="/uploads/MC2.png" type="image/x-icon">
+        <meta name="description" content="Cổng thông tin sinh viên của Cường Nguyễn. Đăng nhập vào hệ thống để quản lý thông tin học tập, điểm danh và tra cứu học phí.">
+        <meta name="keywords" content="cổng thông tin sinh viên, Cường Nguyễn, đăng nhập, quản lý học tập, điểm danh, tra cứu học phí">
+        <meta name="author" content="Cường Nguyễn">
+        <meta name="robots" content="index, follow">
+        
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="website">
+        <meta property="og:site_name" content="Cổng thông tin sinh viên Cường Nguyễn">
+        <meta property="og:title" content="Cổng thông tin sinh viên - Cường Nguyễn - Đăng nhập">
+        <meta property="og:description" content="Đăng nhập vào cổng thông tin sinh viên để quản lý thông tin học tập, điểm danh và tra cứu thông tin học phí.">
+        <meta property="og:url" content="https://www.mccheckin.edu.vn/">
+        <meta property="og:image" content="https://www.mccheckin.edu.vn/uploads/MC.png">
+        <meta property="og:image:alt" content="Logo Cổng thông tin sinh viên Cường Nguyễn">
+        <meta property="fb:profile_id" content="09nmc">
+        
+            
+        <!-- Favicon -->
+        <link rel="icon" href="https://mccheckin.edu.vn/uploads/MC2.png.png" type="image/x-icon">
+        <link rel="shortcut icon" href="https://mccheckin.edu.vn/uploads/MC2.png.png" type="image/x-icon">
+        <link rel="apple-touch-icon" href="https://mccheckin.edu.vn/uploads/MC2.png.png">
+        
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          "url": "https://www.mccheckin.edu.vn/",
+          "name": "Cổng thông tin sinh viên - Cường Nguyễn - Đăng nhập",
+          "headline": "Cổng thông tin sinh viên MC",
+          "description": "Cổng thông tin sinh viên của Cường Nguyễn. Đăng nhập để quản lý thông tin học tập, điểm danh và kiểm tra thông tin học phí.",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://www.mccheckin.edu.vn/search?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+          },
+          "logo": "https://mccheckin.edu.vn/uploads/MC.png",
+          "sameAs": [
+            "https://www.facebook.com/09nmc"
+          ]
+        }
+        </script>
+
+
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+        
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        .subtitle {
+            font-size: 1.4rem;
+            color: #34495e;
+            margin-bottom: 3rem;
+            font-weight: 300;
+        }
+        .options {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            max-width: 1200px;
+        }
+        .option {
+            flex: 0 1 45%;
+            max-width: 500px;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .option:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+        .option img {
+            width: 80%;
+            height: auto;
+            max-height: 200px;
+            object-fit: contain;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+        .option:hover img {
+            transform: scale(1.05);
+        }
+        .option h2 {
+            font-size: 1.8rem;
+            margin-top: 1rem;
+            color: #2c3e50;
+            font-weight: 700;
+        }
+        .option p {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            text-align: center;
+        }
+        .highlight {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        @media (max-width: 768px) {
+            .options {
+                flex-direction: column;
+                align-items: center;
+            }
+            .option {
+                margin-bottom: 20px;
+                width: 90%;
+            }
+        }
+.footer {
+            background-color: #34495e;
+            color: #ecf0f1;
+            padding: 20px 0;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .options {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .option {
+                margin-bottom: 20px;
+                width: 90%;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+            }
+            
+            .footer {
+                display: none; /* Ẩn footer trên thiết bị di động */
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>HỆ THỐNG QUẢN LÝ SINH VIÊN</h1>
+        <p class="subtitle">Hãy <span class="highlight">CHỌN ĐỐI TƯỢNG</span> để <span class="highlight">ĐĂNG NHẬP</span> vào hệ thống</p>
+        <div class="options">
+            <a href="/lecturer-login" class="option">
+                <img src="/uploads/Lecturer.png" alt="Giảng viên - Viên chức">
+                <h2>Giảng viên - Viên chức</h2>
+                <p>Nếu là Giảng viên - Viên chức hãy click vào đây để đăng nhập.</p>
+            </a>
+            <a href="/student-login" class="option">
+                <img src="/uploads/Student.png" alt="Người học">
+                <h2>Học sinh - Sinh viên</h2>
+                <p>Nếu là Học sinh - Sinh viên hãy click vào đây để đăng nhập.</p>
+            </a>
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="copyright">
+                © 2024 Hệ thống Quản lý Sinh Viên. Bảo lưu mọi quyền bới Cường Nguyễn.
+            </div>
+        </div>
+    </footer>
+
+
+    <script>
+        // Ngăn người dùng nhấn chuột phải
+        document.addEventListener('contextmenu', function (e) {
+            e.preventDefault();
+        });
+
+        // Ngăn người dùng nhấn F12 (Mở Developer Tools)
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+                e.preventDefault();
+            }
+        });
+        document.addEventListener('keydown', function(event) {
+            if (event.ctrlKey && (event.key === 'u' || event.key === 'U')) {
+                event.preventDefault(); // Ngăn Ctrl+U
+            }
+        });
+    </script> 
+</body>
+</html>

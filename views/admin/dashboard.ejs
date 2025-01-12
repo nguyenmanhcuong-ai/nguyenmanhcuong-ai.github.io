@@ -1,0 +1,1594 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= title %>
+    </title>
+    <link rel="icon" href="/uploads/MC2.png" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tiny.cloud/1/2bt2zm8ioca5bg3l1j95qhr7epif06im1r3zyil4ruv6tqls/tinymce/7/tinymce.min.js"
+        referrerpolicy="origin"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+        :root {
+            --primary-color: #4a90e2;
+            --secondary-color: #50c878;
+            --danger-color: #e74c3c;
+            --text-color: #333;
+            --bg-color: #f8f9fa;
+            --white: #ffffff;
+            --gray-100: #f8f9fa;
+            --gray-200: #e9ecef;
+            --gray-300: #dee2e6;
+            --gray-400: #ced4da;
+            --gray-500: #adb5bd;
+            --gray-600: #6c757d;
+            --gray-700: #495057;
+            --gray-800: #343a40;
+            --gray-900: #212529;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .navbar {
+            background-color: var(--white);
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .navbar h1 {
+            margin: 0;
+            font-size: 1.5em;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar h1 i {
+            margin-right: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--gray-700);
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .nav-links a i {
+            margin-right: 5px;
+        }
+
+        .welcome-message {
+            margin-right: 20px;
+            font-weight: 500;
+            color: var(--gray-700);
+            display: flex;
+            align-items: center;
+        }
+
+        .welcome-message i {
+            margin-right: 5px;
+            color: var(--primary-color);
+        }
+
+        h2 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .card {
+            background-color: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin-bottom: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        th {
+            background-color: var(--gray-100);
+            font-weight: 600;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            font-size: 0.9em;
+        }
+
+        tr:hover {
+            background-color: var(--gray-100);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+        }
+
+        button i {
+            margin-right: 5px;
+        }
+
+        .view-students {
+            background-color: var(--primary-color);
+            color: var(--white);
+        }
+
+        .view-students:hover {
+            background-color: #3a7bc8;
+            transform: translateY(-2px);
+        }
+
+        .delete-class {
+            background-color: var(--danger-color);
+            color: var(--white);
+        }
+
+        .delete-class:hover {
+            background-color: #c0392b;
+            transform: translateY(-2px);
+        }
+
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            /* Loại bỏ khoảng cách mặc định */
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            flex: 1;
+            /* Chiếm toàn bộ không gian còn lại */
+        }
+
+        .footer {
+            background-color: var(--gray-800);
+            color: var(--white);
+            text-align: center;
+            padding: 20px 0;
+            margin-top: auto;
+            /* Đẩy footer xuống cuối */
+        }
+
+        .footer p {
+            margin: 5px 0;
+            font-size: 0.9em;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .modal-content {
+            background-color: var(--white);
+            margin: 3% auto;
+            padding: 30px;
+            border-radius: 8px;
+            width: 50%;
+            max-width: 500px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            animation: slideIn 0.3s;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .close {
+            color: var(--gray-500);
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: var(--gray-700);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: var(--gray-700);
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--gray-300);
+            border-radius: 4px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .form-group input[type="file"] {
+            border: none;
+            padding: 0;
+        }
+
+        .upload-btn {
+            background-color: var(--secondary-color);
+            color: var(--white);
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.3s, transform 0.2s;
+            display: inline-block;
+            text-align: center;
+            width: 100%;
+        }
+
+        .upload-btn:hover {
+            background-color: #45b36b;
+            transform: translateY(-2px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .navbar-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                align-items: flex-start;
+                width: 100%;
+                margin-top: 15px;
+            }
+
+            .nav-links a {
+                margin: 10px 0;
+                width: 100%;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+
+            .modal-content {
+                width: 90%;
+                margin: 20% auto;
+            }
+        }
+
+        .toggle-attendance {
+            padding: 8px 12px;
+            /* Padding cho nút */
+            border-radius: 4px;
+            /* Bo góc cho nút */
+            cursor: pointer;
+            /* Con trỏ khi di chuột qua nút */
+            font-size: 14px;
+            /* Kích thước chữ */
+            display: inline-flex;
+            /* Sử dụng flexbox để căn chỉnh nội dung */
+            align-items: center;
+            /* Căn giữa theo chiều dọc */
+            transition: background-color 0.3s ease;
+            /* Hiệu ứng chuyển màu */
+        }
+
+        .toggle-attendance:hover {
+            opacity: 0.8;
+            /* Hiệu ứng khi di chuột qua nút */
+        }
+
+        /* Styles cho modal thông báo */
+        #notificationModal .modal-content {
+            width: 60%;
+            max-width: 600px;
+            margin-top: 10px;
+        }
+
+        #notificationForm .form-group {
+            margin-bottom: 15px;
+        }
+
+        #notificationContent {
+            min-height: 80px;
+            /* Giảm chiều cao tối thiểu để phù hợp hơn */
+            resize: vertical;
+            width: 100%;
+            /* Đảm bảo khung chiếm đầy chiều rộng */
+            padding: 10px;
+            /* Thêm khoảng đệm bên trong để đẹp hơn */
+            border: 1px solid #ccc;
+            /* Thêm đường viền để dễ nhận diện */
+            border-radius: 4px;
+            /* Thêm bo góc cho khung */
+        }
+
+        .formatting-buttons {
+            display: flex;
+            /* Sử dụng Flexbox để sắp xếp các nút trên một hàng */
+            align-items: center;
+            /* Căn giữa các nút theo chiều dọc */
+            margin-bottom: 10px;
+        }
+
+        .formatting-buttons button {
+            margin-right: 5px;
+            padding: 5px 10px;
+            background-color: var(--gray-200);
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .formatting-buttons button:hover {
+            background-color: var(--gray-300);
+        }
+
+        #colorPicker {
+            width: 30px;
+            height: 30px;
+            padding: 0;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            margin-left: 5px;
+            /* Thêm khoảng cách giữa màu và nút */
+        }
+
+        .active {
+            color: rgb(237, 8, 8);
+            /* Màu chữ nổi bật */
+        }
+
+        /* Ngăn không cho trang web bị nhảy khi SweetAlert2 xuất hiện */
+body.swal2-shown {
+    padding-right: 0 !important;
+}
+
+body.swal2-height-auto {
+    height: 100% !important;
+}
+
+/* Fix cho footer */
+body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown) {
+    overflow-y: visible !important;
+}
+
+/* Đảm bảo modal SweetAlert luôn nổi lên trên cùng */
+.swal2-container {
+    overflow-y: auto !important;
+}
+
+/* Nếu bạn có sticky footer, thêm cả phần này */
+html {
+    scroll-behavior: smooth;
+    height: 100%;
+}
+
+body {
+    min-height: 100%;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Nếu footer của bạn dùng position: fixed */
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 1; /* Đảm bảo footer ở dưới SweetAlert */
+}
+    </style>
+</head>
+
+<body>
+    <script>
+        // Cập nhật tên tài liệu khi chọn file
+        function updateDocumentName() {
+            const fileInput = document.getElementById('file');
+            const nameMaterialInput = document.getElementById('namematerial');
+        
+            if (fileInput.files.length > 0) {
+                const fileName = fileInput.files[0].name;
+                const nameWithoutExtension = fileName.split('.').slice(0, -1).join('.');
+                nameMaterialInput.value = nameWithoutExtension;
+            } else {
+                nameMaterialInput.value = '';
+            }
+        }
+        
+    </script>
+
+    <nav class="navbar">
+        <div class="navbar-content">
+            <h1><i class="fas fa-chalkboard-teacher"></i>Admin Cường Nguyễn</h1>
+            <div class="nav-links">
+                <div class="nav-row">
+                    <a href="/admin/create-class"><i class="fas fa-plus-circle"></i> Tạo Lớp</a>
+                    <a href="#" class="upload-doc-btn"><i class="fas fa-upload"></i> Upload Tài liệu</a>
+                    <div class="nav-group">
+                        <a href="#" id="videoUploadBtn" class="upload-doc-btn">
+                            <i class="fas fa-video"></i> Up Video
+                        </a>
+                        <a href="#" id="viewAllVideosBtn" class="view-all-btn">
+                            <i class="fas fa-list-ul"></i> Xem tất cả video
+                        </a>
+                    </div>
+                    <a href="/admin/seeMaterial" class="view-doc-btn"><i class="fas fa-eye"></i> Xem tài liệu</a>
+                </div>
+                <div class="nav-row">
+                    <a href="#" class="view-grades-btn" id="view-grades-btn"><i class="fas fa-graduation-cap"></i> Xem Điểm</a>
+                    <div class="nav-group">
+                        <a href="#" id="createNotificationBtn"><i class="fas fa-bell"></i> Tạo Thông Báo</a>
+                        <a href="#" id="viewAllNotificationsBtn" class="view-allin-btn">
+                            <i class="fas fa-bell"></i> Xem tất cả thông báo
+                        </a>
+                                            </div>
+                    <a href="#" id="viewEvaluationBtn"><i class="fas fa-star"></i> Xem Đánh Giá</a>
+                    <a href="/"><i class="fas fa-sign-out-alt"></i> Đăng Xuất</a>
+                </div>
+                <div class="nav-row">
+                    <a href="/admin/create-lesson" class="create-lesson-btn"><i class="fas fa-book"></i> Thêm bài học</a>                    <div class="nav-group">
+<!-- Icon Giấy -->
+                    <a href="/examdetail" class="create-lesson-btn"> <i class="fas fa-file"></i> Kỳ Thi</a>
+                    <a href="/discussion" class="create-lesson-btn"> <i class="fas fa-comments"></i> Đề tài thảo luận</a>
+                    <a href="/commitStudent" class="create-lesson-btn"> <i class="fas fa-file-signature w-6 text-lg"></i> Cam kết sinh viên</a>
+
+                </div>
+
+            </div>
+        </div>
+    </nav>    
+    <div class="container">
+        <h2><i class="fas fa-list"></i> Danh sách lớp</h2>
+        <div class="card">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID Lớp</th>
+                        <th>Tên Lớp</th>
+                        <th>Ngày Tạo</th>
+                        <th>Chi tiết</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% classes.forEach(classItem=> { %>
+                        <tr>
+                            <td>
+                                <%= classItem.idclass %>
+                            </td>
+                            <td>
+                                <%= classItem.nameclass %>
+                            </td>
+                            <td>
+                                <%= new Date(classItem.createdat).toLocaleString() %>
+                            </td>
+                            <td class="action-buttons">
+                                <form action="/classes/<%= classItem.idclass %>/students" method="GET"
+                                    style="display:inline;">
+                                    <button type="submit" class="view-students">
+                                        <i class="fas fa-users"></i> Xem danh sách SV
+                                    </button>
+                                </form>
+                                <form action="/admin/delete-class/<%= classItem.idclass %>" method="POST"
+                                    style="display:inline;">
+                                    <button type="submit" class="delete-class"
+                                        onclick="return confirm('Bạn có chắc chắn muốn xóa lớp học này?');">
+                                        <i class="fas fa-trash-alt"></i> Xóa lớp
+                                    </button>
+                                </form>
+                                <button class="toggle-attendance" data-idclass="<%= classItem.idclass %>"
+                                    style="background-color: <%= classItem.status ? '#4caf50' : '#ff4c4c' %>; color: white; border: none;">
+                                    <%= classItem.status ? 'Khóa điểm danh' : 'Mở điểm danh' %>
+                                </button>
+
+
+
+
+                            </td>
+                        </tr>
+                        <% }) %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <!-- Modal Tạo Thông Báo -->
+    <div id="notificationModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Tạo Thông Báo Mới</h2>
+            <form id="notificationForm">
+                <div class="form-group">
+                    <label for="idclass">Mã lớp:</label>
+                    <select id="idclass" name="idclass" required>
+                        <option value="">Chọn mã lớp</option>
+                        <!-- Các option sẽ được thêm bằng JavaScript -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="nameclass">Tên lớp:</label>
+                    <input type="text" id="nameclass" name="nameclass" readonly required>
+                </div>
+                <div class="form-group">
+                    <label for="notificationContent">Nội dung thông báo:</label>
+                    <!--<div class="formatting-buttons">
+                        <button type="button" id="boldButton"
+                            onclick="formatText('bold'); toggleActiveButton('bold')"><i
+                                class="fas fa-bold"></i></button>
+                        <button type="button" id="italicButton"
+                            onclick="formatText('italic'); toggleActiveButton('italic')"><i
+                                class="fas fa-italic"></i></button>
+                        <button type="button" id="underlineButton"
+                            onclick="formatText('underline'); toggleActiveButton('underline')"><i
+                                class="fas fa-underline"></i></button>
+                        <input type="color" id="colorPicker" onchange="changeTextColor(this.value)">
+                    </div>-->
+                    <div id="notificationContent" name="content" contenteditable="true" required></div>
+                </div>
+                <button type="submit" class="upload-btn">Gửi Thông Báo</button>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- Modal Upload Video -->
+    <div id="videoUploadModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Tải video lên</h2>
+            <form id="videoUploadForm">
+                <div class="form-group">
+                    <label for="videoIdclass">Mã lớp:</label>
+                    <select id="videoIdclass" name="idclass" required>
+                        <option value="">Chọn mã lớp</option>
+                        <!-- Options will be populated by JavaScript -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="videoNameclass">Tên lớp:</label>
+                    <input type="text" id="videoNameclass" name="nameclass" readonly required>
+                </div>
+                <div class="form-group">
+                    <label for="namevideo">Tên video:</label>
+                    <input type="text" id="namevideo" name="namevideo" required>
+                </div>
+                <div class="form-group">
+                    <label for="linkvideo">Link video YouTube:</label>
+                    <input type="url" id="linkvideo" name="linkvideo" required>
+                </div>
+                <button type="submit" class="upload-btn">Tải lên</button>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- Modal Xem Đánh Giá -->
+    <div id="evaluationModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Xem Đánh Giá Sinh Viên</h2>
+            <form id="evaluationForm">
+                <div class="form-group">
+                    <label for="studentId">ID Sinh Viên:</label>
+                    <select id="studentId" name="studentId" required>
+                        <option value="">Chọn sinh viên</option>
+                        <!-- Options will be populated by JavaScript -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="studentName">Tên Sinh Viên:</label>
+                    <input type="text" id="studentName" name="studentName" readonly>
+                </div>
+                <button type="submit" class="upload-btn">Xem Đánh Giá</button>
+            </form>
+        </div>
+    </div>
+
+    <!--Modal xem video-->
+<!--Modal xem video-->
+<div id="videoModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Xem tất cả video</h2>
+        <form id="videoForm">
+            <div class="form-group">
+                <label for="videoIdclass1">Mã lớp:</label>
+                <select id="videoIdclass1" name="idclass" required>
+                    <option value="">Chọn mã lớp</option>
+                    <!-- Options sẽ được thêm vào bởi JavaScript -->
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="nameclass">Tên lớp:</label>
+                <input type="text" id="uploadNameclass" name="nameclass" readonly required>
+            </div>
+            <button type="submit" id="confirmVideoView">Xem Tất Cả Video</button>
+        </form>
+    </div>
+</div>
+
+<!-- Modal xem thông báo -->
+<div id="seeNotificationModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Xem tất cả thông báo</h2>
+        <form id="notificationForm1">
+            <div class="form-group">
+                <label for="notificationIdclass1">Mã lớp:</label>
+                <select id="notificationIdclass1" name="idclass" required>
+                    <option value="">Chọn mã lớp</option>
+                    <!-- Options sẽ được thêm vào bởi JavaScript -->
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="notificationClassName1">Tên lớp:</label>
+                <input type="text" id="notificationClassName1" name="nameclass" readonly required>
+            </div>
+            <button type="submit" id="confirmNotificationView">Xem Tất Cả Thông Báo</button>
+        </form>
+    </div>
+</div>
+
+    <!-- Modal Upload Tài liệu -->
+    <div id="uploadModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Tải tài liệu lên</h2>
+            <form id="uploadForm">
+                <div class="form-group">
+                    <label for="idclass">Mã lớp:</label>
+                    <select id="uploadIdclass" name="idclass" required>
+                        <option value="">Chọn mã lớp</option>
+                        <!-- Options will be populated by JavaScript -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="nameclass">Tên lớp:</label>
+                    <input type="text" id="uploadNameclass1" name="nameclass" readonly required>
+                </div>
+                <div class="form-group">
+                    <label for="namedoc">Tên thư mục:</label>
+                    <input type="text" id="namedoc" name="namedoc" list="existingFolders" required>
+                    <datalist id="existingFolders">
+                        <!-- Thêm các option cho các thư mục hiện có từ bảng material -->
+                    </datalist>
+                </div>
+                <div class="form-group">
+                    <label for="namematerial">Tên tài liệu:</label>
+                    <input type="text" id="namematerial" name="namematerial" readonly required>
+                </div>
+                <div class="form-group">
+                    <label for="file">Chọn tài liệu (PDF, DOCX, PPTX, JPG, JPEG, PNG, GIF, MP3):</label>
+                    <input type="file" id="file" name="file" accept=".pdf,.docx,.pptx,.jpg,.jpeg,.png,.gif,.mp3" required multiple onchange="updateDocumentName()">
+                </div>
+                    <button type="submit" class="upload-btn">Tải lên</button>
+            </form>
+        </div>
+    </div>
+    
+
+    <!-- Modal Xem Điểm -->
+    <div id="grades-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Xem Điểm</h2>
+            <form id="grades-form">
+                <div class="form-group">
+                    <label for="iduser">ID Sinh Viên:</label>
+                    <select id="iduser" name="iduser" required>
+                        <option value="">Chọn sinh viên</option>
+                        <!-- Các option sẽ được thêm vào đây bằng JavaScript -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="fullname">Tên Sinh Viên:</label>
+                    <input type="text" id="fullname" name="fullname" readonly>
+                </div>
+                <h3>Các Lớp Sinh Viên Tham Gia:</h3>
+                <ul id="classes-list" style="list-style-type: none; padding-left: 0;">
+                    <!-- Danh sách lớp sẽ được thêm vào đây bằng JavaScript -->
+                </ul>
+                <button type="button" id="view-grades-button" class="upload-btn">Xem Bảng Điểm</button>
+            </form>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2024 Hệ thống Quản lý Lớp học</p>
+        <p>Được phát triển bởi Cường Nguyễn - version 24.2</p>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <script>
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+            console.log('DOMContentLoaded event fired');
+
+            // Modal Upload Tài liệu
+            var uploadModal = document.getElementById("uploadModal");
+            var uploadBtn = document.querySelector(".upload-doc-btn");
+            var uploadSpan = uploadModal.querySelector(".close");
+
+            uploadBtn.onclick = function () {
+                uploadModal.style.display = "block";
+                loadClassesUpload();
+            }
+
+            uploadSpan.onclick = function () {
+                uploadModal.style.display = "none";
+            }
+
+            function loadClassesUpload() {
+                console.log('loadClassesUpload function called');
+                fetch('/api/unique-classes')
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        return response.json();
+                    })
+                    .then(classes => {
+                        const idclassSelect = document.getElementById("uploadIdclass");
+                        if (!idclassSelect) {
+                            console.error('uploadIdclass select element not found');
+                            return;
+                        }
+                        idclassSelect.innerHTML = '<option value="">Chọn mã lớp</option>';
+                        classes.forEach(cls => {
+                            const option = document.createElement("option");
+                            option.value = cls.idclass;
+                            option.textContent = cls.idclass;
+                            option.setAttribute('data-nameclass', cls.nameclass);
+                            idclassSelect.appendChild(option);
+                        });
+
+                        // Remove existing event listener before adding a new one
+                        idclassSelect.removeEventListener("change", updateNameClass);
+                        idclassSelect.addEventListener("change", updateNameClass);
+                    })
+                    .catch(error => console.error('Error loading classes:', error));
+            }
+
+            function updateNameClass() {
+                const selectedOption = this.options[this.selectedIndex];
+                const nameclass = selectedOption ? selectedOption.getAttribute('data-nameclass') : '';
+                const nameclassInput = document.getElementById('uploadNameclass1');
+                if (nameclassInput) {
+                    nameclassInput.value = nameclass;
+                }
+            }
+            // Remove this line as it's redundant
+            // loadClassesUpload();
+
+
+
+            function updateDocumentName() {
+                const fileInput = document.getElementById('file');
+                const namematerialInput = document.getElementById('namematerial');
+            
+                // Kiểm tra nếu có file được chọn
+                if (fileInput.files.length > 0) {
+                    const files = Array.from(fileInput.files); // Lấy tất cả các file
+                    console.log(files); // In ra danh sách file để kiểm tra
+                    const fileNames = files.map(file => file.name).join(', '); // Tạo danh sách tên file
+                    namematerialInput.value = fileNames; // Gán danh sách tên tài liệu vào input
+                } else {
+                    namematerialInput.value = ''; // Nếu không có file nào được chọn, xóa trường
+                }
+            }
+                                    // Xử lý form submission
+                                    var uploadForm = document.getElementById('uploadForm');
+                                    uploadForm.addEventListener('submit', async function (e) {
+                                        e.preventDefault();
+                                    
+                                        // Hiển thị dialog xác nhận trước khi upload
+                                        const confirmResult = await Swal.fire({
+                                            title: 'Xác nhận tải lên',
+                                            text: 'Bạn có chắc chắn muốn tải những tài liệu này lên?',
+                                            icon: 'question',
+                                            showCancelButton: true,
+                                            confirmButtonColor: '#3085d6',
+                                            cancelButtonColor: '#d33',
+                                            confirmButtonText: 'Có, tải lên!',
+                                            cancelButtonText: 'Hủy',
+                                            reverseButtons: true
+                                        });
+                                    
+                                        // Nếu người dùng xác nhận
+                                        if (confirmResult.isConfirmed) {
+                                            var formData = new FormData(this);
+                                    
+                                            // Hiển thị loading spinner
+                                            Swal.fire({
+                                                title: 'Đang tải lên',
+                                                html: 'Vui lòng chờ trong giây lát...',
+                                                allowOutsideClick: false,
+                                                allowEscapeKey: false,
+                                                allowEnterKey: false,
+                                                didOpen: () => {
+                                                    Swal.showLoading();
+                                                }
+                                            });
+                                    
+                                            fetch('/api/upload-document', {
+                                                method: 'POST',
+                                                body: formData
+                                            })
+                                            .then(response => response.json())
+                                            .then(data => {
+                                                if (data.success) {
+                                                    // Đóng loading spinner và hiển thị thông báo thành công
+                                                    Swal.fire({
+                                                        icon: 'success',
+                                                        title: 'Thành công!',
+                                                        text: 'Tài liệu đã được tải lên thành công',
+                                                        showConfirmButton: true,
+                                                        confirmButtonColor: '#3085d6',
+                                                        confirmButtonText: 'Đóng'
+                                                    }).then((result) => {
+                                                        if (result.isConfirmed) {
+                                                            // Xóa danh sách file đã hiển thị
+                                                            document.getElementById('fileList').innerHTML = '';
+                                                        }
+                                                    });
+                                                } else {
+                                                    // Hiển thị thông báo lỗi
+                                                    Swal.fire({
+                                                        icon: 'error',
+                                                        title: 'Lỗi!',
+                                                        text: data.message || 'Có lỗi xảy ra khi tải lên tài liệu',
+                                                        confirmButtonColor: '#d33',
+                                                        confirmButtonText: 'Đóng'
+                                                    });
+                                                }
+                                            })
+                                            .catch(error => {
+                                                console.error('Error:', error);
+                                                // Hiển thị thông báo lỗi
+                                                Swal.fire({
+                                                    icon: 'error',
+                                                    title: 'Lỗi!',
+                                                    text: 'Có lỗi xảy ra trong quá trình tải lên',
+                                                    confirmButtonColor: '#d33',
+                                                    confirmButtonText: 'Đóng'
+                                                });
+                                            });
+                                        }
+                                    });
+                                                                        
+                                    // Modal Xem Điểm
+            // Modal Xem Điểm
+            const gradesModal = document.getElementById("grades-modal");
+            const viewGradesBtn = document.getElementById("view-grades-btn");
+            const closeModal = gradesModal.querySelector(".close-modal");
+
+            viewGradesBtn.onclick = function () {
+                gradesModal.style.display = "block";
+                loadStudents();
+            }
+
+            closeModal.onclick = function () {
+                gradesModal.style.display = "none";
+            }
+
+            // Tải danh sách sinh viên
+            function loadStudents() {
+                fetch('/api/users')
+                    .then(response => response.json())
+                    .then(users => {
+                        const idUserSelect = document.getElementById("iduser");
+                        idUserSelect.innerHTML = '<option value="">Chọn ID sinh viên</option>';
+                        users.forEach(user => {
+                            const option = document.createElement("option");
+                            option.value = user.iduser;
+                            option.textContent = user.iduser; // Chỉ hiển thị ID
+                            option.setAttribute('data-fullname', user.fullname); // Lưu tên đầy đủ vào thuộc tính data
+                            idUserSelect.appendChild(option);
+                        });
+                    })
+                    .catch(error => console.error('Error loading students:', error));
+            }
+
+            // Xử lý khi chọn sinh viên
+            document.getElementById("iduser").addEventListener("change", function () {
+                const selectedOption = this.options[this.selectedIndex];
+                const fullnameInput = document.getElementById("fullname");
+                const classesList = document.getElementById("classes-list");
+                const viewGradesButton = document.getElementById("view-grades-button");
+
+                if (this.value) {
+                    // Lấy tên đầy đủ từ thuộc tính data và cập nhật input
+                    const fullname = selectedOption.getAttribute('data-fullname');
+                    fullnameInput.value = fullname;
+
+                    // Lấy danh sách lớp cho sinh viên đã chọn
+                    fetch(`/api/classes/${this.value}`)
+                        .then(response => response.json())
+                        .then(classes => {
+                            classesList.innerHTML = '';
+                            classes.forEach(cls => {
+                                const listItem = document.createElement("li");
+                                listItem.textContent = `${cls.idclass} - ${cls.nameclass}`;
+                                listItem.style.marginBottom = "10px";
+                                listItem.style.padding = "5px";
+                                listItem.style.backgroundColor = "var(--gray-100)";
+                                listItem.style.borderRadius = "4px";
+                                classesList.appendChild(listItem);
+                            });
+                        })
+                        .catch(error => console.error('Error loading classes:', error));
+
+                    viewGradesButton.onclick = function () {
+                        window.location.href = `/scoreManage?iduser=${selectedOption.value}&fullname=${encodeURIComponent(fullname)}`;
+                    };
+                } else {
+                    fullnameInput.value = '';
+                    classesList.innerHTML = '';
+                }
+            });
+
+            // Xử lý form xem điểm
+            document.getElementById("grades-form").addEventListener("submit", function (e) {
+                e.preventDefault();
+                const iduser = document.getElementById("iduser").value;
+                if (iduser) {
+                    window.location.href = `/view-grades?iduser=${iduser}`;
+                } else {
+                    alert("Vui lòng chọn một sinh viên");
+                }
+            });
+
+            // Đóng modal khi click bên ngoài
+            window.onclick = function (event) {
+                if (event.target == gradesModal) {
+                    gradesModal.style.display = "none";
+                }
+            }
+        });
+
+        //khoa mo diem danh
+        document.addEventListener('DOMContentLoaded', function () {
+            // Lấy tất cả các nút toggle
+            document.querySelectorAll('.toggle-attendance').forEach(button => {
+                const idclass = button.getAttribute('data-idclass');
+
+                // Gửi yêu cầu AJAX để lấy trạng thái điểm danh từ server
+                fetch(`/check-status/${idclass}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Cập nhật nội dung và màu nền nút dựa trên trạng thái nhận được
+                            const isOpen = data.status; // true nếu mở, false nếu khóa
+                            button.innerText = isOpen ? 'Khóa điểm danh' : 'Mở điểm danh';
+                            button.style.backgroundColor = isOpen ? '#ff4c4c' : '#4caf50'; // Đỏ nếu khóa, xanh nếu mở
+                        } else {
+                            alert('Không thể lấy trạng thái điểm danh!');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Có lỗi xảy ra khi lấy trạng thái điểm danh!');
+                    });
+
+                // Xử lý khi người dùng click vào nút
+                button.addEventListener('click', function () {
+                    const currentStatus = this.innerText.includes('Mở'); // Kiểm tra xem trạng thái hiện tại có phải là "Mở"
+                    const newStatus = currentStatus; // Nếu đang "Mở", thì ta sẽ cập nhật thành "Khóa", tức là status = true khi mở
+
+                    // Gửi yêu cầu AJAX đến server để cập nhật trạng thái
+                    fetch(`/update-attendance-status/${idclass}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ status: newStatus }) // Trạng thái mới (true hoặc false)
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                // Cập nhật nút và thông báo
+                                this.innerText = newStatus ? 'Khóa điểm danh' : 'Mở điểm danh'; // Đổi nội dung nút dựa trên trạng thái
+                                alert(`Đã ${newStatus ? 'mở' : 'khóa'} điểm danh cho lớp ${idclass}`);
+                                // Cập nhật màu nền của nút
+                                this.style.backgroundColor = newStatus ? '#ff4c4c' : '#4caf50'; // Đỏ nếu khóa, xanh nếu mở
+                            } else {
+                                alert('Có lỗi xảy ra!');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('Có lỗi xảy ra!');
+                        });
+                });
+            });
+        });
+
+        // Xử lý modal thông báo
+        var notificationModal = document.getElementById("notificationModal");
+        var notificationBtn = document.getElementById("createNotificationBtn");
+        var notificationSpan = notificationModal.querySelector(".close");
+
+        notificationBtn.onclick = function () {
+            notificationModal.style.display = "block";
+            loadClassesForNotification();
+        }
+
+        notificationSpan.onclick = function () {
+            notificationModal.style.display = "none";
+        }
+
+        // Tải danh sách lớp cho thông báo
+        function loadClassesForNotification() {
+            fetch('/api/unique-classes')
+                .then(response => response.json())
+                .then(classes => {
+                    const idclassSelect = document.getElementById("idclass");
+                    idclassSelect.innerHTML = '<option value="">Chọn mã lớp</option>';
+                    classes.forEach(cls => {
+                        const option = document.createElement("option");
+                        option.value = cls.idclass;
+                        option.textContent = cls.idclass;
+                        option.setAttribute('data-nameclass', cls.nameclass);
+                        idclassSelect.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error loading classes:', error));
+        }
+
+        // Cập nhật tên lớp khi chọn mã lớp
+        document.getElementById("idclass").addEventListener("change", function () {
+            const selectedOption = this.options[this.selectedIndex];
+            const nameclass = selectedOption.getAttribute('data-nameclass');
+            document.getElementById('nameclass').value = nameclass || '';
+        });
+
+        tinymce.init({
+            selector: '#notificationContent',
+            height: 300,
+            plugins: [
+                'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+                'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+                'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount'
+            ],
+            toolbar: 'undo redo | formatselect | ' +
+                'bold italic backcolor | alignleft aligncenter ' +
+                'alignright alignjustify | bullist numlist outdent indent | ' +
+                'removeformat | link image media | help',
+            menubar: 'file edit view insert format tools table help',
+            content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
+            language: 'vi',
+
+            // Cấu hình chi tiết cho plugin image
+            image_advtab: true,
+            file_picker_types: 'image',
+            file_picker_callback: function (cb, value, meta) {
+                var input = document.createElement('input');
+                input.setAttribute('type', 'file');
+                input.setAttribute('accept', 'image/*');
+
+                input.onchange = function () {
+                    var file = this.files[0];
+                    var reader = new FileReader();
+                    reader.onload = function () {
+                        var id = 'blobid' + (new Date()).getTime();
+                        var blobCache = tinymce.activeEditor.editorUpload.blobCache;
+                        var base64 = reader.result.split(',')[1];
+                        var blobInfo = blobCache.create(id, file, base64);
+                        blobCache.add(blobInfo);
+                        cb(blobInfo.blobUri(), { title: file.name });
+                    };
+                    reader.readAsDataURL(file);
+                };
+                input.click();
+            },
+
+            // Cấu hình chi tiết cho plugin link
+            link_list: [
+                { title: 'My page 1', value: 'https://www.tiny.cloud' },
+                { title: 'My page 2', value: 'http://www.moxiecode.com' }
+            ],
+            target_list: [
+                { title: 'None', value: '' },
+                { title: 'Same page', value: '_self' },
+                { title: 'New page', value: '_blank' },
+                { title: 'Parent frame', value: '_parent' }
+            ],
+            rel_list: [
+                { title: 'None', value: '' },
+                { title: 'Nofollow', value: 'nofollow' }
+            ],
+
+            // Thêm các tùy chọn nâng cao
+            extended_valid_elements: 'img[class|src|border=0|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name]',
+            image_dimensions: false,
+            paste_data_images: true,
+            automatic_uploads: true,
+            images_upload_url: '/your-image-upload-endpoint', // Thay thế bằng URL xử lý upload ảnh của bạn
+            images_upload_base_path: '/some/basepath', // Thay thế bằng đường dẫn cơ sở cho ảnh của bạn
+            images_upload_credentials: true,
+
+            // Ghi đè CSS mặc định
+            content_css: '//www.tiny.cloud/css/codepen.min.css'
+        }); document.getElementById('notificationForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const content = tinymce.get('notificationContent').getContent();
+            const idclass = document.getElementById('idclass').value; // Lấy giá trị idclass
+
+            if (!content.trim()) {
+                alert('Vui lòng nhập nội dung trước khi gửi.');
+                return;
+            }
+
+            if (!idclass) {
+                alert('Vui lòng chọn mã lớp trước khi gửi.');
+                return;
+            }
+
+            fetch('/api/create-notification', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    content: content,
+                    idclass: idclass
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Thông báo đã được tạo thành công!');
+                        tinymce.get('notificationContent').setContent('');
+                        document.getElementById('idclass').value = ''; // Reset select
+                        document.getElementById('nameclass').value = ''; // Reset nameclass input
+                    } else {
+                        alert('Có lỗi xảy ra khi tạo thông báo: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Có lỗi xảy ra khi gửi thông báo');
+                });
+        });
+
+
+        // Đóng modal khi click bên ngoài
+        window.onclick = function (event) {
+            if (event.target == notificationModal) {
+                notificationModal.style.display = "none";
+            }
+            // ... (xử lý các modal khác nếu cần) ...
+        }
+
+        var evaluationModal = document.getElementById("evaluationModal");
+        var evaluationBtn = document.getElementById("viewEvaluationBtn");
+        var evaluationSpan = evaluationModal.querySelector(".close");
+
+        evaluationBtn.onclick = function () {
+            evaluationModal.style.display = "block";
+            loadStudents();
+        }
+
+        evaluationSpan.onclick = function () {
+            evaluationModal.style.display = "none";
+        }
+
+        // Tải danh sách sinh viên
+        function loadStudents() {
+            fetch('/api/users')
+                .then(response => response.json())
+                .then(users => {
+                    const studentIdSelect = document.getElementById("studentId");
+                    studentIdSelect.innerHTML = '<option value="">Chọn sinh viên</option>';
+                    users.forEach(user => {
+                        const option = document.createElement("option");
+                        option.value = user.iduser;
+                        option.textContent = `${user.iduser}`;
+                        option.setAttribute('data-fullname', user.fullname);
+                        studentIdSelect.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error loading students:', error));
+        }
+
+        // Xử lý khi chọn sinh viên
+        document.getElementById("studentId").addEventListener("change", function () {
+            const selectedOption = this.options[this.selectedIndex];
+            const fullname = selectedOption.getAttribute('data-fullname');
+            document.getElementById("studentName").value = fullname || '';
+        });
+
+        // Xử lý form xem đánh giá
+        document.getElementById("evaluationForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+            const studentId = document.getElementById("studentId").value;
+            if (studentId) {
+                // Chuyển hướng đến trang xem đánh giá với ID sinh viên
+                window.location.href = `/view-evaluation?iduser=${studentId}`;
+            } else {
+                alert("Vui lòng chọn một sinh viên");
+            }
+        });
+
+        // Đóng modal khi click bên ngoài
+        window.onclick = function (event) {
+            if (event.target == evaluationModal) {
+                evaluationModal.style.display = "none";
+            }
+            // Giữ lại xử lý cho các modal khác nếu có
+        }
+
+        // Modal Upload Video
+        var videoUploadModal = document.getElementById("videoUploadModal");
+        var videoUploadBtn = document.getElementById("videoUploadBtn");
+        var videoUploadSpan = videoUploadModal.querySelector(".close");
+
+        videoUploadBtn.onclick = function (e) {
+            e.preventDefault();
+            videoUploadModal.style.display = "block";
+            loadClassesVideoUpload();
+        }
+
+        videoUploadSpan.onclick = function () {
+            videoUploadModal.style.display = "none";
+        }
+
+        function loadClassesVideoUpload() {
+            fetch('/api/unique-classes')
+                .then(response => response.json())
+                .then(classes => {
+                    const idclassSelect = document.getElementById("videoIdclass");
+                    idclassSelect.innerHTML = '<option value="">Chọn mã lớp</option>';
+                    classes.forEach(cls => {
+                        const option = document.createElement("option");
+                        option.value = cls.idclass;
+                        option.textContent = cls.idclass;
+                        option.setAttribute('data-nameclass', cls.nameclass);
+                        idclassSelect.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error loading classes:', error));
+        }
+
+        document.getElementById("videoIdclass").addEventListener("change", function () {
+            const selectedOption = this.options[this.selectedIndex];
+            const nameclass = selectedOption.getAttribute('data-nameclass');
+            document.getElementById('videoNameclass').value = nameclass || '';
+        });
+
+        function convertToEmbedLink(url) {
+            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+            const match = url.match(regExp);
+            if (match && match[2].length == 11) {
+                return 'https://www.youtube.com/embed/' + match[2];
+            }
+            return url; // Return original URL if it's not a valid YouTube URL
+        }
+
+        document.getElementById("videoUploadForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            const videoData = Object.fromEntries(formData.entries());
+
+            // Convert YouTube link to embed link
+            videoData.linkvideo = convertToEmbedLink(videoData.linkvideo);
+
+            // Add current date
+            videoData.upload_date = new Date().toISOString().split('T')[0];
+
+            fetch('/api/upload-video', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(videoData)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Video đã được tải lên thành công!');
+                        videoUploadModal.style.display = "none";
+                        this.reset();
+                    } else {
+                        alert('Có lỗi xảy ra khi tải lên video: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Có lỗi xảy ra khi tải lên video');
+                });
+        });
+
+        // Close modal when clicking outside
+        window.onclick = function (event) {
+            if (event.target == videoUploadModal) {
+                videoUploadModal.style.display = "none";
+            }
+            // ... (handle other modals if needed) ...
+        }
+
+        // Ensure the DOM is fully loaded before attaching event listeners
+        document.addEventListener('DOMContentLoaded', function () {
+            var videoUploadBtn = document.getElementById("videoUploadBtn");
+            if (videoUploadBtn) {
+                videoUploadBtn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    var videoUploadModal = document.getElementById("videoUploadModal");
+                    if (videoUploadModal) {
+                        videoUploadModal.style.display = "block";
+                        loadClassesVideoUpload();
+                    } else {
+                        console.error("Video upload modal not found");
+                    }
+                });
+            } else {
+                console.error("Video upload button not found");
+            }
+        });
+
+// Elements
+const videoModal = document.getElementById('videoModal');
+const viewAllVideosBtn = document.getElementById('viewAllVideosBtn');
+const videoIdclassSelect = document.getElementById('videoIdclass1');
+const uploadNameclass = document.getElementById('uploadNameclass');
+const videoForm = document.getElementById('videoForm');
+const closeBtn = videoModal.querySelector('.close');
+
+// Open modal and load classes
+viewAllVideosBtn.addEventListener('click', function() {
+    videoModal.style.display = 'block';
+    loadClassesForVideo();
+});
+
+// Close modal
+closeBtn.addEventListener('click', closeModal);
+
+// Close modal when clicking outside
+window.addEventListener('click', function(event) {
+    if (event.target == videoModal) {
+        closeModal();
+    }
+});
+
+// Update class name when selecting a class
+videoIdclassSelect.addEventListener('change', function() {
+    const selectedOption = this.options[this.selectedIndex];
+    uploadNameclass.value = selectedOption.getAttribute('data-nameclass') || '';
+});
+
+// Load classes for video selection
+function loadClassesForVideo() {
+    fetch('/api/unique-classes')
+        .then(response => response.json())
+        .then(classes => {
+            videoIdclassSelect.innerHTML = '<option value="">Chọn mã lớp</option>';
+            classes.forEach(cls => {
+                const option = document.createElement("option");
+                option.value = cls.idclass;
+                option.textContent = `${cls.idclass}`;
+                option.setAttribute('data-nameclass', cls.nameclass);
+                videoIdclassSelect.appendChild(option);
+            });
+        })
+        .catch(error => {
+            console.error('Error loading classes:', error);
+            alert('Có lỗi khi tải danh sách lớp. Vui lòng thử lại sau.');
+        });
+}
+
+// Handle form submission
+videoForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+    const selectedClassId = videoIdclassSelect.value;
+    if (selectedClassId) {
+        window.location.href = `/allvideo?idclass=${selectedClassId}`;
+    } else {
+        alert('Vui lòng chọn một lớp học.');
+    }
+});
+
+// Helper function to close modal
+function closeModal() {
+    videoModal.style.display = 'none';
+}
+
+const seeNotificationModal = document.getElementById('seeNotificationModal');
+const viewAllNotificationsBtn = document.getElementById('viewAllNotificationsBtn');
+const notificationIdclassSelect = document.getElementById('notificationIdclass1');
+const notificationClassName1 = document.getElementById('notificationClassName1');
+const notificationForm = document.getElementById('notificationForm1');
+const closeNotificationBtn1 = seeNotificationModal.querySelector('.close');
+
+// Open modal and load classes
+viewAllNotificationsBtn.addEventListener('click', function() {
+    seeNotificationModal.style.display = 'block';
+    loadClassesForNotifications();
+});
+
+// Close modal
+closeNotificationBtn1.addEventListener('click', closeNotificationModal1);
+
+// Close modal when clicking outside
+window.addEventListener('click', function(event) {
+    if (event.target == seeNotificationModal) {
+        closeNotificationModal1();
+    }
+});
+
+// Update class name when selecting a class
+notificationIdclassSelect.addEventListener('change', function() {
+    const selectedOption = this.options[this.selectedIndex];
+    notificationClassName1.value = selectedOption.getAttribute('data-nameclass') || '';
+});
+
+// Load classes for notification selection
+function loadClassesForNotifications() {
+    fetch('/api/unique-classes')
+        .then(response => response.json())
+        .then(classes => {
+            notificationIdclassSelect.innerHTML = '<option value="">Chọn mã lớp</option>';
+            classes.forEach(cls => {
+                const option = document.createElement("option");
+                option.value = cls.idclass;
+                option.textContent = `${cls.idclass}`;
+                option.setAttribute('data-nameclass', cls.nameclass);
+                notificationIdclassSelect.appendChild(option);
+            });
+        })
+        .catch(error => {
+            console.error('Error loading classes:', error);
+            alert('Có lỗi khi tải danh sách lớp. Vui lòng thử lại sau.');
+        });
+}
+
+// Handle form submission
+notificationForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+    const selectedClassId = notificationIdclassSelect.value;
+    if (selectedClassId) {
+        window.location.href = `/allnotifications?idclass=${selectedClassId}`;
+    } else {
+        alert('Vui lòng chọn một lớp học.');
+    }
+});
+
+// Helper function to close modal
+function closeNotificationModal1() {
+    seeNotificationModal.style.display = 'none';
+}
+
+
+
+</script>
+</body>
+
+</html>

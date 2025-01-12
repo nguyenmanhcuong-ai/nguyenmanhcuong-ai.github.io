@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý cam kết học tập</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
+    <div class="container mx-auto py-8 px-4">
+        <!-- Header -->
+        <div class="text-center mb-8 animate__animated animate__fadeIn">
+            <h1 class="text-3xl font-bold text-gray-800 mb-2">Hệ thống Quản lý Cam kết Học tập</h1>
+            <p class="text-gray-600">Quản lý và theo dõi cam kết học tập của sinh viên</p>
+        </div>
+
+        <!-- Main Container -->
+        <div class="bg-white rounded-xl shadow-xl overflow-hidden animate__animated animate__fadeInUp">
+            <div class="flex flex-col md:flex-row">
+                <!-- Sidebar -->
+                <div class="md:w-1/3 lg:w-1/4 bg-gray-50 p-6 border-r border-gray-200">
+                    <div class="sticky top-6">
+                        <div class="flex items-center space-x-2 mb-6">
+                            <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                            </svg>
+                            <h2 class="text-xl font-semibold text-gray-800">Danh sách Sinh viên</h2>
+                        </div>
+                        
+                        <!-- Search Box -->
+                        <div class="relative mb-4">
+                            <input type="text" 
+                                   id="searchStudent" 
+                                   placeholder="Tìm kiếm mã sinh viên..." 
+                                   class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                   onkeyup="filterStudents()">
+                            <svg class="w-5 h-5 text-gray-400 absolute right-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                        </div>
+
+                        <!-- Student List -->
+                        <div class="max-h-[calc(100vh-250px)] overflow-y-auto">
+                            <ul class="space-y-2" id="studentList">
+                                <% commitstudyUsers.forEach(function(user) { %>
+                                    <li>
+                                        <button 
+                                            class="w-full text-left px-4 py-3 rounded-lg hover:bg-blue-50 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 student-btn"
+                                            data-iduser="<%= user.iduser %>"
+                                            onclick="loadCommitments('<%= user.iduser %>'); selectUser('<%= user.fullname %>');">
+                                            <div class="flex items-center space-x-3">
+                                                <div class="flex-shrink-0">
+                                                    <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
+                                                        <span class="text-blue-600 font-semibold"><%= user.iduser.substring(0, 2) %></span>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <p class="font-medium text-gray-800"><%= user.iduser %></p>
+                                                    <p class="text-sm text-gray-500"><%= user.fullname %></p>
+                                                </div>
+                                            </div>
+                                        </button>
+                                    </li>
+                                <% }); %>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Content -->
+                <div class="md:w-2/3 lg:w-3/4 p-6">
+                    <div id="commitmentsContainer">
+                        <!-- Initial Message -->
+                        <div id="noCommitmentsMessage" class="text-center py-20">
+                            <svg class="w-16 h-16 mx-auto text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                            <h3 class="text-xl font-semibold text-gray-600 mb-2">Chưa có cam kết nào được chọn</h3>
+                            <p class="text-gray-500">Vui lòng chọn một sinh viên từ danh sách để xem chi tiết cam kết</p>
+                        </div>
+
+                        <!-- Commitments Details -->
+                        <div id="commitmentsDetails" class="hidden animate__animated animate__fadeIn">
+                            <!-- Student Info -->
+                            <div class="bg-blue-50 rounded-lg p-6 mb-6 border border-blue-100">
+                                <div class="flex items-center space-x-4">
+                                    <div class="w-16 h-16 rounded-full bg-blue-500 flex items-center justify-center">
+                                        <span class="text-2xl font-bold text-white" id="studentInitials"></span>
+                                    </div>
+                                    <div>
+                                        <h2 class="text-2xl font-bold text-gray-800" id="selectedUserName"></h2>
+                                        <p class="text-gray-600">Mã sinh viên: <span id="selectedUserId" class="font-semibold"></span></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Commitments List -->
+                            <div id="commitmentContent" class="space-y-4"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function getInitials(name) {
+            return name
+                .split(' ')
+                .map(word => word[0])
+                .join('')
+                .toUpperCase()
+                .substring(0, 2);
+        }
+
+        function filterStudents() {
+            const searchText = document.getElementById('searchStudent').value.toLowerCase();
+            const buttons = document.getElementsByClassName('student-btn');
+            
+            Array.from(buttons).forEach(button => {
+                const iduser = button.getAttribute('data-iduser').toLowerCase();
+                if (iduser.includes(searchText)) {
+                    button.parentElement.style.display = '';
+                } else {
+                    button.parentElement.style.display = 'none';
+                }
+            });
+        }
+
+        function selectUser(fullname) {
+            document.getElementById('selectedUserName').innerText = fullname;
+            document.getElementById('studentInitials').innerText = getInitials(fullname);
+        }
+
+        async function loadCommitments(iduser) {
+            document.getElementById("selectedUserId").textContent = iduser;
+            
+            try {
+                const response = await fetch(`/admin/commitments/${iduser}`);
+                if (!response.ok) throw new Error('Network response was not ok');
+                const commitments = await response.json();
+
+                const commitmentContainer = document.getElementById("commitmentContent");
+                commitmentContainer.innerHTML = '';
+
+                if (commitments.length === 0) {
+                    commitmentContainer.innerHTML = `
+                        <div class="text-center py-8">
+                            <svg class="w-12 h-12 mx-auto text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                            <p class="text-gray-500 text-lg">Chưa có cam kết nào cho sinh viên này</p>
+                        </div>
+                    `;
+                } else {
+                    commitments.forEach(commit => {
+                        const status = commit.sign === null ? 
+                            '<span class="px-3 py-1 rounded-full bg-yellow-100 text-yellow-800 text-sm font-medium">Chưa ký</span>' : 
+                            '<span class="px-3 py-1 rounded-full bg-green-100 text-green-800 text-sm font-medium">Đã ký</span>';
+                        
+                        commitmentContainer.innerHTML += `
+                            <div onclick="navigateToDetail('${iduser}', '${commit.idclass}', '${commit.timecommit}')" 
+                                 class="bg-white p-6 rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer transform hover:-translate-y-1 hover:border-blue-300">
+                                <div class="flex items-center justify-between mb-4">
+                                    <h3 class="text-lg font-semibold text-gray-800">
+                                        <span class="text-blue-600">Lớp:</span> ${commit.idclass}
+                                    </h3>
+                                    ${status}
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                                    <div>
+                                        <p class="text-gray-600">Học kỳ cam kết:</p>
+                                        <p class="font-medium">${commit.timecommit}</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-gray-600">Ngày tạo:</p>
+                                        <p class="font-medium">${new Date(commit.createdat).toLocaleDateString('vi-VN', {
+                                            year: 'numeric',
+                                            month: 'long',
+                                            day: 'numeric'
+                                        })}</p>
+                                    </div>
+                                </div>
+                                <div class="mt-4 flex justify-end">
+                                    <span class="text-blue-600 text-sm flex items-center group">
+                                        Xem chi tiết
+                                        <svg class="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                        </svg>
+                                    </span>
+                                </div>
+                            </div>
+                        `;
+                    });
+                }
+
+                document.getElementById("commitmentsDetails").classList.remove("hidden");
+                document.getElementById("noCommitmentsMessage").classList.add("hidden");
+
+            } catch (error) {
+                console.error('Error loading commitments:', error);
+                alert('Có lỗi xảy ra khi tải dữ liệu cam kết. Vui lòng thử lại sau.');
+            }
+        }
+
+        function navigateToDetail(iduser, idclass, timecommit) {
+            window.location.href = `/detailcommit/${iduser}/${idclass}/${timecommit}`;
+        }
+
+    </script>
+</body>
+</html>

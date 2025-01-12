@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Tài Liệu Học Tập</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <h1>Tài Liệu Học Tập</h1>
+    <div class="class-list">
+        <% if (typeof classes !== 'undefined' && classes && classes.length > 0) { %>
+            <ul>
+                <% classes.forEach(function(classItem) { %>
+                    <li>
+                        <%= classItem.nameclass %> (ID Lớp: <%= classItem.idclass %>) <!-- Hiển thị ID lớp -->
+                        <a href="/material/<%= classItem.idclass %>" class="btn"><i class="fas fa-file-download"></i> Xem tài liệu</a>
+                    </li>
+                <% }); %>
+            </ul>
+        <% } else { %>
+            <p>Không có lớp nào để hiển thị.</p>
+        <% } %>
+    </div>
+</body>
+</html>

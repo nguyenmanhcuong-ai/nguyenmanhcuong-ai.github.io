@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= fullname %>_<%= iduser %>_<%= idclass %>_Cam kết_<%= timecommit %></title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <style>
+        .stamp-wrapper {
+            display: flex;
+            justify-content: center;
+            margin-top: 0.75rem;
+        }
+        
+        .stamp {
+            position: relative;
+            width: 260px;
+            height: 140px;
+            background-color: #f9eff0; /* Màu nền đỏ nhạt */
+            border: 8px solid #e3342f; /* Viền đỏ đậm */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-family: 'Arial', sans-serif;
+            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.1); /* Bóng đổ bên trong */
+            transform: rotate(-5deg); /* Thêm góc nghiêng để tạo cảm giác tự nhiên hơn */
+        }
+        
+        .outer-border {
+            position: absolute;
+            width: 280px;
+            height: 100px;
+            border-radius: 8px; /* Viền bo góc nhẹ */
+            border: 8px solid #e3342f; /* Viền ngoài đậm */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Bóng ngoài tạo chiều sâu */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2;
+        }
+        
+        .content {
+            color: #e3342f;
+            font-weight: bold;
+            font-size: 18px;
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2); /* Thêm bóng cho chữ */
+            line-height: 1.2;
+        }
+        
+        .company {
+            font-size: 16px;
+            text-transform: uppercase;
+            margin: 0;
+        }
+        
+        .status {
+            font-size: 14px;
+            margin: 0;
+            font-style: italic;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+        
+        /* Định nghĩa các quy tắc cho chế độ in */
+        @media print {
+            /* Đảm bảo bố cục 2 cột vẫn được giữ */
+            .print-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;  /* 2 cột */
+                gap: 16px;
+                margin-top: -20px;
+            }
+        
+            /* Thiết lập kích thước cho container khi in */
+            .container {
+                width: 100%;  /* Hoặc bạn có thể đặt chiều rộng cụ thể, ví dụ 210mm cho A4 */
+                max-width: 210mm;  /* Đặt kích thước tối đa cho A4 */
+                margin: 0 auto;  /* Căn giữa container */
+            }
+
+            
+        }
+        
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="min-h-screen">
+        <!-- Main Content -->
+        <div class="container mx-auto px-4">
+            <div class="bg-white rounded-lg  p-6">
+                <!-- Title -->
+                <div class="text-center mb-8">
+                    <h4 class="text-3xl font-bold text-gray-800 mb-3">BẢNG CAM KẾT HỌC TẬP</h4>
+                    <p class="text-xl text-blue-600 font-medium"><%= commitment.timecommit %></p>
+                </div>
+
+                <!-- Student Info -->
+                <div class="bg-blue-50 p-4 rounded-lg mb-4">
+                    <div class="grid md:grid-cols-2 gap-4 print-grid">
+                        <!-- Cột 1 -->
+                        <div class="space-y-2">
+                            <p><span class="font-medium">Họ và tên:</span> 
+                                <span class="text-blue-800 font-medium" id="fullname"><%= fullname %></span>
+                            </p>
+                            <p><span class="font-medium">Mã số sinh viên:</span> 
+                                <span class="text-blue-800 font-medium" id="iduser"><%= commitment.iduser %></span>
+                            </p>
+                        </div>
+                
+                        <!-- Cột 2 -->
+                        <div class="space-y-2">
+                            <p><span class="font-medium">Tên học phần:</span> 
+                                <span class="text-blue-800 font-medium" id="subject"><%= className %></span>
+                            </p>
+                            <p><span class="font-medium">Mã học phần:</span> 
+                                <span class="text-blue-800 font-medium" id="idclass"><%= commitment.idclass %></span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <h5 class="text-xl font-bold text-gray-800 mb-6 pb-2 border-b-2 border-blue-500">2 NỘI DUNG CAM KẾT</h5>
+
+                <!-- Commitment Content -->
+                <div class="space-y-8">
+
+                    <!-- Section 1 -->
+                    <div>
+                        <h3 class="text-lg font-semibold text-blue-600 mb-4 flex items-center">
+                            <span class="bg-blue-600 text-white rounded-full w-6 h-6 flex items-center justify-center mr-2">1</span>
+                            Nhiệm vụ học tập
+                        </h3>
+                        <ul class="list-disc ml-12 space-y-2 text-gray-700">
+                            <li>Hoàn thành đầy đủ và đúng hạn các bài tập được giao.</li>
+                            <li>Tham gia đầy đủ các bài kiểm tra, thi cử theo quy định.</li>
+                            <li>Đảm bảo tính trung thực, không gian lận trong học tập và thi cử.</li>
+                            <li>Chủ động nghiên cứu và chuẩn bị bài, tài liệu liên quan trước khi đến lớp.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Section 2 -->
+                    <div>
+                        <h3 class="text-lg font-semibold text-blue-600 mb-4 flex items-center">
+                            <span class="bg-blue-600 text-white rounded-full w-6 h-6 flex items-center justify-center mr-2">2</span>
+                            Thái độ và kỷ luật
+                        </h3>
+                        <ul class="list-disc ml-12 space-y-2 text-gray-700">
+                            <li>Tuân thủ nội quy, quy định của lớp học.</li>
+                            <li>Có thái độ vui vẻ, lịch sự và tôn trọng giảng viên.</li>
+                            <li>Giữ gìn trật tự lớp học cũng như không làm việc riêng trong khi học.</li>
+                            <li>Siêng năng, chăm chỉ, chủ động, tự giác trong việc tự học và nghiên cứu bài vở.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Footer with 3-column layout -->
+                <div class="mt-12">
+                    <div class="grid grid-cols-3 gap-4">
+
+                        <!-- Left column - Date and Stamp -->
+                        <div class="flex flex-col items-center">
+                            <!-- Creation Date -->
+                            <div class="text-sm text-gray-600 mb-4">
+                                Ngày tạo cam kết: <span id="createdat"><%= new Date(commitment.createdat).toLocaleDateString('vi-VN') %></span>
+                            </div>
+
+                            <!-- Stamp -->
+                            <div class="stamp-wrapper mt-4">
+                                <div class="stamp bg-blue-50 border-2 border-blue-600 rounded-lg p-4 rotate-[-5deg]">
+                                    <div class="text-center">
+                                    <p class="text-blue-800 font-bold text-lg">Nguyễn Mạnh Cường</p>
+                                    <p class="text-red-600 font-bold">Đã xác nhận</p>
+                                    <p class="text-sm text-blue-500"><%= new Date().toLocaleDateString() %></p>
+                                    <p class="mt-2 text-blue-500 font-medium ">
+                                        Mã văn bản: <%= commitment.idclass %>-<%= commitment.iduser %>-<%= new Date(commitment.createdat).toISOString().replace(/[^0-9]/g, '').slice(0, 12) %>
+                                    </p>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+   <!-- Middle column - Empty for spacing -->
+   <div></div>
+                        <!-- right column - Signature -->
+                        <div class="text-center">
+                            <div class="font-medium mb-3">Sinh viên ký xác nhận</div>
+                            <% if (commitment.sign) { %>
+                                <img src="<%= commitment.sign %>" alt="Chữ ký" class="max-h-17 mx-auto">
+                            <% } else { %>
+                                <div class="text-gray-400 italic">(Chưa ký)</div>
+                            <% } %>
+                            <div class="mt-2 font-medium italic"><%=fullname %></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="container mx-auto px-3 py-5 no-print">
+            <div class="flex justify-end space-x-4">
+                <button onclick="window.print()" 
+                        class="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg flex items-center">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                              d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                    </svg>
+                    In cam kết
+                </button>
+                <a href="javascript:history.back()" 
+                   class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg flex items-center">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 15l-3-3m0 0l3-3m-3 3h8M3 12a9 9 0 1118 0 9 9 0 01-18 0z" />
+                    </svg>
+                    Quay lại
+                </a>
+            </div>
+        </div>
+    </div>
+
+    
+</body>
+</html>

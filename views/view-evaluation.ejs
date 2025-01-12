@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đánh giá giảng viên</title>
+  <link rel="icon" href="/uploads/MC2.png" type="image/x-icon">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Thêm Font Awesome -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+  <style>
+    .btn-excel {
+      background-color: #217346;
+      border-color: #217346;
+      color: white;
+      transition: all 0.3s ease;
+    }
+    .btn-excel:hover {
+      background-color: #1e6e41;
+      border-color: #1b653b;
+    }
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      color: #6c757d;
+      font-size: 0.9rem;
+    }
+    .title {
+        text-align: center; /* Căn giữa tiêu đề */
+        margin-top: 40px; /* Điều chỉnh khoảng cách trên */
+        margin-bottom: 20px; /* Điều chỉnh khoảng cách dưới */
+    }
+    h5 {
+        text-align: center; /* Căn giữa tiêu đề */
+        margin-bottom: 20px; /* Khoảng cách dưới tiêu đề */
+      }
+
+      .container {
+        margin-left: 20px; /* Điều chỉnh giá trị theo nhu cầu */
+        margin-right: auto; /* Đảm bảo container vẫn căn giữa */
+      }
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="title">
+        ĐÁNH GIÁ CỦA SINH VIÊN
+      </h1>
+      <h5>ID SINH VIÊN: <%= iduser %></h5> <!-- Hiển thị ID sinh viên -->
+
+    <% if (evaluations.length > 0) { %>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Nội dung giảng dạy</th>
+            <th>Phương pháp giảng dạy</th>
+            <th>Tương tác với sinh viên</th>
+            <th>Đánh giá và phản hồi</th>
+            <th>Thời lượng học</th>
+            <th>Sử dụng tài liệu học</th>
+            <th>Sự tiếp cận của bài học</th>
+            <th>Hỗ trợ ngoài giờ học</th>
+            <th>Khả năng truyền đạt</th>
+            <th>Khả năng tạo động lực</th>
+            <th>Công nghệ hỗ trợ giảng dạy</th>
+            <th>Sự công bằng trong đánh giá</th>
+            <th>Thái độ và phong cách làm việc</th>
+            <th>Hỗ trợ tài liệu tham khảo</th>
+            <th>Tác phong và phẩm chất của giảng viên</th>
+            <th>Sự chuẩn bị bài giảng</th>
+            <th>Khả năng xử lý tình huống</th>
+            <th>Độ linh hoạt trong giảng dạy</th>
+            <th>Mối quan hệ với sinh viên</th>
+            <th>Khả năng kết nối giữa lý thuyết và thực tiễn</th>
+            <th>Thời gian tạo đánh giá</th>
+            <th>Thao tác</th> <!-- Thêm tiêu đề cho cột thao tác -->
+          </tr>
+        </thead>
+        <tbody>
+          <% evaluations.forEach((evaluation, index) => { %>
+            <tr>
+              <td style="<%= evaluation.content <= 2 ? 'color: red; font-weight: bold;' : '' %>"><%= evaluation.content %></td>
+              <td style="<%= evaluation.method <= 2 ? 'color: red; font-weight: bold;' : '' %>"><%= evaluation.method %></td>
+              <td style="<%= evaluation.interaction <= 2 ? 'color: red; font-weight: bold;' : '' %>"><%= evaluation.interaction %></td>
+              <td style="<%= evaluation.feedback <= 2 ? 'color: red; font-weight: bold;' : '' %>"><%= evaluation.feedback %></td>
+              <td style="<%= evaluation.duration <= 2 ? 'color: red; font-weight: bold;' : '' %>"><%= evaluation.duration %></td>
+              <td style="<%= evaluation.material <= 2 ? 'color: red; font-weight: bold;' : '' %>"><%= evaluation.material %></td>
+              <td style="<%= evaluation.catchField <= 2 ? 'color: red; font-weight: bold;' : '' %>"><%= evaluation.catchField %></td>
+              <td style="<%= evaluation.support <= 2 ? 'color: red; font-weight: bold;' : '' %>"><%= evaluation.support %></td>
+              <td style="<%= evaluation.speak <= 2 ? 'color: red; font-weight: bold;' : '' %>"><%= evaluation.speak %></td>
+              <td style="<%= evaluation.motivation <= 2 ? 'color: red; font-weight: bold;' : '' %>"><%= evaluation.motivation %></td>
+              <td style="<%= evaluation.tech <= 2 ? 'color: red; font-weight: bold;' : '' %>"><%= evaluation.tech %></td>
+              <td style="<%= evaluation.fair <= 2 ? 'color: red; font-weight: bold;' : '' %>"><%= evaluation.fair %></td>
+              <td style="<%= evaluation.attitude <= 2 ? 'color: red; font-weight: bold;' : '' %>"><%= evaluation.attitude %></td>
+              <td style="<%= evaluation.refer <= 2 ? 'color: red; font-weight: bold;' : '' %>"><%= evaluation.refer %></td>
+              <td style="<%= evaluation.style <= 2 ? 'color: red; font-weight: bold;' : '' %>"><%= evaluation.style %></td>
+              <td style="<%= evaluation.prep <= 2 ? 'color: red; font-weight: bold;' : '' %>"><%= evaluation.prep %></td>
+              <td style="<%= evaluation.situation <= 2 ? 'color: red; font-weight: bold;' : '' %>"><%= evaluation.situation %></td>
+              <td style="<%= evaluation.flexible <= 2 ? 'color: red; font-weight: bold;' : '' %>"><%= evaluation.flexible %></td>
+              <td style="<%= evaluation.relationship <= 2 ? 'color: red; font-weight: bold;' : '' %>"><%= evaluation.relationship %></td>
+              <td style="<%= evaluation.connect <= 2 ? 'color: red; font-weight: bold;' : '' %>"><%= evaluation.connect %></td>
+              <td style="<%= evaluation.created_at <= 2 ? 'color: red; font-weight: bold;' : '' %>"><%= evaluation.created_at %></td>
+                      <td>
+                <button class="btn btn-sm btn-excel" onclick="downloadExcel(<%= index %>)">
+                  Tải Excel
+                </button>
+              </td>
+            </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    <% } else { %>
+      <p>Không có đánh giá nào được tìm thấy cho sinh viên này.</p>
+    <% } %>
+
+    <a href="/admin/dashboard" class="btn btn-secondary">Trở về trang chủ</a>
+  </div>
+
+  <footer>
+    <p>&copy; 2024 Hệ thống quản lý đánh giá. Tất cả quyền được bảo lưu.</p>
+  </footer>
+
+  <script>
+    async function downloadExcel(index) {
+      const evaluations = <%- JSON.stringify(evaluations) %>;
+      const student = <%- JSON.stringify(student) %>;
+      const evaluation = evaluations[index];
+    
+      const criteriaMap = {
+        content: 'Nội dung giảng dạy',
+        method: 'Phương pháp giảng dạy',
+        interaction: 'Tương tác với sinh viên',
+        feedback: 'Đánh giá và phản hồi',
+        duration: 'Thời lượng học',
+        material: 'Sử dụng tài liệu học',
+        catchField: 'Sự tiếp cận của bài học',
+        support: 'Hỗ trợ ngoài giờ học',
+        speak: 'Khả năng truyền đạt',
+        motivation: 'Khả năng tạo động lực',
+        tech: 'Công nghệ hỗ trợ giảng dạy',
+        fair: 'Sự công bằng trong đánh giá',
+        attitude: 'Thái độ và phong cách làm việc',
+        refer: 'Hỗ trợ tài liệu tham khảo',
+        style: 'Tác phong và phẩm chất của giảng viên',
+        prep: 'Sự chuẩn bị bài giảng',
+        situation: 'Khả năng xử lý tình huống',
+        flexible: 'Độ linh hoạt trong giảng dạy',
+        relationship: 'Mối quan hệ với sinh viên',
+        connect: 'Khả năng kết nối giữa lý thuyết và thực tiễn',
+        created_at: 'Thời gian tạo đánh giá'
+      };
+    
+      const workbook = new ExcelJS.Workbook();
+      const worksheet = workbook.addWorksheet('Đánh giá');
+    
+      // Thêm ID sinh viên với định dạng in đậm và cỡ chữ lớn
+      const studentIdRow = worksheet.addRow(['ID sinh viên', student.iduser]);
+      studentIdRow.getCell(1).font = { bold: true, size: 12 }; // In đậm và kích thước chữ lớn
+      studentIdRow.getCell(2).font = { bold: true, size: 12 }; // In đậm và kích thước chữ lớn
+      
+      // Thêm Họ và tên với định dạng in đậm và cỡ chữ lớn
+      const studentNameRow = worksheet.addRow(['Họ và tên', student.fullname]);
+      studentNameRow.getCell(1).font = { bold: true, size: 12 }; // In đậm và kích thước chữ lớn
+      studentNameRow.getCell(2).font = { bold: true, size: 12 }; // In đậm và kích thước chữ lớn
+    
+      // Thêm dữ liệu đánh giá
+      for (const [key, value] of Object.entries(criteriaMap)) {
+        const cellValue = evaluation[key];
+        const row = worksheet.addRow([value, cellValue]);
+    
+        // Áp dụng định dạng màu đỏ cho các giá trị <= 2
+        if (typeof cellValue === 'number' && cellValue <= 2) {
+          row.getCell(2).font = { color: { argb: 'FF0000' } }; // Màu đỏ
+        }
+      }
+    
+      // Định dạng chiều rộng các ô
+      worksheet.getColumn(1).width = 40; // Chiều rộng cột 1
+      worksheet.getColumn(2).width = 25; // Chiều rộng cột 2
+    
+      // Thiết lập độ phóng to khi mở file
+      worksheet.views = [{ zoomScale: 130 }]; // Đặt zoomScale ở mức 130%
+    
+      // Tạo tên file
+      const evaluationNumber = index + 1;
+      const createdAtDate = new Date(evaluation.created_at);
+      const day = String(createdAtDate.getDate()).padStart(2, '0');
+      const month = String(createdAtDate.getMonth() + 1).padStart(2, '0');
+      const year = createdAtDate.getFullYear();
+      const fileName = `danh_gia_gv_lan_${evaluationNumber}_${student.iduser}_${day}${month}${year}.xlsx`;
+    
+      // Xuất file
+      const buffer = await workbook.xlsx.writeBuffer();
+      const blob = new Blob([buffer], { type: 'application/octet-stream' });
+      saveAs(blob, fileName);
+    }
+               
+  </script>
+  </body>
+</html>

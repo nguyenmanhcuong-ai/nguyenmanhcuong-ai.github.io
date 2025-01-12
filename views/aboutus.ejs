@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - MC English Group</title>
+    <link rel="icon" href="/uploads/MC2.png" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #f0f4f8;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Header Styles with Enhanced Animation */
+        header {
+            background: linear-gradient(135deg, #1A2B4C 0%, #2C4B7C 100%);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect fill="rgba(255,255,255,0.1)" x="0" y="0" width="100" height="100"/></svg>');
+            animation: backgroundMove 20s linear infinite;
+        }
+
+        @keyframes backgroundMove {
+            from { background-position: 0 0; }
+            to { background-position: 100% 100%; }
+        }
+
+        header h1 {
+            font-size: 4rem;
+            margin: 0;
+            font-weight: 700;
+            letter-spacing: 2px;
+            animation: slideInDown 1s ease-out;
+            position: relative;
+        }
+
+        header p {
+            font-size: 1.4rem;
+            margin-top: 20px;
+            color: #e0e0e0;
+            animation: slideInUp 1s ease-out;
+            position: relative;
+        }
+
+        /* About Section with Parallax Effect */
+        .slider-container {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            overflow: hidden;
+            background: #f8f9fa;
+        }
+
+        .slider {
+            display: flex;
+            width: 400%;
+            height: 100%;
+            transition: transform 1s ease-in-out;
+        }
+
+        .slide {
+            width: 25%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .slide-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+            z-index: 2;
+            width: 80%;
+        }
+
+        .slide::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        .slide-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+
+        .slide-content p {
+            font-size: 1.2rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease 0.2s;
+        }
+
+        .slide.active .slide-content h2,
+        .slide.active .slide-content p {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .slider-dots {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 3;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .dot.active {
+            background: white;
+            transform: scale(1.2);
+        }
+
+        .slider-arrows {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            transform: translateY(-50%);
+            z-index: 3;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+
+        .arrow {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .arrow:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .arrow i {
+            color: white;
+            font-size: 24px;
+        }
+
+        @media (max-width: 768px) {
+            .slide-content h2 {
+                font-size: 2rem;
+            }
+
+            .slide-content p {
+                font-size: 1rem;
+            }
+        }
+
+        /* Enhanced Mission Vision Section */
+        .mission-vision {
+            display: flex;
+            justify-content: space-around;
+            background-color: #F8FAFD;
+            padding: 80px 50px;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .mission-vision div {
+            width: 300px;
+            background-color: #ffffff;
+            border-radius: 15px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mission-vision div::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #1A2B4C, #2C4B7C);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .mission-vision div:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .mission-vision div:hover::before {
+            transform: scaleX(1);
+        }
+
+        .mission-vision h3 {
+            font-size: 2rem;
+            color: #1A2B4C;
+            margin-bottom: 20px;
+        }
+
+        .mission-vision p {
+            font-size: 1.1rem;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Enhanced Team Section */
+        .team-section {
+            background-color: #F8FAFD;
+            padding: 80px 50px;
+            text-align: center;
+        }
+
+        .team-section h2 {
+            font-size: 2.5rem;
+            color: #1A2B4C;
+            margin-bottom: 50px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .team-section h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, #1A2B4C, #2C4B7C);
+            border-radius: 2px;
+        }
+
+        .team-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .team-member {
+            width: 280px;
+            text-align: center;
+            background-color: #ffffff;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .team-member::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(26,43,76,0.9), rgba(44,75,124,0.9));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .team-member:hover::before {
+            opacity: 0.1;
+        }
+
+        .team-member img {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            border: 5px solid #fff;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.4s ease;
+        }
+
+        .team-member:hover img {
+            transform: scale(1.1);
+        }
+
+        .team-member h4 {
+            margin: 25px 0 10px 0;
+            font-size: 1.6rem;
+            color: #1A2B4C;
+        }
+
+        .team-member p {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #f0f4f8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #1A2B4C;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background-color: #1A2B4C;
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        /* Enhanced Footer */
+        footer {
+            text-align: center;
+            padding: 50px 30px;
+            background: linear-gradient(135deg, #1A2B4C 0%, #2C4B7C 100%);
+            color: white;
+            position: relative;
+        }
+
+        footer p {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+
+        footer .social-links {
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        footer .social-links a {
+            background-color: rgba(255,255,255,0.1);
+            color: white;
+        }
+
+        footer .social-links a:hover {
+            background-color: white;
+            color: #1A2B4C;
+        }
+
+        /* Animations */
+        @keyframes slideInDown {
+            from {
+                transform: translateY(-100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideInUp {
+            from {
+                transform: translateY(100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .mission-vision {
+                padding: 50px 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 3rem;
+            }
+
+            header p {
+                font-size: 1.2rem;
+            }
+
+            .mission-vision div {
+                width: 100%;
+                max-width: 400px;
+            }
+
+            .team-member {
+                width: 100%;
+                max-width: 320px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header data-aos="fade-down">
+        <h1>MC English Group</h1>
+        <p>Empowering English Learning for Everyone</p>
+    </header>
+
+    <div class="slider-container">
+        <div class="slider">
+            <div class="slide active">
+                <img src="/uploads/mc1.jpg" alt="MC English 1">
+                <div class="slide-content">
+                    <h2>Welcome to MC English</h2>
+                    <p>Empowering students through innovative English education</p>
+                </div>
+            </div>
+            <div class="slide">
+                <img src="/uploads/mc2.jpg" alt="MC English 2">
+                <div class="slide-content">
+                    <h2>Professional Teaching Staff</h2>
+                    <p>Learn from experienced native speakers and certified teachers</p>
+                </div>
+            </div>
+            <div class="slide">
+                <img src="/uploads/mc3.jpg" alt="MC English 3">
+                <div class="slide-content">
+                    <h2>Modern Learning Environment</h2>
+                    <p>State-of-the-art facilities for optimal learning experience</p>
+                </div>
+            </div>
+            <div class="slide">
+                <img src="/uploads/mc4.jpg" alt="MC English 4">
+                <div class="slide-content">
+                    <h2>Join Our Community</h2>
+                    <p>Be part of our growing family of successful English learners</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="slider-dots">
+            <div class="dot active"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+
+        <div class="slider-arrows">
+            <div class="arrow prev">
+                <i class="fas fa-chevron-left"></i>
+            </div>
+            <div class="arrow next">
+                <i class="fas fa-chevron-right"></i>
+            </div>
+        </div>
+    </div>
+
+    <section class="mission-vision">
+        <div data-aos="fade-right">
+            <h3>Mission</h3>
+            <p>To provide top-notch English education that helps students achieve fluency and confidence in the language.</p>
+        </div>
+        <div data-aos="fade-up">
+            <h3>Values</h3>
+            <p>To empower learners to reach their full potential through high-quality and engaging English language courses.</p>
+        </div>
+        <div data-aos="fade-left">
+            <h3>Vision</h3>
+            <p>To become the leading English language institution that fosters growth, innovation, and cultural exchange.</p>
+        </div>
+    </section>
+
+    <section class="team-section">
+        <h2 data-aos="fade-up">Meet Our Team</h2>
+        <div class="team-container">
+            <div class="team-member" data-aos="fade-up" data-aos-delay="100">
+                <img src="uploads/unnamed.png" alt="John Doe">
+                <h4>Cuong Nguyen</h4>
+                <p>Founder & CEO</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="team-member" data-aos="fade-up" data-aos-delay="200">
+                <img src="uploads/quyen1.png" alt="Jane Smith">
+                <h4>Quyen Le</h4>
+                <p>Head of Education</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="team-member" data-aos="fade-up" data-aos-delay="300">
+                <img src="uploads/kuda1.png" alt="Michael Lee">
+                <h4>Dokuda</h4>
+                <p>Marketing Director</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>Connect with MC English Group</p>
+        <div class="social-links">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 1000,
+            once: true,
+            offset: 100
+        });
+
+            // Thêm script cho slider
+            const slider = document.querySelector('.slider');
+            const slides = document.querySelectorAll('.slide');
+            const dots = document.querySelectorAll('.dot');
+            const prevBtn = document.querySelector('.prev');
+            const nextBtn = document.querySelector('.next');
+    
+            let currentSlide = 0;
+            const slideCount = slides.length;
+    
+            function updateSlider() {
+                slider.style.transform = `translateX(-${currentSlide * 25}%)`;
+                
+                // Update active class for slides
+                slides.forEach(slide => slide.classList.remove('active'));
+                slides[currentSlide].classList.add('active');
+                
+                // Update dots
+                dots.forEach(dot => dot.classList.remove('active'));
+                dots[currentSlide].classList.add('active');
+            }
+    
+            function nextSlide() {
+                currentSlide = (currentSlide + 1) % slideCount;
+                updateSlider();
+            }
+    
+            function prevSlide() {
+                currentSlide = (currentSlide - 1 + slideCount) % slideCount;
+                updateSlider();
+            }
+    
+            // Event listeners
+            prevBtn.addEventListener('click', prevSlide);
+            nextBtn.addEventListener('click', nextSlide);
+    
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', () => {
+                    currentSlide = index;
+                    updateSlider();
+                });
+            });
+    
+            // Auto slide
+            setInterval(nextSlide, 5000);  // Change slide every 5 seconds
+    
+            // Initialize first slide
+            updateSlider();
+    
+    </script>
+</body>
+</html>

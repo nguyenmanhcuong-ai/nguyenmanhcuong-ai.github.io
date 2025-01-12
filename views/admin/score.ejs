@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nhập điểm cho sinh viên <%= studentName %></title>
+  <link rel="icon" href="/uploads/MC2.png" type="image/x-icon">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #f0f4f8;
+    }
+    .table-container {
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+    .table-header {
+      background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    }
+    .table-row:nth-child(even) {
+      background-color: #f8fafc;
+    }
+    .table-row:hover {
+      background-color: #edf2f7;
+      transform: scale(1.01);
+      transition: all 0.2s ease;
+    }
+    .input-score {
+      background-color: #edf2f7;
+      transition: all 0.3s ease;
+    }
+    .input-score:focus {
+      background-color: white;
+      box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
+    }
+    .btn-edit {
+      background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+      transition: all 0.3s ease;
+    }
+    .btn-edit:hover {
+      opacity: 0.9;
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body class="min-h-screen p-8">
+  <div class="container mx-auto max-w-4xl">
+    <header class="mb-8 text-center">
+      <h1 class="text-4xl font-bold text-gray-800 mb-2">Bảng Điểm Sinh Viên</h1>
+      <p class="text-xl text-gray-600">Sinh viên: <span class="font-semibold"><%= studentName %></span></p>
+    </header>
+
+    <div class="table-container">
+      <form id="scoreForm">
+        <input type="hidden" id="iduser" name="iduser" value="<%= iduser %>">
+        <input type="hidden" id="idclass" name="idclass" value="<%= idclass %>">
+
+        <table class="w-full">
+          <thead>
+            <tr class="table-header">
+              <th class="px-6 py-4 text-left text-sm font-medium text-white uppercase tracking-wider">Tên cột điểm</th>
+              <th class="px-6 py-4 text-left text-sm font-medium text-white uppercase tracking-wider">Điểm</th>
+              <th class="px-6 py-4 text-left text-sm font-medium text-white uppercase tracking-wider">Hành động</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% const scores = [
+                { name: 'score1', label: 'Quá trình 1' },
+                { name: 'score2', label: 'Quá trình 2' },
+                { name: 'score3', label: 'Quá trình 3' },
+                { name: 'mid_score', label: 'Điểm giữa kỳ' },
+                { name: 'final_score', label: 'Điểm cuối kỳ' },
+                { name: 'gpa_score', label: 'Điểm trung bình' }
+            ] %>
+            <% scores.forEach(score => { %>
+              <tr class="table-row">
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800"><%= score.label %></td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                  <input type="number" id="<%= score.name %>" name="<%= score.name %>" min="0" max="10" step="0.1"
+                  class="input-score w-24 px-3 py-2 rounded-md focus:outline-none"
+                  <%= existingScores[score.name] !== undefined ? 'value="' + existingScores[score.name] + '"' : '' %>
+                  disabled>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                  <button type="button" class="toggle-edit btn-edit text-white px-4 py-2 rounded-md"
+                          data-field="<%= score.name %>">
+                    <%= existingScores[score.name] ? 'Sửa' : 'Lưu' %>
+                  </button>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </form>
+    </div>
+
+    <div class="mt-8 text-center">
+      <a href="/classes/<%= idclass %>/students" class="bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 px-6 rounded-md transition duration-300 ease-in-out inline-block">
+        Quay lại danh sách sinh viên
+      </a>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const toggleButtons = document.querySelectorAll('.toggle-edit');
+
+      toggleButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          const field = this.dataset.field;
+          const input = document.getElementById(field);
+          const isDisabled = input.disabled;
+
+          if (isDisabled) {
+            input.disabled = false;
+            this.textContent = 'Lưu';
+            input.focus();
+          } else {
+            saveScore(field, input.value);
+          }
+        });
+      });
+
+      async function saveScore(field, value) {
+        const iduser = document.getElementById('iduser').value;
+        const idclass = document.getElementById('idclass').value;
+
+        try {
+          const response = await fetch('/admin/score/save', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ iduser, idclass, field, value }),
+          });
+
+          const result = await response.json();
+
+          if (result.success) {
+            Swal.fire({
+              icon: 'success',
+              title: 'Thành công!',
+              text: `Điểm ${field} đã được lưu.`,
+              confirmButtonColor: '#667eea',
+            }).then(() => {
+              const input = document.getElementById(field);
+              input.disabled = true;
+              const button = document.querySelector(`[data-field="${field}"]`);
+              button.textContent = 'Sửa';
+            });
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Lỗi!',
+              text: 'Có lỗi xảy ra khi lưu điểm.',
+              confirmButtonColor: '#667eea',
+            });
+          }
+        } catch (error) {
+          console.error('Error:', error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Lỗi!',
+            text: 'Có lỗi xảy ra khi lưu điểm.',
+            confirmButtonColor: '#667eea',
+          });
+        }
+      }
+    });
+  </script>
+</body>
+</html>

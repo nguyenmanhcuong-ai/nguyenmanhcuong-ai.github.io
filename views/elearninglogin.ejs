@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập | E-learning MC</title>
+    <link rel="icon" href="/uploads/MC2.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+                <!-- Open Graph tags for better social media sharing -->
+                <meta property="og:title" content="E-Learning - Cường Nguyễn - Đăng nhập">
+                <meta property="og:description" content="Cường Nguyễn. Đăng nhập. Cổng thông tin E-Learning của Cường Nguyễn cung cấp nền tảng học tập trực tuyến tiên tiến, giúp sinh viên dễ dàng truy cập và quản lý thông tin học tập của mình. Tại đây, bạn có thể theo dõi lịch học, lịch thi, cập nhật kết quả học tập và quản lý các dịch vụ sinh viên một cách nhanh chóng. Hệ thống cũng hỗ trợ các chức năng hữu ích như đăng ký môn học, xem thông tin học phí chi tiết và tra cứu thông tin học vụ, tất cả đều được thiết kế để nâng cao trải nghiệm học tập của bạn.">
+                <meta property="og:image" content="/uploads/MC2.png">
+                <meta property="og:url" content="https://mccheckin.edu.vn/elearning-login">
+                <meta property="og:image" content="https://www.mccheckin.edu.vn/uploads/MC.png">
+                <meta property="og:image:alt" content="Logo E-Learning Cường Nguyễn">
+                <meta property="og:type" content="website">
+                <meta property="fb:profile_id" content="09nmc">
+        
+                <script type="application/ld+json">
+                    {
+                      "@context": "https://schema.org",
+                      "@type": "WebSite",
+                      "url": "https://www.mccheckin.edu.vn/elearning-login",
+                      "name": "E-Learning Portal MC",
+                      "headline": "Elearning MC",
+                      "alternateName": "Elearning Cường Nguyễn",
+                      "description": "Cường Nguyễn. Đăng nhập. Cổng thông tin E-Learning của Cường Nguyễn cung cấp nền tảng học tập trực tuyến tiên tiến, giúp sinh viên dễ dàng truy cập và quản lý thông tin học tập của mình. Tại đây, bạn có thể theo dõi lịch học, lịch thi, cập nhật kết quả học tập và quản lý các dịch vụ sinh viên một cách nhanh chóng. Hệ thống cũng hỗ trợ các chức năng hữu ích như đăng ký môn học, xem thông tin học phí chi tiết và tra cứu thông tin học vụ, tất cả đều được thiết kế để nâng cao trải nghiệm học tập của bạn.",
+                      "potentialAction": {
+                        "@type": "SearchAction",
+                        "target": "https://www.mccheckin.edu.vn/search?q={search_term_string}",
+                        "query-input": "required name=search_term_string"
+                      },
+                      "logo": "https://mccheckin.edu.vn/uploads/MC.png",
+                      "sameAs": [
+                        "https://www.facebook.com/09nmc"
+                      ]
+                    }
+                    </script>
+            
+                <!-- Canonical URL -->
+                <link rel="canonical" href="https://mccheckin.edu.vn/elearning-login">
+    
+                <!DOCTYPE html>
+                <html lang="vi">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Đăng nhập | E-learning MC</title>
+                    <link rel="icon" href="/uploads/MC2.png" type="image/x-icon">
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+                    
+                    <style>
+                        :root {
+                            --primary-color: #3b82f6;
+                            --secondary-color: #2563eb;
+                            --gradient-start: #3b82f6;
+                            --gradient-end: #2563eb;
+                            --accent-color: #0ea5e9;
+                        }
+                        
+                        body {
+                            min-height: 100vh;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+                            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+                        }
+                
+                        .login-container {
+                            background: rgba(255, 255, 255, 0.98);
+                            border-radius: 24px;
+                            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+                            backdrop-filter: blur(10px);
+                            overflow: hidden;
+                            width: 100%;
+                            max-width: 1100px;
+                            display: flex;
+                            margin: 2rem;
+                            position: relative;
+                        }
+                
+                        .login-container::before {
+                            content: '';
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            width: 100%;
+                            height: 5px;
+                            background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end));
+                        }
+                
+                        .login-image {
+                            flex: 1.2;
+                            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+                            padding: 4rem 3rem;
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: center;
+                            align-items: center;
+                            position: relative;
+                            overflow: hidden;
+                        }
+                
+                        .login-image::before {
+                            content: '';
+                            position: absolute;
+                            width: 200%;
+                            height: 200%;
+                            background: 
+                                radial-gradient(circle at 50% 50%, rgba(255,255,255,0.1) 0%, transparent 50%),
+                                radial-gradient(circle at 20% 20%, rgba(255,255,255,0.1) 0%, transparent 30%);
+                            animation: pulseBackground 15s ease infinite;
+                        }
+                
+                        @keyframes pulseBackground {
+                            0% { transform: scale(1); opacity: 0.5; }
+                            50% { transform: scale(1.2); opacity: 0.8; }
+                            100% { transform: scale(1); opacity: 0.5; }
+                        }
+                
+                        .logo {
+                            width: 140px;
+                            height: 140px;
+                            background: white;
+                            border-radius: 24px;
+                            padding: 1.5rem;
+                            margin-bottom: 2.5rem;
+                            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+                            position: relative;
+                            z-index: 1;
+                            transition: transform 0.3s ease;
+                        }
+                
+                        .logo:hover {
+                            transform: translateY(-5px);
+                        }
+                
+                        .login-form {
+                            flex: 1;
+                            padding: 4rem 3rem;
+                            background: white;
+                        }
+                
+                        .input-group {
+                            position: relative;
+                            margin-bottom: 1.75rem;
+                        }
+                        
+                        .input-group .form-control {
+                            padding-left: 3rem; /* Khoảng cách đủ cho icon */
+                            height: 3.5rem;
+                            border-radius: 12px;
+                            border: 2px solid #e2e8f0;
+                            font-size: 1rem;
+                            transition: all 0.3s ease;
+                        }
+                        
+                        .input-group .form-control:focus {
+                            border-color: var(--primary-color);
+                            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+                        }
+                        
+                        /* Đặt icon phía bên trái của input */
+                        .input-group .input-icon {
+                            position: absolute;
+                            left: 1rem;
+                            top: 50%;
+                            transform: translateY(-50%);
+                            color: #94a3b8;
+                            font-size: 1.2rem;
+                            pointer-events: none; /* Không cản trở click */
+                            transition: color 0.3s ease;
+                        }
+                        
+                        /* Thay đổi màu icon khi input được focus */
+                        .input-group .form-control:focus ~ .input-icon {
+                            color: var(--primary-color);
+                        }
+                                                                
+                        .btn-login {
+                            background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end));
+                            border: none;
+                            border-radius: 12px;
+                            padding: 1rem 1.5rem;
+                            font-weight: 600;
+                            width: 100%;
+                            text-transform: uppercase;
+                            letter-spacing: 1px;
+                            transition: all 0.3s ease;
+                            height: 3.5rem;
+                            font-size: 1.1rem;
+                        }
+                
+                        .btn-login:hover {
+                            transform: translateY(-2px);
+                            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
+                        }
+                
+                
+                        .divider {
+                            display: flex;
+                            align-items: center;
+                            margin: 2rem 0;
+                            color: #64748b;
+                        }
+                
+                        .divider::before,
+                        .divider::after {
+                            content: "";
+                            flex: 1;
+                            height: 2px;
+                            background: linear-gradient(90deg, transparent, #e2e8f0, transparent);
+                        }
+                
+                        .divider span {
+                            padding: 0 1.5rem;
+                            font-size: 0.95rem;
+                        }
+                
+                        .error {
+                            background: #fee2e2;
+                            color: #dc2626;
+                            padding: 1rem;
+                            border-radius: 12px;
+                            margin-bottom: 1.5rem;
+                            font-size: 0.95rem;
+                            display: flex;
+                            align-items: center;
+                            gap: 0.5rem;
+                            animation: fadeIn 0.3s ease;
+                        }
+                
+                        @keyframes fadeIn {
+                            from { opacity: 0; transform: translateY(-10px); }
+                            to { opacity: 1; transform: translateY(0); }
+                        }
+                
+                        .welcome-text {
+                            color: white;
+                            text-align: center;
+                            position: relative;
+                            z-index: 1;
+                        }
+                
+                        .welcome-text h2 {
+                            font-size: 2.5rem;
+                            font-weight: 700;
+                            margin-bottom: 1.5rem;
+                            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                        }
+                
+                        .welcome-text p {
+                            font-size: 1.1rem;
+                            opacity: 0.9;
+                            line-height: 1.6;
+                        }
+                
+                        .welcome-text .highlights {
+                            display: flex;
+                            gap: 2rem;
+                            margin-top: 2rem;
+                            text-align: left;
+                        }
+                
+                        .highlight-item {
+                            display: flex;
+                            align-items: center;
+                            gap: 0.75rem;
+                            color: white;
+                            font-size: 0.95rem;
+                        }
+                
+                        .highlight-item i {
+                            font-size: 1.2rem;
+                        }
+                
+                        @media (max-width: 768px) {
+                            .login-container {
+                                flex-direction: column;
+                                max-width: 500px;
+                                margin: 1rem;
+                            }
+                            
+                            .login-image {
+                                padding: 2rem 1.5rem;
+                                flex: none;
+                            }
+                            
+                            .login-form {
+                                padding: 2rem 1.5rem;
+                            }
+                            
+                            .welcome-text h2 {
+                                font-size: 2rem;
+                            }
+                            
+                            .welcome-text p {
+                                font-size: 1rem;
+                            }
+                            
+                            .logo {
+                                width: 100px;
+                                height: 100px;
+                                margin-bottom: 1.5rem;
+                            }
+                            
+                            .highlights {
+                                flex-direction: column;
+                                gap: 1rem;
+                            }
+                            
+                            .input-group .form-control {
+                                height: 3rem;
+                            }
+                            
+                            .btn-login {
+                                height: 3rem;
+                                font-size: 1rem;
+                            }
+                        }
+                        
+                        @media (max-width: 480px) {
+                            .login-container {
+                                margin: 0.5rem;
+                            }
+                            
+                            .login-image {
+                                padding: 1.5rem 1rem;
+                            }
+                            
+                            .login-form {
+                                padding: 1.5rem 1rem;
+                            }
+                            
+                            .welcome-text h2 {
+                                font-size: 1.75rem;
+                            }
+                        }
+                                            </style>
+                </head>
+                <body>
+                    <div class="login-container">
+                        <div class="login-image">
+                            <div class="logo">
+                                <img src="/uploads/MC2.png" alt="Logo" class="img-fluid">
+                            </div>
+                            <div class="welcome-text">
+                                <h2>E-LEARNING</h2>
+                                <p>Nền tảng học tập trực tuyến<br>hiện đại và chuyên nghiệp</p>
+                                <div class="highlights">
+                                    <div class="highlight-item">
+                                        <i class="fas fa-graduation-cap"></i>
+                                        <span>Học tập linh hoạt</span>
+                                    </div>
+                                    <div class="highlight-item">
+                                        <i class="fas fa-chart-line"></i>
+                                        <span>Theo dõi tiến độ</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                
+                        <div class="login-form">
+                            <h3 class="text-center mb-4 fw-bold">Đăng nhập E-Learning</h3>
+                            <% if (error) { %>
+                                <div class="error">
+                                    <i class="fas fa-exclamation-circle"></i>
+                                    <%= error %>
+                                </div>
+                            <% } %>
+                
+                            <form action="/auth/elearning-login" method="POST">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Tên đăng nhập" name="username">
+                                    <span class="input-icon"><i class="fas fa-user"></i></span>
+                                </div>
+                                
+                                <div class="input-group">
+                                    <input type="password" class="form-control" placeholder="Mật khẩu" name="password">
+                                    <span class="input-icon"><i class="fas fa-lock"></i></span>
+                                </div>
+                                                                                
+                                <button type="submit" class="btn btn-login btn-primary">
+                                    <i class="fas fa-sign-in-alt me-2"></i>
+                                    Đăng nhập
+                                </button>
+                
+                                <div class="divider">
+                                    <span>Bảo lưu bởi Cường Nguyễn</span>
+                                </div>
+                
+                            </form>
+                        </div>
+                    </div>
+                
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+                    <script>
+                        window.onload = function() {
+                            const errorMessage = document.querySelector('.error');
+                            if (errorMessage) {
+                                setTimeout(() => {
+                                    errorMessage.style.opacity = '0';
+                                    errorMessage.style.transition = 'opacity 0.5s ease';
+                                    setTimeout(() => {
+                                        errorMessage.style.display = 'none';
+                                    }, 500);
+                                }, 5000);
+                            }
+                        };
+                
+                        function preventBack() {
+                            window.history.forward();
+                        }
+                        setTimeout("preventBack()", 0);
+                        window.onunload = function() { null };
+                    </script>
+
+                    <!--<script>
+                        document.addEventListener('contextmenu', function(event) {
+                            event.preventDefault(); // Ngăn không cho mở menu chuột phải
+                        });
+                
+                        document.addEventListener('keydown', function(event) {
+                            if (event.ctrlKey && (event.key === 'u' || event.key === 'U')) {
+                                event.preventDefault(); // Ngăn Ctrl+U
+                            }
+                        });
+                    </script>-->
+                
+                            
+</body>
+</html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi tiết đề tài</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+        }
+        .page-header {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .table {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .table thead {
+            background: #f1f4f9;
+        }
+        .table th {
+            font-weight: 600;
+            color: #495057;
+        }
+        .table td, .table th {
+            padding: 1rem;
+            vertical-align: middle;
+        }
+        .status-badge {
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        .status-ontime {
+            background: #e7f5ee;
+            color: #0a8a3d;
+        }
+        .status-late {
+            background: #fde8e8;
+            color: #e02424;
+        }
+        .download-link {
+            color: #2563eb;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .download-link:hover {
+            text-decoration: underline;
+        }
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: #f3f4f6;
+            border: none;
+            border-radius: 6px;
+            color: #374151;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        .back-button:hover {
+            background: #e5e7eb;
+            color: #1f2937;
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <div class="container">
+        <div class="page-header">
+            <h1 class="h3 mb-0">Danh sách nộp bài - Đề tài:  <span style="color: #4CAF50; font-weight: bold;"><%= topicName %></span>
+                <span style="color: #FF5722; font-weight: bold;">(<%= topicCode %>)</span></h1>
+        </div>
+
+        <% if (results.length > 0) { %>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Mã đề tài</th>
+                            <th>Người nộp</th>
+                            <th>Thời gian nộp</th>
+                            <th>Trạng thái</th>
+                            <th>Tệp đính kèm</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% results.forEach((result, index) => { %>
+                            <tr>
+                                <td><%= index + 1 %></td>
+                                <td><%= result.topic_code %></td>
+                                <td><%= result.iduser %></td>
+                                <td>
+                                    <span title="<%= new Date(result.time_nop).toLocaleString() %>">
+                                        <%= new Date(result.time_nop).toLocaleDateString('vi-VN') %>
+                                        <br>
+                                        <small class="text-muted">
+                                            <%= new Date(result.time_nop).toLocaleTimeString('vi-VN') %>
+                                        </small>
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="status-badge <%= result.late ? 'status-late' : 'status-ontime' %>">
+                                        <i class="fas <%= result.late ? 'fa-clock' : 'fa-check' %> me-1"></i>
+                                        <%= result.late ? 'Nộp trễ' : 'Đúng hạn' %>
+                                    </span>
+                                </td>
+                                <td>
+                                    <% if (result.submit_url) { %>
+                                        <a href="<%= result.submit_url %>" class="download-link" download>
+                                            <i class="fas fa-download"></i>
+                                            Tải xuống
+                                        </a>
+                                    <% } else { %>
+                                        <span class="text-muted">
+                                            <i class="fas fa-times"></i>
+                                            Không có tệp
+                                        </span>
+                                    <% } %>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        <% } else { %>
+            <div class="alert alert-info text-center" role="alert">
+                <i class="fas fa-info-circle me-2"></i>
+                Không có thông tin nộp cho đề tài này.
+            </div>
+        <% } %>
+
+        <div class="mt-4">
+            <a href="/discussion" class="back-button">
+                <i class="fas fa-arrow-left"></i>
+                Quay lại
+            </a>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Điểm Danh</title>
+</head>
+<body>
+    <h1>Tạo Form Điểm Danh</h1>
+    <form action="/attendance" method="POST">
+        <label for="session">Buổi:</label>
+        <select name="session" id="session" required>
+            <option value="Buổi 1">Buổi 1</option>
+            <option value="Buổi 2">Buổi 2</option>
+            <!-- Thêm các buổi khác nếu cần -->
+        </select>
+
+        <label for="month">Tháng:</label>
+        <select name="month" id="month" required>
+            <option value="Tháng 1">Tháng 1</option>
+            <option value="Tháng 2">Tháng 2</option>
+            <!-- Thêm các tháng khác nếu cần -->
+        </select>
+
+        <label for="idclass">Mã Lớp:</label>
+        <input type="text" name="idclass" id="idclass" required>
+
+        <h2>Chọn Sinh Viên:</h2>
+        <% if (classes.length > 0) { %>
+            <% classes.forEach(classItem => { %>
+                <h3>Lớp: <%= classItem.idclass %></h3>
+                <div>
+                    <% students.forEach(student => { %>
+                        <label>
+                            <input type="checkbox" name="students" value="<%= student.iduser %>">
+                            <%= student.fullname %>
+                        </label><br>
+                    <% }); %>
+                </div>
+            <% }); %>
+        <% } else { %>
+            <p>Không có sinh viên nào trong lớp này.</p>
+        <% } %>
+
+        <button type="submit">Điểm Danh</button>
+    </form>
+</body>
+</html>

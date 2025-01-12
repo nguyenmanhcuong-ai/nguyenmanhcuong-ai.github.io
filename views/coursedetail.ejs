@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/uploads/MC2.png" type="image/x-icon">
+    <title>Chi tiết khóa học</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf.min.js"></script>
+
+     <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --background-color: #f1f5f9;
+            --text-color: #1e293b;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            min-height: 100vh;
+        }
+        
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 20px;
+        }
+
+        .sidebar {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px var(--shadow-color);
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+
+        .course-header {
+            margin-bottom: 24px;
+            position: relative;
+        }
+
+        .course-title {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 16px;
+        }
+
+        .course-id {
+            display: inline-flex;
+            align-items: center;
+            background: #e2e8f0;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            color: var(--secondary-color);
+            margin-bottom: 16px;
+        }
+
+        .course-id i {
+            margin-right: 8px;
+            font-size: 0.9rem;
+        }
+
+        .info-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .info-item:last-child {
+            border-bottom: none;
+        }
+
+        .info-item i {
+            width: 24px;
+            color: var(--primary-color);
+            margin-right: 12px;
+        }
+
+        .pdf-viewer {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px var(--shadow-color);
+            height: calc(100vh - 40px);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .pdf-container {
+            flex: 1;
+            width: 100%;
+            height: 100%;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .pdf-embed {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                position: static;
+            }
+
+            .pdf-viewer {
+                height: 70vh;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <aside class="sidebar">
+            <div class="course-header">
+                <h1 class="course-title">Hồ sơ khóa học</h1>
+            </div>
+            
+            <ul class="info-list">
+                <li class="info-item">
+                    <i class="fas fa-book"></i>
+                    <span id="courseIdDisplay">Mã khóa học: <span class="course-id-value"></span></span>
+                </li>
+                <li class="info-item">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    <span>Giảng viên: Nguyễn Mạnh Cường</span>
+                </li>
+                <li class="info-item">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Ngày bắt đầu: <span class="course-start-date"><%= courseStartDate %></span></span>
+                </li>
+                <li class="info-item">
+                    <i class="fas fa-clock"></i>
+                    <span>Thời lượng: 90 phút/buổi</span>
+                </li>
+                <li class="info-item">
+                    <i class="fas fa-users"></i>
+                    <span>Sĩ số tối đa: 30 học viên</span>
+                </li>
+            </ul>
+        </aside>
+
+        <main class="pdf-viewer">
+            <div class="pdf-container">
+                <object 
+                    class="pdf-embed"
+                    type="application/pdf"
+                    data="<%= pdfUrl %>"
+                >
+                    <embed 
+                        src="<%= pdfUrl %>" 
+                        type="application/pdf"
+                        class="pdf-embed"
+                    />
+                </object>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Lấy course ID từ URL
+        function getCourseIdFromUrl() {
+            const path = window.location.pathname;
+            const courseId = path.split('/').pop(); // Lấy phần cuối của URL
+            return courseId || 'Unknown';
+        }
+
+        // Hiển thị course ID
+        window.addEventListener('DOMContentLoaded', () => {
+            const courseId = getCourseIdFromUrl();
+            const courseIdValue = document.querySelector('.course-id-value');
+            courseIdValue.textContent = courseId;
+            
+            // Cập nhật title của trang
+            document.title = `Chi tiết khóa học - ${courseId}`;
+        });
+    </script>
+</body>
+</html>

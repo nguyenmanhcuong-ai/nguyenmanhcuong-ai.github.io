@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tài liệu tiếng Anh trực tuyến - Cường Nguyễn</title>
+    
+    <meta name="description" content="Cổng tài liệu tiếng Anh trực tuyến của Cường Nguyễn cung cấp cho người học một kho tài nguyên phong phú, bao gồm sách, bài tập, video học tập và nhiều công cụ hữu ích khác để nâng cao khả năng tiếng Anh.">
+    
+    <meta name="keywords" content="tài liệu tiếng Anh, học tiếng Anh, sách tiếng Anh, bài tập tiếng Anh, video học tập tiếng Anh, Cường Nguyễn, tài nguyên học tập">
+    
+    <link rel="icon" href="/uploads/MC2.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+
+    <!-- Open Graph tags for better social media sharing -->
+    <meta property="og:title" content="Tài liệu tiếng Anh trực tuyến - Cường Nguyễn">
+    <meta property="og:description" content="Cổng tài liệu tiếng Anh trực tuyến của Cường Nguyễn cung cấp cho người học một kho tài nguyên phong phú, bao gồm sách, bài tập, video học tập và nhiều công cụ hữu ích khác để nâng cao khả năng tiếng Anh.">
+    <meta property="og:image" content="https://www.mccheckin.edu.vn/uploads/MC.png">
+    <meta property="og:url" content="https://mccheckin.edu.vn/lessons">
+    <meta property="og:image:alt" content="Tài liệu tiếng Anh trực tuyến - Cường Nguyễn">
+    <meta property="og:type" content="website">
+
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          "url": "https://www.mccheckin.edu.vn/lessons",
+          "name": "Tài liệu tiếng Anh trực tuyến - Cường Nguyễn",
+          "description": "Cổng tài liệu tiếng Anh trực tuyến của Cường Nguyễn cung cấp cho người học một kho tài nguyên phong phú để nâng cao khả năng tiếng Anh.",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://www.mccheckin.edu.vn/search?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+          },
+          "logo": "https://mccheckin.edu.vn/uploads/MC.png",
+          "sameAs": [
+            "https://www.facebook.com/09nmc"
+          ]
+        }
+    </script>
+    <style>
+        :root {
+            --primary-color: #4a90e2;
+            --secondary-color: #f39c12;
+            --background-color: #f4f7f9;
+            --card-color: #ffffff;
+            --text-color: #333333;
+            --text-light: #777777;
+            --gradient-start: #4a90e2;
+            --gradient-end: #34495e;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+            margin-top:-70px;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            color: white;
+            padding: 60px 0;
+        }
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        .subtitle {
+            font-size: 1.3rem;
+            color: rgba(255,255,255,0.9);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .lesson-card {
+            background-color: var(--card-color);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .lesson-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+        .card-image {
+            height: 200px;
+            background-color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+            overflow: hidden;
+            position: relative;
+        }
+        .card-image::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.4));
+        }
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        .lesson-card:hover .card-image img {
+            transform: scale(1.1);
+        }
+        .card-image i {
+            font-size: 4rem;
+            z-index: 1;
+        }
+        .card-content {
+            padding: 25px;
+        }
+        .lesson-card h2 {
+            font-size: 1.3rem;
+            margin: 0 0 15px;
+            color: var(--primary-color);
+            font-weight: 600;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .lesson-card p {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 20px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            height: 4.5em;
+            line-height: 1.5em;
+        }
+        .lesson-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+        .lesson-info span {
+            display: flex;
+            align-items: center;
+        }
+        .lesson-info i {
+            margin-right: 5px;
+            color: var(--secondary-color);
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        .lesson-actions {
+            display: flex;
+            align-items: center;
+            justify-content: space-between; /* Đẩy các phần tử về 2 bên */
+            margin-top: 20px;
+            padding: 0 10px; /* Thêm padding để tránh sát mép */
+        }
+        
+        .btn-view {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 7px 15px;
+            border-radius: 25px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .view-count {
+            font-size: 0.8rem;
+            white-space: nowrap;
+            font-style: italic; /* Chữ in nghiêng */
+            color: #999; /* Màu nhạt */
+        }
+                .search-container {
+            max-width: 600px;
+            margin: -40px auto 50px;
+            position: relative;
+            z-index: 10;
+        }
+        .search-wrapper {
+            position: relative;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 30px;
+        }
+        .search-input {
+            width: 100%;
+            padding: 15px 25px 15px 60px;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 30px;
+            outline: none;
+            transition: all 0.3s ease;
+            background-color: white;
+        }
+        .search-input:focus {
+            box-shadow: 0 0 20px rgba(74, 144, 226, 0.3);
+        }
+        .search-icon {
+            position: absolute;
+            left: 25px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary-color);
+            font-size: 1.3rem;
+        }
+        .search-results {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background-color: white;
+            border-radius: 0 0 15px 15px;
+            max-height: 300px;
+            overflow-y: auto;
+            display: none;
+            z-index: 1000;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        .search-result-item {
+            padding: 12px 25px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .search-result-item:hover {
+            background-color: #f0f0f0;
+        }
+        .search-message {
+            text-align: center;
+            padding: 20px;
+            font-style: italic;
+            color: var(--text-light);
+        }
+        footer {
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            color: white;
+            padding: 40px 0;
+            margin-top: 60px;
+        }
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            margin-left: 60px;
+        }
+        .footer-content .footer-section p {
+            text-align: justify;
+            width: 75%; /* Điều chỉnh chiều rộng tùy ý */
+        }
+        
+        .footer-section {
+            flex: 1;
+            margin-right: 30px;
+            margin-bottom: 20px;
+        }
+        .footer-section:last-child {
+            margin-right: 0;
+        }
+        .footer-section h3 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+        }
+        .footer-section p, .footer-section ul {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+        }
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+        .footer-section ul li a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+        .footer-section ul li a:hover {
+            opacity: 1;
+        }
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .social-icons a {
+            color: white;
+            font-size: 1.5rem;
+            transition: transform 0.2s;
+        }
+        .social-icons a:hover {
+            transform: translateY(-3px);
+        }
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            margin-top: 40px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+        @media (max-width: 768px) {
+            .grid-container {
+                grid-template-columns: 1fr;
+            }
+            h1 {
+                font-size: 2.5rem;
+            }
+            .subtitle {
+                font-size: 1rem;
+            }
+            .search-input {
+                font-size: 1rem;
+                padding: 12px 20px 12px 50px;
+            }
+            .search-icon {
+                left: 20px;
+                font-size: 1.1rem;
+            }
+            .footer-section {
+                flex: 0 0 100%;
+                margin-right: 0;
+            }
+        }
+        .level-indicator {
+            display: inline-flex;
+            align-items: center;
+        }
+    
+        .level-indicator i {
+            margin-right: 5px;
+        }
+    
+        .level-basic i {
+            color: #43a047; /* Màu xanh lá mạnh mẽ hơn */
+        }
+        
+        .level-intermediate i {
+            color: #1e88e5; /* Màu xanh lam tươi sáng */
+        }
+        
+        .level-advanced i {
+            color: #ef6c00; /* Màu cam mạnh và ấm hơn */
+        }
+        
+        .level-expert i {
+            color: #e53935; /* Màu đỏ rực rỡ */
+        }
+        
+        .level-master i {
+            color: #8e24aa; /* Màu tím tươi sáng hơn */
+        }
+            
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 40px;
+        }
+        .pagination button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            margin: 0 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .pagination button:hover {
+            background-color: var(--secondary-color);
+        }
+        .pagination button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .btn-all-lessons {
+            position: absolute; /* Đặt nút ở vị trí tuyệt đối */
+            top: 20px; /* Căn chỉnh từ trên xuống */
+            right: 20px; /* Căn chỉnh từ bên phải */
+            padding: 10px 20px; /* Khoảng cách bên trong của nút */
+            background-color: #007bff; /* Màu nền của nút */
+            color: white; /* Màu chữ của nút */
+            border: none; /* Bỏ viền */
+            border-radius: 5px; /* Bo góc */
+            cursor: pointer; /* Con trỏ khi di chuột vào nút */
+            transition: background-color 0.3s; /* Hiệu ứng chuyển đổi màu nền */
+        }
+        
+        .btn-all-lessons:hover {
+            background-color: #0056b3; /* Màu nền khi di chuột vào nút */
+        }
+                
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Danh Sách Bài Học</h1>
+        <p class="subtitle">Khám phá và nâng cao kiến thức của bạn với kho tài nguyên học tập phong phú</p>
+        <a href="/lessons" class="btn-all-lessons">Tất cả bài học</a> <!-- Thay đổi từ button thành a -->
+    </header>
+    
+    <div class="container">
+        <div class="search-container" data-aos="fade-up" data-aos-delay="200">
+            <div class="search-wrapper">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" class="search-input" placeholder="Tìm kiếm bài học...">
+            </div>
+            <div class="search-results"></div>
+        </div>
+
+        <div class="grid-container" id="lessonsContainer">
+            <% lessons.slice().reverse().map((lesson, index, array) => { %>
+                <a href="/lessons/detail/<%= lesson.id %>" data-aos="fade-up" data-aos-delay="<%= 100 + (index * 50) %>">
+                    <div class="lesson-card">
+                        <div class="card-image">
+                            <% if (lesson.firstImageUrl) { %>
+                                <img src="<%= lesson.firstImageUrl %>" alt="<%= lesson.title %>" onerror="this.onerror=null; this.parentNode.innerHTML='<i class=\'fas fa-book-open\'></i>';">
+                            <% } else { %>
+                                <i class="fas fa-book-open"></i>
+                            <% } %>
+                        </div>
+                        <div class="card-content">
+                            <h2>Bài <%= array.length - index %>: <%= lesson.title %></h2>
+                            <p><%= lesson.description %></p>
+                            <div class="lesson-info">
+                                <%
+                                function stripHtml(html) {
+                                    return html.replace(/<[^>]*>/g, '');
+                                }
+                        
+                                const contentText = stripHtml(lesson.content);
+                                const wordCount = contentText.trim().split(/\s+/).length;                                    let timeEstimate, level, levelClass;
+                                    if (wordCount <= 2000) {
+                                        timeEstimate = '15 phút';
+                                        level = 'Cơ bản';
+                                        levelClass = 'level-basic';
+                                    } else if (wordCount <= 4000) {
+                                        timeEstimate = '20 phút';
+                                        level = 'Trung cấp';
+                                        levelClass = 'level-intermediate';
+                                    } else if (wordCount <= 6000) {
+                                        timeEstimate = '25 phút';
+                                        level = 'Nâng cao';
+                                        levelClass = 'level-advanced';
+                                    } else if (wordCount <= 8000) {
+                                        timeEstimate = '30 phút';
+                                        level = 'Chuyên sâu';
+                                        levelClass = 'level-expert';
+                                    } else {
+                                        timeEstimate = '35 phút';
+                                        level = 'Chuyên gia';
+                                        levelClass = 'level-master';
+                                    }
+                                %>
+                                <span><i class="far fa-clock"></i> <%= timeEstimate %></span>
+                                <span class="level-indicator <%= levelClass %>"><i class="fas fa-signal"></i> <%= level %></span>
+                                <span><i class="fas fa-font"></i> Số từ: <%= wordCount %></span>
+
+                            </div>
+                            <div style="text-align: right; margin-top: 20px;">
+                                <span class="btn-view">Xem bài học</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            <% }) %>
+        </div>
+    </div>
+    <div class="pagination">
+        <button id="prevPage" disabled>Trang trước</button>
+        <span id="currentPage">Trang 1</span>
+        <button id="nextPage">Trang sau</button>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Về Chúng Tôi</h3>
+                <p>Cường Nguyễn luôn đồng hành cùng bạn trên hành trình chinh phục tiếng Anh với những tài liệu học tập thiết thực. Chúng tôi tin rằng, việc học tiếng Anh cần phải thú vị và linh hoạt, phù hợp với từng cấp độ và nhu cầu của người học. Đội ngũ của chúng tôi không ngừng nỗ lực để mang lại những giải pháp học tập hiệu quả nhất, giúp bạn tiến bộ nhanh chóng.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Liên Kết Nhanh</h3>
+                <ul>
+                    <li><a href="/lessons">Trang chủ</a></li>
+                    <li><a href="/">Khóa học</a></li>
+                    <li><a href="https://www.facebook.com/groups/235552804896423?fbclid=IwY2xjawGBzERleHRuA2FlbQIxMAABHd-qM80CxD8WkbHlsnjNXFWr3kXuR1l4jy0TU3uQu5ODn16tKSDC9n_xoA_aem_z1VIi6NvhYc4AjTX3njadg">Blog</a></li>
+                    <li><a href="https://www.facebook.com/09nmc">Liên hệ</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Liên Hệ</h3>
+                <p>Email: minhph313@gmai.com</p>
+                <p>Điện thoại: +84 36 244 3830</p>
+                <div class="social-icons">
+                    <a href="https://www.facebook.com/09nmc"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2024 Cường Nguyễn. Tất cả quyền được bảo lưu.
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            AOS.init({
+                duration: 800,
+                easing: 'ease-in-out',
+                once: true
+            });
+        
+            const searchInput = document.querySelector('.search-input');
+            const searchResults = document.querySelector('.search-results');
+            const lessonsContainer = document.getElementById('lessonsContainer');
+            const lessons = <%- JSON.stringify(lessons) %>;
+            const prevPageBtn = document.getElementById('prevPage');
+            const nextPageBtn = document.getElementById('nextPage');
+            const currentPageSpan = document.getElementById('currentPage');
+            const LESSONS_PER_PAGE = 40;
+            let currentPage = 1;
+                // Sắp xếp lessons theo updatedAt từ mới đến cũ
+    lessons.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
+
+            let totalPages = Math.ceil(lessons.length / LESSONS_PER_PAGE);
+        
+            function createLessonCard(lesson, index, totalLessons) {
+                return `
+                    <div class="lesson-card-wrapper" data-lesson-id="${lesson.id}">
+                        <a href="/lessons/detail/${lesson.id}" class="lesson-link" data-aos="fade-up" data-aos-delay="${100 + (index * 50)}">
+                            <div class="lesson-card">
+                                <div class="card-image">
+                                    ${lesson.firstImageUrl 
+                                        ? `<img src="${lesson.firstImageUrl}" alt="${lesson.title}" onerror="this.onerror=null; this.parentNode.innerHTML='<i class=\'fas fa-book-open\'></i>';">`
+                                        : '<i class="fas fa-book-open"></i>'}
+                                </div>
+                                <div class="card-content">
+                                    <h2>Bài ${totalLessons - index}: ${lesson.title}</h2>
+                                    <p>${lesson.description}</p>
+                                    <div class="lesson-info">
+                                        ${getLessonInfo(lesson)}
+                                    </div>
+                                    <div class="lesson-actions">
+                                        <span class="view-count"><strong>Lượt xem:</strong> <span class="viewer-count">${lesson.viewer || 0}</span></span>
+                                        <span class="btn-view">Xem bài học</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                `;
+            }
+            
+            // Event delegation cho click handling
+            document.addEventListener('click', async function(e) {
+                const link = e.target.closest('.lesson-link');
+                if (!link) return;
+                
+                e.preventDefault();
+            
+                const lessonCard = link.closest('.lesson-card-wrapper');
+                const lessonId = lessonCard.dataset.lessonId;
+                const viewerElement = lessonCard.querySelector('.viewer-count');
+                const currentViews = parseInt(viewerElement.textContent) || 0;
+            
+                try {
+                    // Gọi API để cập nhật lượt xem
+                    const response = await fetch('/api/lessons/update-view', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            lessonId,
+                            currentViews
+                        })
+                    });
+            
+                    const result = await response.json();
+            
+                    if (!response.ok) {
+                        throw new Error(result.error || 'Failed to update view count');
+                    }
+            
+                    // Cập nhật UI với số lượt xem mới
+                    viewerElement.textContent = result.newViewCount;
+            
+                    // Delay nhỏ trước khi chuyển trang
+                    setTimeout(() => {
+                        window.location.href = link.href;
+                    }, 100);
+            
+                } catch (error) {
+                    console.error('Error updating view count:', error);
+                    // Vẫn chuyển trang dù có lỗi
+                    window.location.href = link.href;
+                }
+            });
+            function getLessonInfo(lesson) {
+                function stripHtml(html) {
+                    return html.replace(/<[^>]*>/g, '');
+                }
+        
+                const contentText = stripHtml(lesson.content);
+                const wordCount = contentText.trim().split(/\s+/).length;
+                let timeEstimate, level, levelClass;
+                    if (wordCount <= 2000) {
+                        timeEstimate = '15 phút';
+                        level = 'Cơ bản';
+                        levelClass = 'level-basic';
+                    } else if (wordCount <= 4000) {
+                        timeEstimate = '20 phút';
+                        level = 'Trung cấp';
+                        levelClass = 'level-intermediate';
+                    } else if (wordCount <= 6000) {
+                        timeEstimate = '25 phút';
+                        level = 'Nâng cao';
+                        levelClass = 'level-advanced';
+                    } else if (wordCount <= 8000) {
+                        timeEstimate = '30 phút';
+                        level = 'Chuyên sâu';
+                        levelClass = 'level-expert';
+                    } else {
+                        timeEstimate = '35 phút';
+                        level = 'Chuyên gia';
+                        levelClass = 'level-master';
+                    }
+                return `
+                    <span><i class="far fa-clock"></i> ${timeEstimate}</span>
+                    <span class="level-indicator ${levelClass}">
+                        <i class="fas fa-signal"></i> ${level}
+                    </span>
+                `;
+            }
+        
+            function displayLessons(page, filteredLessons = lessons) {
+                const startIndex = (page - 1) * LESSONS_PER_PAGE;
+                const endIndex = startIndex + LESSONS_PER_PAGE;
+                const pageItems = filteredLessons.slice(startIndex, endIndex);
+        
+                lessonsContainer.innerHTML = pageItems.map((lesson, index) => 
+                    createLessonCard(lesson, startIndex + index, filteredLessons.length)
+                ).join('');
+        
+                totalPages = Math.ceil(filteredLessons.length / LESSONS_PER_PAGE);
+                currentPageSpan.textContent = `Trang ${page}/${totalPages}`;
+                prevPageBtn.disabled = page === 1;
+                nextPageBtn.disabled = endIndex >= filteredLessons.length;
+        
+                AOS.refresh();
+            }
+        
+            function performSearch(searchTerm) {
+                const filteredLessons = lessons.filter(lesson => 
+                    lesson.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    lesson.description.toLowerCase().includes(searchTerm.toLowerCase())
+                );
+        
+                if (filteredLessons.length > 0) {
+                    currentPage = 1;
+                    displayLessons(currentPage, filteredLessons);
+                } else {
+                    lessonsContainer.innerHTML = '<div class="search-message" data-aos="fade-up">Không tìm thấy kết quả phù hợp.</div>';
+                    currentPageSpan.textContent = 'Trang 0/0';
+                    prevPageBtn.disabled = true;
+                    nextPageBtn.disabled = true;
+                }
+            }
+        
+            prevPageBtn.addEventListener('click', () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    displayLessons(currentPage);
+                }
+            });
+        
+            nextPageBtn.addEventListener('click', () => {
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    displayLessons(currentPage);
+                }
+            });
+        
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                if (searchTerm.length < 2) {
+                    searchResults.style.display = 'none';
+                    return;
+                }
+        
+                const filteredLessons = lessons.filter(lesson => 
+                    lesson.title.toLowerCase().includes(searchTerm) ||
+                    lesson.description.toLowerCase().includes(searchTerm)
+                );
+        
+                if (filteredLessons.length > 0) {
+                    searchResults.innerHTML = filteredLessons.map(lesson => `
+                        <div class="search-result-item" data-id="${lesson.id}">
+                            ${lesson.title}
+                        </div>
+                    `).join('');
+                    searchResults.style.display = 'block';
+                } else {
+                    searchResults.innerHTML = '<div class="search-result-item">Không tìm thấy kết quả</div>';
+                    searchResults.style.display = 'block';
+                }
+            });
+        
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    performSearch(this.value);
+                    searchResults.style.display = 'none';
+                }
+            });
+        
+            searchResults.addEventListener('click', function(e) {
+                if (e.target.classList.contains('search-result-item')) {
+                    const lessonId = e.target.getAttribute('data-id');
+                    if (lessonId) {
+                        window.location.href = `/lessons/detail/${lessonId}`;
+                    }
+                }
+                searchInput.value = '';
+                searchResults.style.display = 'none';
+            });
+        
+            document.addEventListener('click', function(e) {
+                if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+                    searchResults.style.display = 'none';
+                }
+            });
+        
+            // Hiển thị trang đầu tiên khi trang web được tải
+            displayLessons(currentPage);
+        });
+
+        
+        </script>
+</body>
+</html>

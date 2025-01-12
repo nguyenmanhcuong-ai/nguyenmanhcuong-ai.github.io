@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chứng nhận tốt nghiệp</title>
+    <link rel="icon" href="/uploads/MC2.png" type="image/x-icon">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/evidenceprime/html-docx-js/dist/html-docx.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Satisfy&display=swap');
+
+        
+        body {
+            font-family: 'Times New Roman', serif;
+            background: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .certificate-container {
+            width: 850px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 50px;
+            position: relative;
+            border: 2px solid #c4a856;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+
+        /* Trang trí viền */
+        .certificate-container::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            bottom: 20px;
+            border: 3px double #c4a856;
+        }
+
+        /* Logo và header */
+        .certificate-header {
+            text-align: center;
+            position: relative;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+        }
+
+        .school-logo {
+            width: 10px; /* Giảm kích thước ngang */
+            height: 10px; /* Giảm kích thước dọc */
+            margin: 0 auto 20px;
+            background: #f8f8f8;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #c4a856;
+        }
+        
+        .school-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .certificate-title {
+            font-family: 'Playfair Display', serif;
+            color: #c4a856;
+            font-size: 48px;
+            margin: 10px 0;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            font-weight: 700;
+        }
+
+        /* Nội dung chính */
+        .certificate-body {
+            text-align: center;
+            margin: 40px 0;
+            position: relative;
+            z-index: 1;
+            margin-top: -50px;
+        }
+
+        .student-name {
+            font-size: 42px;
+            color: #2c3e50;
+            margin: 30px 0;
+            font-weight: bold;
+            font-family: 'Satisfy', cursive;
+        }
+        
+        .certificate-text {
+            font-size: 20px;
+            line-height: 1.8;
+            color: #34495e;
+            margin: 20px 0;
+            margin-top: -20px
+        }
+
+        .graduation-status {
+            font-size: 28px;
+            color: #c4a856;  /* Gold/bronze color */
+            margin: 30px 0;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: -5px;
+        }
+
+        .stamp {
+            font-size: 28px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #D23;
+            border: 0.25rem solid #D23;
+            display: inline-block;
+            padding: 0.25rem 1rem;
+            text-transform: uppercase;
+            border-radius: 1rem;
+            font-family: 'Courier New', monospace;
+            -webkit-mask-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADCAYAAABWKLW/AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAB9JREFUeNpi+P//fwMTAwMDExAzAAWQGKaBAgABBgBAeQv8q8cGAAAAAElFTkSuQmCC');
+            -webkit-mask-size: 3px 3px;
+            transform: rotate(-5deg);
+            opacity: 0.9;
+        }
+        
+        /* Hiệu ứng rung nhẹ khi hover */
+        .stamp:hover {
+            animation: shake 0.5s;
+            animation-iteration-count: 1;
+        }
+        
+        @keyframes shake {
+            0% { transform: rotate(-5deg); }
+            25% { transform: rotate(-7deg); }
+            50% { transform: rotate(-5deg); }
+            75% { transform: rotate(-3deg); }
+            100% { transform: rotate(-5deg); }
+        }
+        /* Thông tin chi tiết */
+        .details-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin: 40px 0;
+            text-align: left;
+            border: 1px solid #eee;
+            padding: 20px;
+            background: #fafafa;
+            margin-top: -20px
+        }
+
+        .detail-item {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            font-size: 18px;
+            color: #2c3e50;
+        }
+
+        /* Đánh giá */
+        .evaluation-section {
+            margin: 40px 0;
+            text-align: left;
+            margin-top: -10px;
+        }
+
+        .evaluation-section h3 {
+            color: #2c3e50;
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-bottom: 2px solid #c4a856;
+            padding-bottom: 10px;
+        }
+
+        .evaluation-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .evaluation-item {
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #eee;
+            font-size: 16px;
+            color: #2c3e50;
+        }
+
+        /* Footer */
+        .certificate-footer {
+            text-align: right;
+            margin-top: 60px;
+            position: relative;
+        }
+
+        .certificate-footer p {
+            margin: 10px 0;
+            font-size: 18px;
+            color: #2c3e50;
+        }
+
+        .seal {
+            position: absolute;
+            bottom: 60px;
+            left: 60px;
+            width: 120px;
+            height: 120px;
+            border: 3px solid #cc0000;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: #cc0000;
+            transform: rotate(-15deg);
+            background: rgba(204, 0, 0, 0.05);
+        }
+
+        .seal::before {
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
+            border: 1px solid #cc0000;
+            border-radius: 50%;
+        }
+
+        .seal::after {
+            content: '';
+            position: absolute;
+            top: -6px;
+            left: -6px;
+            right: -6px;
+            bottom: -6px;
+            border: 1px dashed #cc0000;
+            border-radius: 50%;
+            opacity: 0.5;
+        }
+
+
+        /* Nút điều khiển */
+        .button-container {
+            text-align: center;
+            margin-top: 30px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .export-button {
+            padding: 12px 25px;
+            background: #c4a856;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .export-button:hover {
+            background: #b39447;
+            transform: translateY(-2px);
+        }
+
+        .back-button {
+            padding: 12px 25px;
+            background: #95a5a6;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .back-button:hover {
+            background: #7f8c8d;
+            transform: translateY(-2px);
+        }
+
+        /* Watermark */
+        .watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            font-size: 150px;
+            color: rgba(196, 168, 86, 0.05);
+            pointer-events: none;
+            white-space: nowrap;
+            text-transform: uppercase;
+        }
+
+        @media print {
+            .button-container {
+                display: none;
+            }
+            body {
+                padding: 0;
+                background: white;
+            }
+            .certificate-container {
+                box-shadow: none;
+            }
+        }
+
+        .school-logo {
+            width: 100px; /* Kích thước ngang */
+            height: 100px; /* Kích thước dọc */
+            margin: 0 auto 20px;
+            background: #ffffff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #c4a856;
+        }
+        
+        .school-logo img {
+            max-width: 70%; /* Đảm bảo ảnh không vượt quá kích thước chứa */
+            height: auto; /* Giữ tỉ lệ khung hình */
+        }
+                
+        .edit-mode {
+            border: 2px dashed #c4a856;
+            padding: 5px;
+            cursor: pointer;
+        }
+
+        .edit-input {
+            font-size: inherit;
+            font-family: inherit;
+            color: inherit;
+            background: transparent;
+            border: 1px solid #c4a856;
+            padding: 5px;
+            width: 90%;
+        }
+
+        .save-button {
+            padding: 12px 25px;
+            background: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 0 10px;
+        }
+
+        .save-button:hover {
+            background: #219a52;
+            transform: translateY(-2px);
+        }
+
+        .edit-button {
+            padding: 12px 25px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 0 10px;
+        }
+
+        .edit-button:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+        .edit-input {
+            position: relative;
+            z-index: 100;
+            pointer-events: auto !important;
+            cursor: text !important;
+            padding: 2px 4px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            background: white;
+            min-width: 200px;
+            margin-left: 5px;
+        }
+        
+        .evaluation-item {
+            margin: 10px 0;
+            position: relative;
+        }
+        
+        /* Đảm bảo không có element nào đè lên input */
+        * {
+            pointer-events: auto;
+        }        .edit-input:focus {
+            outline: none;
+            border-color: #b39447;
+            box-shadow: 0 0 5px rgba(196, 168, 86, 0.3);
+        }
+        
+        .evaluation-item.editing {
+            background: #fff;
+        }
+        
+        .save-button {
+            padding: 12px 25px;
+            background: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 0 10px;
+        }
+        
+        .save-button:hover {
+            background: #219a52;
+            transform: translateY(-2px);
+        }
+        
+        .highlight1 {
+            margin-right: 2cm;  /* Khoảng cách bên phải cho phần "Xếp loại" */
+            font-size: 22px;     /* Kích thước chữ lớn hơn */
+            line-height: 1.6;    /* Chiều cao dòng tốt hơn */
+            color: #f3170f;      /* Màu đỏ sáng hơn */
+            font-weight: bold;   /* In đậm chữ */
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); /* Bóng chữ nhẹ */
+        }
+        
+        .highlight2 {
+            font-size: 22px;     /* Kích thước chữ lớn hơn */
+            line-height: 1.6;    /* Chiều cao dòng tốt hơn */
+            color: #f3170f;      /* Màu đỏ sáng hơn */
+            font-weight: bold;   /* In đậm chữ */
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); /* Bóng chữ nhẹ */
+        }
+        
+        .graduation-toggle {
+            padding: 12px 25px;
+            background: <%= graduation.isLocked ? '#22c55e' : '#ef4444' %>;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .graduation-toggle:hover {
+            transform: translateY(-2px);
+            background: <%= graduation.isLocked ? '#16a34a' : '#dc2626' %>;
+        }
+    </style>
+</head>
+<body>
+    <div class="certificate-container" id="certificate">
+        <div class="watermark">MC English</div>
+        
+        <div class="certificate-header">
+            <div class="school-logo">
+                <img src="/uploads/MC.png" alt="MC English Logo" />
+            </div>
+            <div class="certificate-title">Chứng nhận tốt nghiệp</div>
+        </div>
+        
+        <div class="certificate-body">
+            <div class="student-name"><%= student.fullname %></div>
+            <div class="certificate-text">
+                Đã hoàn thành chương trình đào tạo <strong><em><%= className %></em></strong> theo quy định và được công nhận.
+            </div>
+            <div class="graduation-status">
+                <%= graduation.isgraduation ? 'ĐÃ TỐT NGHIỆP' : 'CHƯA TỐT NGHIỆP' %>
+            </div>
+            <div class="highlight">
+                <span class="highlight1">Xếp loại: <%= graduation.rank !== null ? graduation.rank : 'Chưa xếp loại' %></span>
+                <span class="highlight2">GPA: <%= gpa !== null ? gpa : 'Chưa có điểm' %></span>
+            </div>
+        </div>
+        <div class="evaluation-section">
+            <h3>Thông tin sinh viên</h3>
+        </div>
+
+        <div class="details-grid">
+            <div class="detail-item"><strong>ID Sinh viên:</strong> <%= student.iduser %></div>
+            <div class="detail-item"><strong>Email:</strong> <%= student.email %></div>
+            <div class="detail-item"><strong>Điện thoại:</strong> <%= student.phone %></div>
+            <div class="detail-item"><strong>Nơi cư trú:</strong> <%= student.current_residence %></div>
+                    </div>
+
+        <div class="evaluation-section">
+            <h3>Kết quả đánh giá</h3>
+            <div class="evaluation-grid">
+                <% for(let i = 1; i <= 12; i++) { %>
+                    <div class="evaluation-item">
+                        <strong>Tháng <%= i %>:</strong> <%= graduation['evaluation' + i] || 'Chưa có đánh giá' %>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+        
+        <div class="certificate-footer"style="margin-top: -20px;">
+            <p style="font-style: italic; margin-right: 25px;">Ngày cấp: <%= new Date().toLocaleDateString('vi-VN') %></p>
+            <!-- Chèn ảnh chữ ký -->
+            <img src="/uploads/sign.png" alt="Chữ ký" style="width: 200px; height: auto; margin-bottom: 20px;">
+        
+            <p style="font-weight: bold; margin-top: -5px;">GV. Cường Mạnh Nguyễn</p>
+        </div>
+        
+        
+        <div class="seal">
+            <strong>MC ENGLISH<br>ĐÃ ĐÓNG DẤU</strong>
+        </div>
+    </div>  <!-- Đóng certificate-container ở đây -->
+        
+    <div class="button-container">
+        <button class="export-button" onclick="exportToPDF()">Xuất PDF</button>
+        <button class="back-button" onclick="window.history.back()">Quay lại</button>
+        <button class="edit-button" onclick="toggleEditMode()">Chỉnh sửa</button>
+        <button class="save-button" onclick="saveChanges()" style="display: none;">Lưu thay đổi</button>
+        <button id="graduationToggle" class="graduation-toggle" onclick="toggleGraduation()">
+            <%= graduation.isLocked ? 'Mở khóa tốt nghiệp' : 'Khóa tốt nghiệp' %>
+        </button>
+    
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        async function exportToPDF() {
+            const { jsPDF } = window.jspdf;
+            const certificate = document.getElementById('certificate');
+            
+            try {
+                const canvas = await html2canvas(certificate, {
+                    scale: 2,
+                    useCORS: true,
+                    logging: false
+                });
+
+                const pdf = new jsPDF('p', 'mm', 'a4');
+                const imgWidth = 210;
+                const imgHeight = canvas.height * imgWidth / canvas.width;
+                
+                pdf.addImage(
+                    canvas.toDataURL('image/jpeg', 1.0),
+                    'JPEG',
+                    0,
+                    0,
+                    imgWidth,
+                    imgHeight
+                );
+
+                pdf.save('chung-nhan-tot-nghiep_<%= student.fullname %>_<%=student.iduser%>_<%=className%>.pdf');
+            } catch (error) {
+                console.error('Lỗi khi xuất PDF:', error);
+                alert('Có lỗi xảy ra khi xuất PDF. Vui lòng thử lại.');
+            }
+        }
+        
+
+        let isEditMode = false;
+
+        function toggleEditMode() {
+            isEditMode = !isEditMode;
+            const editButton = document.querySelector('.edit-button');
+            const saveButton = document.querySelector('.save-button');
+            
+            // Toggle buttons visibility
+            editButton.style.display = isEditMode ? 'none' : 'inline-block';
+            saveButton.style.display = isEditMode ? 'inline-block' : 'none';
+        
+                // Toggle graduation status edit
+    const graduationStatus = document.querySelector('.graduation-status');
+    if (isEditMode) {
+        const isGraduated = graduationStatus.textContent.trim() === 'ĐÃ TỐT NGHIỆP';
+        graduationStatus.innerHTML = `
+            <select class="edit-input graduation-select">
+                <option value="true" ${isGraduated ? 'selected' : ''}>ĐÃ TỐT NGHIỆP</option>
+                <option value="false" ${!isGraduated ? 'selected' : ''}>CHƯA TỐT NGHIỆP</option>
+            </select>
+        `;
+    } else {
+        const select = graduationStatus.querySelector('select');
+        if (select) {
+            const value = select.value === 'true' ? 'ĐÃ TỐT NGHIỆP' : 'CHƯA TỐT NGHIỆP';
+            graduationStatus.textContent = value;
+            // Cập nhật giá trị graduation.isgraduation
+            // Bạn có thể thêm code để lưu giá trị này vào database ở đây
+        }
+    }
+
+            
+            // Make rank editable
+            const rankSpan = document.querySelector('.highlight1');
+            if (isEditMode) {
+                const currentRank = rankSpan.textContent.replace('Xếp loại: ', '').trim();
+                rankSpan.innerHTML = `Xếp loại: <input type="text" class="edit-input" value="${currentRank}">`;
+            } else {
+                const input = rankSpan.querySelector('input');
+                if (input) {
+                    rankSpan.textContent = `Xếp loại: ${input.value}`;
+                }
+            }
+        
+            // Make evaluations editable
+            const evaluationItems = document.querySelectorAll('.evaluation-item');
+            evaluationItems.forEach((item, index) => {
+                const evaluationNumber = index + 1;
+                if (isEditMode) {
+                    const currentEval = item.textContent.replace(`Tháng ${evaluationNumber}:`, '').trim();
+                    const inputHTML = `
+                        <strong>Tháng ${evaluationNumber}:</strong>
+                        <input type="text" 
+                            class="edit-input"
+                            data-evaluation="${evaluationNumber}"
+                            value="${currentEval === 'Chưa có đánh giá' ? '' : currentEval}"
+                            style="margin-left: 5px;"
+                        >
+                    `;
+                    item.innerHTML = inputHTML;
+                    
+                    // Thêm event listener cho input
+                    const input = item.querySelector('input');
+                    input.addEventListener('click', (e) => {
+                        e.stopPropagation(); // Ngăn chặn sự kiện click từ việc lan truyền
+                    });
+                } else {
+                    const input = item.querySelector('input');
+                    if (input) {
+                        const value = input.value || 'Chưa có đánh giá';
+                        item.innerHTML = `<strong>Đánh giá ${evaluationNumber}:</strong> ${value}`;
+                    }
+                }
+            });
+        }        // Function to get idclass from URL
+function getIdClassFromURL() {
+    const url = window.location.href;
+    const parts = url.split('/');
+    return parts[parts.length - 1]; // Lấy phần cuối cùng của URL làm idclass
+}
+
+async function saveChanges() {
+    try {
+        // Hiện dialog xác nhận trước khi lưu
+        const confirmResult = await Swal.fire({
+            title: 'Xác nhận lưu thay đổi',
+            text: 'Bạn có chắc chắn muốn lưu các thông tin này?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Đồng ý',
+            cancelButtonText: 'Hủy'
+        });
+
+        // Nếu người dùng không xác nhận, dừng lại
+        if (!confirmResult.isConfirmed) {
+            return;
+        }
+
+        // Collect all the edited data
+        const rankInput = document.querySelector('.highlight1 input');
+        const rank = rankInput ? rankInput.value : '';
+        const evaluations = {};
+        
+        document.querySelectorAll('.evaluation-item input').forEach((input, index) => {
+            evaluations[`evaluation${index + 1}`] = input.value || null;
+        });
+
+        // Get graduation status value
+        const graduationSelect = document.querySelector('.graduation-select');
+        const isGraduation = graduationSelect ? graduationSelect.value === 'true' : false;
+
+        // Get idclass from URL
+        const idclass = getIdClassFromURL();
+
+        // Prepare the data
+        const updateData = {
+            idclass: idclass,
+            iduser: '<%= student.iduser %>',
+            rank: rank,
+            isgraduation: isGraduation,
+            ...evaluations
+        };
+        
+        console.log('Data to update:', updateData);
+
+        // Hiển thị loading spinner
+        Swal.fire({
+            title: 'Đang xử lý',
+            html: 'Vui lòng chờ trong giây lát...',
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
+
+        // Send request to backend
+        const response = await fetch('/api/update-graduation', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(updateData)
+        });
+
+        const result = await response.json();
+
+        if (!result.success) {
+            throw new Error(result.message);
+        }
+
+        // Hiển thị thông báo thành công
+        await Swal.fire({
+            title: 'Thành công!',
+            text: 'Cập nhật thông tin thành công',
+            icon: 'success',
+            confirmButtonText: 'Đóng'
+        });
+
+        toggleEditMode();
+        location.reload();
+
+    } catch (error) {
+        console.error('Error saving changes:', error);
+        
+        // Hiển thị thông báo lỗi
+        await Swal.fire({
+            title: 'Lỗi!',
+            text: 'Có lỗi xảy ra khi lưu thay đổi: ' + error.message,
+            icon: 'error',
+            confirmButtonText: 'Đóng'
+        });
+    }
+}
+
+function getIdClassFromURL1() {
+    const pathParts = window.location.pathname.split('/');
+    // Giả sử URL có dạng: /graduation/:iduser/:idclass
+    const iduser = pathParts[2];  // Phần tử thứ 3 trong mảng
+    const idclass = pathParts[3]; // Phần tử thứ 4 trong mảng
+    return { iduser, idclass };
+}
+//khoa mo tot nghiep
+async function toggleGraduation() {
+    const button = document.getElementById('graduationToggle');
+    
+    // Kiểm tra trạng thái hiện tại của nút
+    const isCurrentlyLocked = button.textContent.includes('Mở khóa');  // Nếu có chữ 'Mở khóa' thì hiện đang khóa
+
+    // Lấy iduser và idclass từ URL
+    const { iduser, idclass } = getIdClassFromURL1();
+
+    if (!iduser || !idclass) {
+        console.error('Không tìm thấy iduser hoặc idclass');
+        return; // Ngăn tiếp tục nếu không có iduser hoặc idclass
+    }
+
+    if (!isCurrentlyLocked) {
+        // Đang khóa tốt nghiệp
+        const result = await Swal.fire({
+            title: 'Xác nhận khóa tốt nghiệp?',
+            text: 'Sinh viên sẽ không thể xem được trang tốt nghiệp sau khi khóa',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#ef4444',
+            cancelButtonColor: '#6b7280',
+            confirmButtonText: 'Khóa',
+            cancelButtonText: 'Hủy'
+        });
+
+        if (result.isConfirmed) {
+            try {
+                // Hiển thị loading
+                Swal.fire({
+                    title: 'Đang xử lý',
+                    html: 'Vui lòng chờ trong giây lát...',
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+
+                const response = await fetch('/api/graduation/toggle', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        iduser: iduser,
+                        idclass: idclass,
+                        isLocked: true
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    button.textContent = 'Mở khóa tốt nghiệp';
+                    button.style.background = '#22c55e';
+                    await Swal.fire(
+                        'Đã khóa!',
+                        'Trạng thái tốt nghiệp đã được khóa',
+                        'success'
+                    );
+                } else {
+                    throw new Error(data.message || 'Có lỗi xảy ra khi cập nhật trạng thái');
+                }
+            } catch (error) {
+                console.error('Error toggling graduation:', error);
+                await Swal.fire({
+                    title: 'Lỗi!',
+                    text: error.message,
+                    icon: 'error',
+                    confirmButtonText: 'Đóng'
+                });
+            }
+        }
+    } else {
+        // Đang mở khóa tốt nghiệp
+        const result = await Swal.fire({
+            title: 'Xác nhận mở khóa tốt nghiệp?',
+            text: 'Sinh viên sẽ có thể xem được trang tốt nghiệp sau khi mở khóa',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#22c55e',
+            cancelButtonColor: '#6b7280',
+            confirmButtonText: 'Mở khóa',
+            cancelButtonText: 'Hủy'
+        });
+
+        if (result.isConfirmed) {
+            try {
+                // Hiển thị loading
+                Swal.fire({
+                    title: 'Đang xử lý',
+                    html: 'Vui lòng chờ trong giây lát...',
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+
+                const response = await fetch('/api/graduation/toggle', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        iduser: iduser,
+                        idclass: idclass,
+                        isLocked: false
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    button.textContent = 'Khóa tốt nghiệp';
+                    button.style.background = '#ef4444';
+                    await Swal.fire(
+                        'Đã mở khóa!',
+                        'Trạng thái tốt nghiệp đã được mở khóa',
+                        'success'
+                    );
+                } else {
+                    throw new Error(data.message || 'Có lỗi xảy ra khi cập nhật trạng thái');
+                }
+            } catch (error) {
+                console.error('Error toggling graduation:', error);
+                await Swal.fire({
+                    title: 'Lỗi!',
+                    text: error.message,
+                    icon: 'error',
+                    confirmButtonText: 'Đóng'
+                });
+            }
+        }
+    }
+}
+document.addEventListener('DOMContentLoaded', async () => {
+    // Lấy iduser và idclass từ URL
+    const { iduser, idclass } = getIdClassFromURL1();
+
+    if (!iduser || !idclass) {
+        console.error('Không tìm thấy iduser hoặc idclass');
+        return; // Ngăn tiếp tục nếu không có iduser hoặc idclass
+    }
+
+    try {
+        const response = await fetch(`/api/graduation/status?iduser=${iduser}&idclass=${idclass}`);
+        const data = await response.json();
+        
+        const button = document.getElementById('graduationToggle');
+
+        if (data.isLocked) {
+            button.textContent = 'Mở khóa tốt nghiệp';
+            button.style.background = '#22c55e'; // Màu cho nút mở khóa
+        } else {
+            button.textContent = 'Khóa tốt nghiệp';
+            button.style.background = '#ef4444'; // Màu cho nút khóa
+        }
+    } catch (error) {
+        console.error('Error fetching graduation status:', error);
+    }
+});
+
+</script>
+</body>
+</html>

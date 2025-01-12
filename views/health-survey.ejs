@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Khảo sát sức khỏe sinh viên</title>
+    <link rel="icon" href="/uploads/MC2.png" type="image/x-icon">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <!-- Thêm SweetAlert vào trong <head> -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+        :root {
+            --primary-color: #4a90e2;
+            --secondary-color: #f39c12;
+            --background-color: #f8f9fa;
+            --text-color: #333;
+            --border-color: #e0e0e0;
+        }
+
+        body {
+            font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        h1,
+        h2 {
+            color: var(--primary-color);
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+
+        h2 {
+            margin-top: 40px;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            border-bottom: 2px solid;
+            padding-bottom: 10px;
+            color: rgb(225, 30, 30);
+        }
+
+        .survey-form {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        select,
+        input[type="radio"],
+        input[type="checkbox"] {
+            margin-right: 10px;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            font-size: 16px;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333' d='M10.293 3.293L6 7.586 1.707 3.293A1 1 0 00.293 4.707l5 5a1 1 0 001.414 0l5-5a1 1 0 10-1.414-1.414z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+        }
+
+        .btn-submit {
+            background-color: var(--primary-color);
+            color: #fff;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            display: block;
+            width: 100%;
+            margin-top: 30px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-submit:hover {
+            background-color: #3a7bc8;
+        }
+
+        #results {
+            margin-top: 40px;
+            background-color: #e8f4f8;
+            padding: 30px;
+            border-radius: 10px;
+            display: none;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        #results h2 {
+            color: var(--secondary-color);
+            border-bottom: none;
+        }
+
+        #results ul {
+            padding-left: 20px;
+        }
+
+        #results li {
+            margin-bottom: 15px;
+        }
+
+        #results strong {
+            color: var(--primary-color);
+        }
+
+        .section-icon {
+            font-size: 2em;
+            margin-right: 10px;
+            color: var(--secondary-color);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="container">
+        <h1><i class="fas fa-heartbeat"></i> KHẢO SÁT SỨC KHỎE SINH VIÊN</h1>
+        <form id="extendedHealthSurvey" class="survey-form">
+            <h2>A. Thói quen sinh hoạt</h2>
+            <div class="form-group">
+                <label>1. Bạn thường xuyên vận động thể chất không?</label>
+                <select name="exercise" required>
+                    <option value="">Chọn câu trả lời</option>
+                    <option value="rarely">Hiếm khi</option>
+                    <option value="sometimes">Thỉnh thoảng</option>
+                    <option value="often">Thường xuyên</option>
+                    <option value="daily">Hàng ngày</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>2. Bạn tập thể dục bao nhiêu phút mỗi lần?</label>
+                <select name="exerciseDuration" required>
+                    <option value="">Chọn câu trả lời</option>
+                    <option value="less_than_15">Ít hơn 15 phút</option>
+                    <option value="15_to_30">15-30 phút</option>
+                    <option value="30_to_60">30-60 phút</option>
+                    <option value="more_than_60">Hơn 60 phút</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>3. Bạn thường tham gia những hoạt động thể chất nào?</label>
+                <div>
+                    <input type="checkbox" name="exerciseType" value="walking"> Đi bộ
+                    <input type="checkbox" name="exerciseType" value="running"> Chạy bộ
+                    <input type="checkbox" name="exerciseType" value="swimming"> Bơi lội
+                    <input type="checkbox" name="exerciseType" value="cycling"> Đạp xe
+                    <input type="checkbox" name="exerciseType" value="gym"> Tập gym
+                    <input type="checkbox" name="exerciseType" value="other"> Khác
+                </div>
+            </div>
+            <div class="form-group">
+                <label>4. Bạn ngủ trung bình bao nhiêu giờ mỗi đêm?</label>
+                <select name="sleep" required>
+                    <option value="">Chọn câu trả lời</option>
+                    <option value="less_than_6">Ít hơn 6 giờ</option>
+                    <option value="6_to_7">6-7 giờ</option>
+                    <option value="7_to_8">7-8 giờ</option>
+                    <option value="more_than_8">Hơn 8 giờ</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>5. Chất lượng giấc ngủ của bạn như thế nào?</label>
+                <select name="sleepQuality" required>
+                    <option value="">Chọn câu trả lời</option>
+                    <option value="poor">Kém</option>
+                    <option value="fair">Bình thường</option>
+                    <option value="good">Tốt</option>
+                    <option value="excellent">Rất tốt</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>6. Bạn có thường xuyên sử dụng điện thoại/máy tính trước khi đi ngủ không?</label>
+                <select name="screenTimeBeforeSleep" required>
+                    <option value="">Chọn câu trả lời</option>
+                    <option value="never">Không bao giờ</option>
+                    <option value="rarely">Hiếm khi</option>
+                    <option value="sometimes">Thỉnh thoảng</option>
+                    <option value="often">Thường xuyên</option>
+                    <option value="always">Luôn luôn</option>
+                </select>
+            </div>
+
+            <h2>B. Thói quen ăn uống</h2>
+            <div class="form-group">
+                <label>7. Bạn có thói quen ăn uống lành mạnh không?</label>
+                <select name="diet" required>
+                    <option value="">Chọn câu trả lời</option>
+                    <option value="poor">Kém</option>
+                    <option value="fair">Bình thường</option>
+                    <option value="good">Tốt</option>
+                    <option value="excellent">Rất tốt</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>8. Bạn ăn bao nhiêu bữa chính mỗi ngày?</label>
+                <select name="mealsPerDay" required>
+                    <option value="">Chọn câu trả lời</option>
+                    <option value="1">1 bữa</option>
+                    <option value="2">2 bữa</option>
+                    <option value="3">3 bữa</option>
+                    <option value="more_than_3">Hơn 3 bữa</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>9. Bạn có thường xuyên ăn đồ ăn nhanh không?</label>
+                <select name="fastFood" required>
+                    <option value="">Chọn câu trả lời</option>
+                    <option value="never">Không bao giờ</option>
+                    <option value="rarely">Hiếm khi</option>
+                    <option value="sometimes">Thỉnh thoảng</option>
+                    <option value="often">Thường xuyên</option>
+                    <option value="daily">Hàng ngày</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>10. Bạn có thường xuyên ăn rau xanh và trái cây không?</label>
+                <select name="fruitsAndVegetables" required>
+                    <option value="">Chọn câu trả lời</option>
+                    <option value="rarely">Hiếm khi</option>
+                    <option value="sometimes">Thỉnh thoảng</option>
+                    <option value="often">Thường xuyên</option>
+                    <option value="daily">Hàng ngày</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>11. Bạn có thường xuyên uống nước đủ không?</label>
+                <select name="hydration" required>
+                    <option value="">Chọn câu trả lời</option>
+                    <option value="rarely">Hiếm khi</option>
+                    <option value="sometimes">Thỉnh thoảng</option>
+                    <option value="often">Thường xuyên</option>
+                    <option value="always">Luôn luôn</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>12. Bạn có thường xuyên uống đồ uống có cồn không?</label>
+                <select name="alcohol" required>
+                    <option value="">Chọn câu trả lời</option>
+                    <option value="never">Không bao giờ</option>
+                    <option value="rarely">Hiếm khi</option>
+                    <option value="sometimes">Thỉnh thoảng</option>
+                    <option value="often">Thường xuyên</option>
+                    <option value="daily">Hàng ngày</option>
+                </select>
+            </div>
+
+            <h2>C. Sức khỏe tinh thần và tâm lý</h2>
+            <div class="form-group">
+                <label>13. Mức độ stress của bạn trong học tập?</label>
+                <select name="academicStress" required>
+                    <option value="">Chọn câu trả lời</option>
+                    <option value="low">Thấp</option>
+                    <option value="moderate">Trung bình</option>
+                    <option value="high">Cao</option>
+                    <option value="very_high">Rất cao</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>14. Bạn có thường xuyên cảm thấy lo lắng không?</label>
+                <select name="anxiety" required>
+                    <option value="">Chọn câu trả lời</option>
+                    <option value="rarely">Hiếm khi</option>
+                    <option value="sometimes">Thỉnh thoảng</option>
+                    <option value="often">Thường xuyên</option>
+                    <option value="always">Luôn luôn</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>15. Bạn có thường xuyên cảm thấy buồn chán không?</label>
+                <select name="depression" required>
+                    <option value="">Chọn câu trả lời</option>
+                    <option value="rarely">Hiếm khi</option>
+                    <option value="sometimes">Thỉnh thoảng</option>
+                    <option value="often">Thường xuyên</option>
+                    <option value="always">Luôn luôn</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>16. Bạn có thường xuyên tham gia các hoạt động giải trí hoặc thư giãn không?</label>
+                <select name="leisure" required>
+                    <option value="">Chọn câu trả lời</option>
+                    <option value="rarely">Hiếm khi</option>
+                    <option value="sometimes">Thỉnh thoảng</option>
+                    <option value="often">Thường xuyên</option>
+                    <option value="daily">Hàng ngày</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>17. Bạn có thường xuyên giao tiếp với bạn bè hoặc gia đình không?</label>
+                <select name="socialInteraction" required>
+                    <option value="">Chọn câu trả lời</option>
+                    <option value="rarely">Hiếm khi</option>
+                    <option value="sometimes">Thỉnh thoảng</option>
+                    <option value="often">Thường xuyên</option>
+                    <option value="daily">Hàng ngày</option>
+                </select>
+            </div>
+
+            <h2>D. Sức khỏe thể chất</h2>
+            <div class="form-group">
+                <label>18. Bạn có thường xuyên bị đau đầu không?</label>
+                <select name="headache" required>
+                    <option value="">Chọn câu trả lời</option>
+                    <option value="rarely">Hiếm khi</option>
+                    <option value="sometimes">Thỉnh thoảng</option>
+                    <option value="often">Thường xuyên</option>
+                    <option value="always">Luôn luôn</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>19. Bạn có thường xuyên bị đau lưng hoặc cổ không?</label>
+                <select name="backNeckPain" required>
+                    <option value="">Chọn câu trả lời</option>
+                    <option value="rarely">Hiếm khi</option>
+                    <option value="sometimes">Thỉnh thoảng</option>
+                    <option value="often">Thường xuyên</option>
+                    <option value="always">Luôn luôn</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>20. Bạn có bị các vấn đề về thị lực không?</label>
+                <select name="visionProblems" required>
+                    <option value="">Chọn câu trả lời</option>
+                    <option value="no">Không</option>
+                    <option value="mild">Nhẹ</option>
+                    <option value="moderate">Trung bình</option>
+                    <option value="severe">Nghiêm trọng</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>21. Bạn có thường xuyên bị các vấn đề về tiêu hóa không?</label>
+                <select name="digestiveIssues" required>
+                    <option value="">Chọn câu trả lời</option>
+                    <option value="rarely">Hiếm khi</option>
+                    <option value="sometimes">Thỉnh thoảng</option>
+                    <option value="often">Thường xuyên</option>
+                    <option value="always">Luôn luôn</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>22. Bạn có thường xuyên bị cảm cúm không?</label>
+                <select name="fluFrequency" required>
+                    <option value="">Chọn câu trả lời</option>
+                    <option value="rarely">Hiếm khi</option>
+                    <option value="sometimes">Thỉnh thoảng</option>
+                    <option value="often">Thường xuyên</option>
+                    <option value="very_often">Rất thường xuyên</option>
+                </select>
+            </div>
+
+            <h2>E. Học tập và công việc</h2>
+            <div class="form-group">
+                <label>23. Bạn dành bao nhiêu giờ mỗi ngày để học tập và làm bài tập?</label>
+                <select name="studyHours" required>
+                    <option value="">Chọn câu trả lời</option>
+                    <option value="less_than_2">Ít hơn 2 giờ</option>
+                    <option value="2_to_4">2-4 giờ</option>
+                    <option value="4_to_6">4-6 giờ</option>
+                    <option value="more_than_6">Hơn 6 giờ</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>24. Bạn có thường xuyên trì hoãn công việc không?</label>
+                <select name="procrastination" required>
+                    <option value="">Chọn câu trả lời</option>
+                    <option value="rarely">Hiếm khi</option>
+                    <option value="sometimes">Thỉnh thoảng</option>
+                    <option value="often">Thường xuyên</option>
+                    <option value="always">Luôn luôn</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>25. Bạn có thường xuyên cảm thấy quá tải với công việc học tập không?</label>
+                <select name="academicOverload" required>
+                    <option value="">Chọn câu trả lời</option>
+                    <option value="rarely">Hiếm khi</option>
+                    <option value="sometimes">Thỉnh thoảng</option>
+                    <option value="often">Thường xuyên</option>
+                    <option value="always">Luôn luôn</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>26. Bạn có thường xuyên tham gia các hoạt động ngoại khóa không?</label>
+                <select name="extracurricularActivities" required>
+                    <option value="">Chọn câu trả lời</option>
+                    <option value="never">Không bao giờ</option>
+                    <option value="rarely">Hiếm khi</option>
+                    <option value="sometimes">Thỉnh thoảng</option>
+                    <option value="often">Thường xuyên</option>
+                </select>
+            </div>
+
+            <h2>F. Các thói quen khác</h2>
+            <div class="form-group">
+                <label>27. Bạn có hút thuốc không?</label>
+                <select name="smoking" required>
+                    <option value="">Chọn câu trả lời</option>
+                    <option value="never">Không bao giờ</option>
+                    <option value="occasionally">Thỉnh thoảng</option>
+                    <option value="regularly">Thường xuyên</option>
+                    <option value="trying_to_quit">Đang cố gắng bỏ thuốc</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>28. Bạn có thường xuyên sử dụng mạng xã hội không?</label>
+                <select name="socialMediaUsage" required>
+                    <option value="">Chọn câu trả lời</option>
+                    <option value="rarely">Hiếm khi</option>
+                    <option value="sometimes">Thỉnh thoảng</option>
+                    <option value="often">Thường xuyên</option>
+                    <option value="very_often">Rất thường xuyên</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>29. Bạn có thường xuyên đọc sách (không liên quan đến học tập) không?</label>
+                <select name="reading" required>
+                    <option value="">Chọn câu trả lời</option>
+                    <option value="rarely">Hiếm khi</option>
+                    <option value="sometimes">Thỉnh thoảng</option>
+                    <option value="often">Thường xuyên</option>
+                    <option value="daily">Hàng ngày</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>30. Bạn có thường xuyên tham gia các hoạt động tình nguyện hoặc cộng đồng không?</label>
+                <select name="volunteering" required>
+                    <option value="">Chọn câu trả lời</option>
+                    <option value="never">Không bao giờ</option>
+                    <option value="rarely">Hiếm khi</option>
+                    <option value="sometimes">Thỉnh thoảng</option>
+                    <option value="often">Thường xuyên</option>
+                </select>
+            </div>
+
+            <h2>G. Sức khỏe tổng quát</h2>
+            <div class="form-group">
+                <label>31. Bạn đánh giá sức khỏe tổng quát của mình như thế nào?</label>
+                <select name="overallHealth" required>
+                    <option value="">Chọn câu trả lời</option>
+                    <option value="poor">Kém</option>
+                    <option value="fair">Tạm được</option>
+                    <option value="good">Tốt</option>
+                    <option value="excellent">Rất tốt</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>32. Bạn có thường xuyên đi khám sức khỏe định kỳ không?</label>
+                <select name="regularCheckups" required>
+                    <option value="">Chọn câu trả lời</option>
+                    <option value="never">Không bao giờ</option>
+                    <option value="rarely">Hiếm khi</option>
+                    <option value="sometimes">Thỉnh thoảng</option>
+                    <option value="regularly">Thường xuyên</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>33. Bạn có bị mắc bệnh mãn tính nào không?</label>
+                <select name="chronicIllness" required>
+                    <option value="">Chọn câu trả lời</option>
+                    <option value="no">Không</option>
+                    <option value="yes_managed">Có, nhưng đang được kiểm soát tốt</option>
+                    <option value="yes_unmanaged">Có, và chưa được kiểm soát tốt</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>34. Bạn có thường xuyên cảm thấy mệt mỏi không?</label>
+                <select name="fatigue" required>
+                    <option value="">Chọn câu trả lời</option>
+                    <option value="rarely">Hiếm khi</option>
+                    <option value="sometimes">Thỉnh thoảng</option>
+                    <option value="often">Thường xuyên</option>
+                    <option value="always">Luôn luôn</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>35. Bạn có hài lòng với cân nặng hiện tại của mình không?</label>
+                <select name="weightSatisfaction" required>
+                    <option value="">Chọn câu trả lời</option>
+                    <option value="very_unsatisfied">Rất không hài lòng</option>
+                    <option value="unsatisfied">Không hài lòng</option>
+                    <option value="neutral">Bình thường</option>
+                    <option value="satisfied">Hài lòng</option>
+                    <option value="very_satisfied">Rất hài lòng</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn-submit">Gửi khảo sát</button>
+        </form>
+        <div id="results"></div>
+    </div>
+    <script>
+        document.getElementById('extendedHealthSurvey').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            let advice = "<h2>Đánh giá và lời khuyên về sức khỏe của bạn:</h2><ul>";
+
+            // A. Thói quen sinh hoạt
+            advice += "<h3>A. Thói quen sinh hoạt</h3><ul>";
+
+            // 1. Vận động thể chất
+            switch (formData.get('exercise')) {
+                case 'rarely':
+                    advice += "<li><strong>Vận động thể chất:</strong> Bạn hiếm khi vận động, điều này có thể ảnh hưởng tiêu cực đến sức khỏe. Hãy bắt đầu với những hoạt động nhẹ nhàng như đi bộ 15 phút mỗi ngày. Dần dần tăng cường cường độ và thời gian. Tìm một hoạt động bạn thích để duy trì động lực.</li>";
+                    break;
+                case 'sometimes':
+                    advice += "<li><strong>Vận động thể chất:</strong> Bạn đã có vận động, nhưng vẫn cần tăng cường. Hãy đặt mục tiêu vận động 30 phút mỗi ngày, 5 ngày/tuần. Kết hợp các bài tập cardio và sức mạnh để đạt hiệu quả tối ưu.</li>";
+                    break;
+                case 'often':
+                    advice += "<li><strong>Vận động thể chất:</strong> Bạn có thói quen vận động tốt! Hãy duy trì và đa dạng hóa các bài tập để tránh nhàm chán. Thử thách bản thân với các mục tiêu mới như tham gia một cuộc thi chạy bộ hoặc học một môn thể thao mới.</li>";
+                    break;
+                case 'daily':
+                    advice += "<li><strong>Vận động thể chất:</strong> Tuyệt vời! Bạn đang duy trì thói quen vận động hàng ngày. Hãy chắc chắn rằng bạn cũng dành thời gian cho việc nghỉ ngơi và phục hồi để tránh chấn thương. Cân nhắc việc tham gia các nhóm thể thao hoặc chia sẻ kinh nghiệm của bạn để truyền cảm hứng cho người khác.</li>";
+                    break;
+            }
+
+            // 2. Thời gian tập thể dục
+            switch (formData.get('exerciseDuration')) {
+                case 'less_than_15':
+                    advice += "<li><strong>Thời gian tập thể dục:</strong> Tập thể dục dưới 15 phút là chưa đủ. Hãy cố gắng tăng dần lên 30 phút mỗi lần. Bạn có thể chia thành 2-3 phiên ngắn trong ngày nếu không có nhiều thời gian.</li>";
+                    break;
+                case '15_to_30':
+                    advice += "<li><strong>Thời gian tập thể dục:</strong> Bạn đang đi đúng hướng! 15-30 phút tập thể dục là tốt, nhưng hãy cố gắng đạt được 30-60 phút để có lợi ích sức khỏe tối ưu.</li>";
+                    break;
+                case '30_to_60':
+                    advice += "<li><strong>Thời gian tập thể dục:</strong> Tuyệt vời! 30-60 phút tập thể dục là lý tưởng cho sức khỏe tổng thể. Hãy duy trì thói quen này và đảm bảo rằng bạn kết hợp cả bài tập cardio và sức mạnh.</li>";
+                    break;
+                case 'more_than_60':
+                    advice += "<li><strong>Thời gian tập thể dục:</strong> Ấn tượng! Bạn dành nhiều thời gian cho việc tập thể dục. Hãy đảm bảo rằng bạn không tập quá sức và dành đủ thời gian cho việc nghỉ ngơi và phục hồi. Cân nhắc việc tham gia các sự kiện thể thao hoặc thử thách bản thân với các mục tiêu mới.</li>";
+                    break;
+            }
+
+            // 3. Loại hoạt động thể chất
+            let exerciseTypes = formData.getAll('exerciseType');
+            advice += "<li><strong>Loại hoạt động thể chất:</strong> ";
+            if (exerciseTypes.length === 0) {
+                advice += "Bạn chưa chọn bất kỳ hoạt động thể chất nào. Hãy thử khám phá các hoạt động khác nhau để tìm ra những gì phù hợp với bạn. Đi bộ, chạy bộ, bơi lội, đạp xe và tập gym đều là những lựa chọn tuyệt vời để bắt đầu.";
+            } else {
+                advice += "Bạn đã chọn " + exerciseTypes.join(", ") + ". Đây là sự kết hợp tốt! Hãy đảm bảo rằng bạn cân bằng giữa các hoạt động cardio và sức mạnh. Nếu bạn chỉ tập trung vào một loại, hãy cân nhắc thêm các hoạt động khác để đa dạng hóa bài tập của mình.";
+            }
+            advice += "</li>";
+
+            // 4. Thời gian ngủ
+            switch (formData.get('sleep')) {
+                case 'less_than_6':
+                    advice += "<li><strong>Thời gian ngủ:</strong> Ngủ ít hơn 6 giờ mỗi đêm là không đủ cho sức khỏe tối ưu. Thiếu ngủ có thể ảnh hưởng đến tâm trạng, khả năng tập trung và hệ miễn dịch. Hãy cố gắng ngủ ít nhất 7-8 giờ mỗi đêm. Tạo một thói quen đi ngủ đều đặn và môi trường ngủ thoải mái.</li>";
+                    break;
+                case '6_to_7':
+                    advice += "<li><strong>Thời gian ngủ:</strong> 6-7 giờ ngủ là khá tốt, nhưng vẫn chưa đủ. Hãy cố gắng tăng thêm 30-60 phút nữa để đạt được 7-8 giờ ngủ mỗi đêm. Điều này sẽ giúp cải thiện sự tỉnh táo và sức khỏe tổng thể của bạn.</li>";
+                    break;
+                case '7_to_8':
+                    advice += "<li><strong>Thời gian ngủ:</strong> Tuyệt vời! 7-8 giờ ngủ mỗi đêm là lý tưởng cho hầu hết mọi người. Hãy duy trì thói quen này và đảm bảo chất lượng giấc ngủ bằng cách tạo một môi trường ngủ yên tĩnh và thoải mái.</li>";
+                    break;
+                case 'more_than_8':
+                    advice += "<li><strong>Thời gian ngủ:</strong> Bạn ngủ nhiều hơn 8 giờ mỗi đêm. Mặc dù ngủ đủ là quan trọng, nhưng ngủ quá nhiều cũng có thể là dấu hiệu của vấn đề sức khỏe. Hãy đảm bảo rằng bạn cảm thấy tỉnh táo và khỏe mạnh khi thức dậy. Nếu bạn thường xuyên cảm thấy mệt mỏi dù ngủ nhiều, hãy tham khảo ý kiến bác sĩ.</li>";
+                    break;
+            }
+
+            // 5. Chất lượng giấc ngủ
+            switch (formData.get('sleepQuality')) {
+                case 'poor':
+                    advice += "<li><strong>Chất lượng giấc ngủ:</strong> Chất lượng giấc ngủ kém có thể ảnh hưởng nghiêm trọng đến sức khỏe và hiệu suất học tập. Hãy tạo một môi trường ngủ tối, yên tĩnh và mát mẻ. Tránh sử dụng thiết bị điện tử trước khi đi ngủ và thực hành các kỹ thuật thư giãn như đọc sách hoặc thiền.</li>";
+                    break;
+                case 'fair':
+                    advice += "<li><strong>Chất lượng giấc ngủ:</strong> Chất lượng giấc ngủ của bạn còn chưa tối ưu. Hãy cố gắng duy trì một lịch trình ngủ đều đặn, ngay cả vào cuối tuần. Tránh caffeine và alcohol trước khi đi ngủ, và tạo một thói quen thư giãn trước khi ngủ.</li>";
+                    break;
+                case 'good':
+                    advice += "<li><strong>Chất lượng giấc ngủ:</strong> Bạn có chất lượng giấc ngủ tốt! Hãy duy trì những thói quen tốt này. Nếu bạn muốn cải thiện thêm, hãy thử các kỹ thuật thư giãn trước khi ngủ như yoga nhẹ nhàng hoặc thiền.</li>";
+                    break;
+                case 'excellent':
+                    advice += "<li><strong>Chất lượng giấc ngủ:</strong> Tuyệt vời! Bạn đang có chất lượng giấc ngủ rất tốt. Hãy chia sẻ bí quyết của bạn với những người xung quanh và duy trì những thói quen tốt này.</li>";
+                    break;
+            }
+
+            // 6. Sử dụng thiết bị điện tử trước khi ngủ
+            switch (formData.get('screenTimeBeforeSleep')) {
+                case 'never':
+                    advice += "<li><strong>Sử dụng thiết bị điện tử trước khi ngủ:</strong> Tuyệt vời! Bạn không sử dụng thiết bị điện tử trước khi ngủ, điều này rất tốt cho chất lượng giấc ngủ. Hãy duy trì thói quen này và khuyến khích những người xung quanh làm theo.</li>";
+                    break;
+                case 'rarely':
+                    advice += "<li><strong>Sử dụng thiết bị điện tử trước khi ngủ:</strong> Bạn hiếm khi sử dụng thiết bị điện tử trước khi ngủ, đây là một thói quen tốt. Hãy cố gắng duy trì điều này và thay thế bằng các hoạt động thư giãn khác như đọc sách hoặc nghe nhạc nhẹ.</li>";
+                    break;
+                case 'sometimes':
+                    advice += "<li><strong>Sử dụng thiết bị điện tử trước khi ngủ:</strong> Bạn thỉnh thoảng sử dụng thiết bị điện tử trước khi ngủ. Hãy cố gắng giảm thiểu điều này hơn nữa. Ánh sáng xanh từ các thiết bị có thể ảnh hưởng đến chất lượng giấc ngủ. Thử sử dụng chế độ ánh sáng vàng hoặc đeo kính chắn ánh sáng xanh nếu bắt buộc phải sử dụng thiết bị.</li>";
+                    break;
+                case 'often':
+                    advice += "<li><strong>Sử dụng thiết bị điện tử trước khi ngủ:</strong> Bạn thường xuyên sử dụng thiết bị điện tử trước khi ngủ, điều này có thể ảnh hưởng tiêu cực đến chất lượng giấc ngủ. Hãy cố gắng ngưng sử dụng thiết bị ít nhất 1 giờ trước khi đi ngủ. Thay vào đó, hãy thử đọc sách, thiền hoặc trò chuyện với gia đình.</li>";
+                    break;
+                case 'always':
+                    advice += "<li><strong>Sử dụng thiết bị điện tử trước khi ngủ:</strong> Bạn luôn sử dụng thiết bị điện tử trước khi ngủ, điều này có thể gây ra nhiều vấn đề về giấc ngủ. Hãy cố gắng thay đổi thói quen này dần dần. Bắt đầu bằng cách giảm thời gian sử dụng thiết bị điện tử xuống ít nhất 1-2 giờ trước khi ngủ. Thay vào đó, hãy thử các hoạt động như đọc sách, thiền hoặc thực hiện các bài tập thư giãn. Việc này sẽ giúp cải thiện chất lượng giấc ngủ của bạn.</li>";
+                    break;
+            }
+
+
+            // B. Thói quen ăn uống
+            advice += "</ul><h3>B. Thói quen ăn uống</h3><ul>";
+
+            // 7. Thói quen ăn uống lành mạnh
+            switch (formData.get('diet')) {
+                case 'poor':
+                    advice += "<li><strong>Thói quen ăn uống lành mạnh:</strong> Chế độ ăn uống của bạn cần cải thiện đáng kể. Hãy bắt đầu bằng việc tăng cường rau xanh và trái cây trong bữa ăn. Giảm thức ăn nhanh và đồ ăn chế biến sẵn. Hãy lên kế hoạch bữa ăn hàng tuần và chuẩn bị đồ ăn tại nhà nhiều hơn. Cân nhắc tham khảo ý kiến của chuyên gia dinh dưỡng để có hướng dẫn cụ thể.</li>";
+                    break;
+                case 'fair':
+                    advice += "<li><strong>Thói quen ăn uống lành mạnh:</strong> Bạn đã có một số thói quen ăn uống tốt, nhưng vẫn cần cải thiện. Hãy tập trung vào việc cân bằng các nhóm thực phẩm trong mỗi bữa ăn. Tăng cường protein nạc, ngũ cốc nguyên hạt và chất xơ. Hạn chế đường và chất béo bão hòa. Thử thách bản thân bằng cách học nấu các món ăn lành mạnh mới mỗi tuần.</li>";
+                    break;
+                case 'good':
+                    advice += "<li><strong>Thói quen ăn uống lành mạnh:</strong> Bạn đang có thói quen ăn uống tốt! Hãy duy trì điều này và tìm cách đa dạng hóa chế độ ăn của bạn hơn nữa. Thử nghiệm với các loại rau, trái cây và nguồn protein mới. Đảm bảo rằng bạn đang nhận đủ các vi chất dinh dưỡng cần thiết.</li>";
+                    break;
+                case 'excellent':
+                    advice += "<li><strong>Thói quen ăn uống lành mạnh:</strong> Tuyệt vời! Bạn đang duy trì một chế độ ăn uống rất lành mạnh. Hãy chia sẻ kiến thức và thói quen của bạn với những người xung quanh. Cân nhắc việc tìm hiểu thêm về dinh dưỡng nâng cao hoặc thậm chí là theo đuổi một khóa học về dinh dưỡng.</li>";
+                    break;
+            }
+
+            // 8. Số bữa ăn chính mỗi ngày
+            switch (formData.get('mealsPerDay')) {
+                case '1':
+                    advice += "<li><strong>Số bữa ăn chính mỗi ngày:</strong> Chỉ ăn một bữa chính mỗi ngày có thể gây ra nhiều vấn đề sức khỏe. Hãy cố gắng chia nhỏ lượng thức ăn này thành ít nhất 3 bữa đều đặn trong ngày. Điều này sẽ giúp ổn định đường huyết và tăng cường trao đổi chất.</li>";
+                    break;
+                case '2':
+                    advice += "<li><strong>Số bữa ăn chính mỗi ngày:</strong> Ăn hai bữa chính mỗi ngày là chưa đủ. Hãy cố gắng thêm một bữa nữa và có thể bổ sung các bữa ăn nhẹ lành mạnh giữa các bữa chính. Điều này sẽ giúp cung cấp năng lượng đều đặn cho cơ thể suốt cả ngày.</li>";
+                    break;
+                case '3':
+                    advice += "<li><strong>Số bữa ăn chính mỗi ngày:</strong> Ăn ba bữa chính mỗi ngày là một thói quen tốt. Hãy đảm bảo rằng mỗi bữa ăn đều cân bằng với đủ protein, carbohydrate phức hợp, chất xơ và chất béo lành mạnh.</li>";
+                    break;
+                case 'more_than_3':
+                    advice += "<li><strong>Số bữa ăn chính mỗi ngày:</strong> Bạn ăn nhiều hơn 3 bữa chính mỗi ngày. Điều này có thể tốt nếu bạn đang chia nhỏ các bữa ăn để kiểm soát calo hoặc đường huyết. Tuy nhiên, hãy đảm bảo rằng tổng lượng calo tiêu thụ vẫn phù hợp với nhu cầu của bạn.</li>";
+                    break;
+            }
+
+            // 9. Tần suất ăn đồ ăn nhanh
+            switch (formData.get('fastFood')) {
+                case 'never':
+                    advice += "<li><strong>Tần suất ăn đồ ăn nhanh:</strong> Tuyệt vời! Bạn không ăn đồ ăn nhanh. Đây là một thói quen rất tốt cho sức khỏe. Hãy duy trì điều này và chia sẻ lợi ích của việc tránh đồ ăn nhanh với những người xung quanh.</li>";
+                    break;
+                case 'rarely':
+                    advice += "<li><strong>Tần suất ăn đồ ăn nhanh:</strong> Bạn hiếm khi ăn đồ ăn nhanh, đây là một thói quen tốt. Hãy tiếp tục hạn chế và thay thế bằng các bữa ăn tự nấu hoặc các lựa chọn lành mạnh hơn khi ăn ngoài.</li>";
+                    break;
+                case 'sometimes':
+                    advice += "<li><strong>Tần suất ăn đồ ăn nhanh:</strong> Bạn thỉnh thoảng ăn đồ ăn nhanh. Mặc dù không quá thường xuyên, nhưng hãy cố gắng giảm thiểu hơn nữa. Khi cảm thấy thèm đồ ăn nhanh, hãy thử tự nấu phiên bản lành mạnh hơn tại nhà.</li>";
+                    break;
+                case 'often':
+                    advice += "<li><strong>Tần suất ăn đồ ăn nhanh:</strong> Bạn thường xuyên ăn đồ ăn nhanh, điều này có thể gây ra nhiều vấn đề sức khỏe. Hãy cố gắng giảm dần và thay thế bằng các bữa ăn tự nấu hoặc các lựa chọn lành mạnh hơn. Lên kế hoạch bữa ăn trước và chuẩn bị đồ ăn cho cả tuần có thể giúp bạn tránh lựa chọn đồ ăn nhanh khi bận rộn.</li>";
+                    break;
+                case 'daily':
+                    advice += "<li><strong>Tần suất ăn đồ ăn nhanh:</strong> Bạn ăn đồ ăn nhanh hàng ngày, điều này rất có hại cho sức khỏe. Hãy cố gắng thay đổi thói quen này ngay lập tức. Bắt đầu bằng việc thay thế một bữa đồ ăn nhanh mỗi ngày bằng bữa ăn tự nấu. Dần dần tăng số bữa tự nấu và giảm đồ ăn nhanh.</li>";
+                    break;
+            }
+
+            // 10. Tần suất ăn rau xanh và trái cây
+            switch (formData.get('fruitsAndVegetables')) {
+                case 'rarely':
+                    advice += "<li><strong>Tần suất ăn rau xanh và trái cây:</strong> Bạn hiếm khi ăn rau xanh và trái cây, điều này có thể dẫn đến thiếu hụt vitamin, khoáng chất và chất xơ. Hãy cố gắng thêm rau xanh và trái cây vào mỗi bữa ăn. Bắt đầu với những loại bạn thích và dần dần đa dạng hóa. Thử uống sinh tố hoặc ăn salad để tăng lượng rau quả tiêu thụ.</li>";
+                    break;
+                case 'sometimes':
+                    advice += "<li><strong>Tần suất ăn rau xanh và trái cây:</strong> Bạn thỉnh thoảng ăn rau xanh và trái cây, nhưng cần tăng cường hơn nữa. Mục tiêu nên là ăn ít nhất 5 phần rau và trái cây mỗi ngày. Hãy thử thách bản thân bằng cách thêm một loại rau hoặc trái cây mới vào chế độ ăn mỗi tuần.</li>";
+                    break;
+                case 'often':
+                    advice += "<li><strong>Tần suất ăn rau xanh và trái cây:</strong> Bạn thường xuyên ăn rau xanh và trái cây, đây là một thói quen rất tốt! Hãy duy trì điều này và cố gắng đa dạng hóa các loại rau và trái cây bạn ăn để đảm bảo nhận được đầy đủ các loại vitamin và khoáng chất.</li>";
+                    break;
+                case 'daily':
+                    advice += "<li><strong>Tần suất ăn rau xanh và trái cây:</strong> Tuyệt vời! Bạn ăn rau xanh và trái cây hàng ngày. Đây là một thói quen rất tốt cho sức khỏe. Hãy tiếp tục duy trì và thử nghiệm với các loại rau và trái cây mới để đảm bảo chế độ ăn đa dạng và phong phú.</li>";
+                    break;
+            }
+
+            // 11. Tần suất uống đủ nước
+            switch (formData.get('hydration')) {
+                case 'rarely':
+                    advice += "<li><strong>Tần suất uống đủ nước:</strong> Bạn hiếm khi uống đủ nước, điều này có thể ảnh hưởng nghiêm trọng đến sức khỏe và hiệu suất học tập. Hãy đặt mục tiêu uống ít nhất 8 ly nước mỗi ngày. Mang theo bình nước bên mình và đặt nhắc nhở trên điện thoại. Thử thêm lát chanh hoặc dâu tây vào nước để tăng hương vị.</li>";
+                    break;
+                case 'sometimes':
+                    advice += "<li><strong>Tần suất uống đủ nước:</strong> Bạn thỉnh thoảng uống đủ nước, nhưng cần cải thiện hơn nữa. Hãy tập thói quen uống một ly nước ngay khi thức dậy và trước mỗi bữa ăn. Sử dụng các ứng dụng theo dõi lượng nước uống để giúp bạn duy trì thói quen tốt này.</li>";
+                    break;
+                case 'often':
+                    advice += "<li><strong>Tần suất uống đủ nước:</strong> Bạn thường xuyên uống đủ nước, đây là một thói quen tốt! Hãy duy trì điều này và cố gắng uống nước đều đặn trong suốt cả ngày thay vì uống nhiều một lúc.</li>";
+                    break;
+                case 'always':
+                    advice += "<li><strong>Tần suất uống đủ nước:</strong> Tuyệt vời! Bạn luôn uống đủ nước. Đây là một thói quen rất tốt cho sức khỏe tổng thể. Hãy duy trì điều này và khuyến khích những người xung quanh cũng làm theo.</li>";
+                    break;
+            }
+            // 12. Uống đồ uống có cồn
+            switch (formData.get('alcohol')) {
+                case 'never':
+                    advice += "<li><strong>Uống đồ uống có cồn:</strong> Tuyệt vời! Bạn không uống đồ uống có cồn, điều này rất tốt cho sức khỏe. Việc tránh xa rượu không chỉ giúp bạn duy trì sức khỏe mà còn giảm nguy cơ mắc các bệnh liên quan đến rượu như bệnh gan, tim mạch và các vấn đề tâm lý. Hãy tiếp tục duy trì thói quen này và khuyến khích những người xung quanh cũng làm theo. Bạn có thể chia sẻ những lợi ích của việc không uống rượu, chẳng hạn như cảm giác minh mẫn, dễ dàng tập trung hơn và tiết kiệm tiền bạc.</li>";
+                    break;
+                case 'rarely':
+                    advice += "<li><strong>Uống đồ uống có cồn:</strong> Bạn hiếm khi uống đồ uống có cồn, đây là một thói quen tốt. Uống một cách có kiểm soát có thể giúp bạn tận hưởng những dịp đặc biệt mà không gặp phải những vấn đề sức khỏe. Hãy tiếp tục duy trì lối sống này và nếu bạn quyết định uống, hãy chọn các loại đồ uống nhẹ như rượu vang hoặc bia không có cồn. Cố gắng luôn nhớ uống đủ nước và không uống rượu khi bạn cảm thấy mệt mỏi hoặc đang trong tâm trạng không tốt.</li>";
+                    break;
+                case 'sometimes':
+                    advice += "<li><strong>Uống đồ uống có cồn:</strong> Bạn thỉnh thoảng uống đồ uống có cồn. Mặc dù việc này không xấu, nhưng bạn nên cẩn thận với tần suất và lượng tiêu thụ của mình. Uống quá nhiều có thể ảnh hưởng tiêu cực đến sức khỏe như mất ngủ, tăng cân và giảm khả năng tập trung. Hãy cân nhắc giới hạn số lần bạn uống mỗi tháng và luôn luôn ăn trước hoặc trong khi uống để giảm thiểu tác động của rượu. Ngoài ra, bạn có thể thử thay thế một số buổi gặp mặt xã hội bằng những hoạt động không có rượu như đi bộ, xem phim hoặc tham gia các sự kiện thể thao.</li>";
+                    break;
+                case 'often':
+                    advice += "<li><strong>Uống đồ uống có cồn:</strong> Bạn thường xuyên uống đồ uống có cồn, điều này có thể gây ra nhiều vấn đề về sức khỏe. Uống nhiều rượu không chỉ làm tổn thương gan mà còn có thể gây ra các vấn đề về tâm lý như lo âu và trầm cảm. Hãy cố gắng giảm bớt tần suất uống và thay thế bằng các hoạt động lành mạnh khác như tập thể dục, tham gia các câu lạc bộ hoặc gặp gỡ bạn bè mà không có rượu. Nếu bạn cảm thấy khó khăn trong việc giảm uống, hãy xem xét tìm kiếm sự hỗ trợ từ các chuyên gia sức khỏe hoặc các nhóm hỗ trợ.</li>";
+                    break;
+                case 'daily':
+                    advice += "<li><strong>Uống đồ uống có cồn:</strong> Bạn uống đồ uống có cồn hàng ngày, điều này có thể gây ra nhiều nguy cơ về sức khỏe. Uống rượu hàng ngày có thể dẫn đến các vấn đề nghiêm trọng như nghiện rượu, tổn thương gan, và các bệnh mãn tính khác. Hãy cân nhắc việc giảm dần lượng tiêu thụ, ví dụ như bắt đầu với một ngày không uống mỗi tuần. Nếu bạn cảm thấy khó khăn trong việc kiểm soát thói quen này, hãy tìm kiếm sự hỗ trợ từ bác sĩ hoặc chuyên gia sức khỏe. Ngoài ra, bạn có thể thử các loại đồ uống không có cồn như nước ép trái cây, trà thảo mộc hoặc nước khoáng có ga, và khám phá những lợi ích của việc duy trì lối sống lành mạnh như tăng cường sức khỏe tinh thần và thể chất.</li>";
+                    break;
+            }
+            advice += "</ul><h3>C. Sức khỏe tinh thần và tâm lý</h3><ul>";
+
+            // 13. Mức độ stress trong học tập
+            switch (formData.get('academicStress')) {
+                case 'low':
+                    advice += "<li><strong>Mức độ stress trong học tập:</strong> Rất tốt! Mức độ stress thấp cho thấy bạn đang quản lý việc học tập một cách hiệu quả. Để duy trì tinh thần tích cực này, hãy thử các hoạt động như: " +
+                        "<ul>" +
+                        "<li><strong>Thời gian biểu hợp lý:</strong> Lên kế hoạch cho việc học và nghỉ ngơi để tránh sự căng thẳng trong thời gian dài.</li>" +
+                        "<li><strong>Tập thể dục thường xuyên:</strong> Hoạt động thể chất giúp cải thiện tâm trạng và giảm stress.</li>" +
+                        "<li><strong>Tham gia hoạt động xã hội:</strong> Duy trì các mối quan hệ xã hội tích cực để có sự hỗ trợ tinh thần.</li>" +
+                        "</ul>" +
+                        "Hãy khuyến khích những người xung quanh bạn cũng thực hiện những thói quen này để cùng nhau tạo ra môi trường học tập tích cực.</li>";
+                    break;
+                case 'moderate':
+                    advice += "<li><strong>Mức độ stress trong học tập:</strong> Mức độ stress trung bình cho thấy bạn có thể đang gặp một số áp lực trong học tập. Để cải thiện tình hình, bạn có thể thử các biện pháp sau: " +
+                        "<ul>" +
+                        "<li><strong>Thực hành thiền:</strong> Dành vài phút mỗi ngày để thiền có thể giúp bạn giảm căng thẳng và cải thiện sự tập trung.</li>" +
+                        "<li><strong>Ghi nhật ký:</strong> Việc ghi lại cảm xúc và suy nghĩ hàng ngày có thể giúp bạn nhận ra nguồn gốc của stress và tìm ra cách xử lý.</li>" +
+                        "<li><strong>Chia sẻ cảm xúc:</strong> Nói chuyện với bạn bè hoặc gia đình về cảm xúc của bạn có thể giúp bạn cảm thấy nhẹ nhõm hơn.</li>" +
+                        "</ul>" +
+                        "Hãy dành thời gian cho bản thân và các hoạt động bạn yêu thích để duy trì tinh thần thoải mái.</li>";
+                    break;
+                case 'high':
+                    advice += "<li><strong>Mức độ stress trong học tập:</strong> Mức độ stress cao có thể ảnh hưởng tiêu cực đến sức khỏe và hiệu suất học tập của bạn. Để đối phó với tình trạng này, hãy xem xét các biện pháp như: " +
+                        "<ul>" +
+                        "<li><strong>Thay đổi lịch học:</strong> Cố gắng chia nhỏ các nhiệm vụ lớn thành các phần nhỏ hơn và dễ quản lý hơn.</li>" +
+                        "<li><strong>Tìm kiếm sự hỗ trợ:</strong> Nếu bạn cảm thấy quá tải, hãy tìm kiếm sự giúp đỡ từ bạn bè, gia đình hoặc giáo viên.</li>" +
+                        "<li><strong>Tham gia vào các hoạt động thể thao:</strong> Các hoạt động thể thao không chỉ giúp bạn thư giãn mà còn tạo cơ hội để gặp gỡ bạn bè mới.</li>" +
+                        "</ul>" +
+                        "Đừng ngần ngại tìm kiếm sự hỗ trợ chuyên nghiệp nếu bạn cảm thấy cần thiết.</li>";
+                    break;
+                case 'very_high':
+                    advice += "<li><strong>Mức độ stress trong học tập:</strong> Mức độ stress rất cao có thể dẫn đến những vấn đề nghiêm trọng về sức khỏe tâm thần. Để giúp bạn giải quyết tình trạng này, hãy cân nhắc: " +
+                        "<ul>" +
+                        "<li><strong>Tìm kiếm sự hỗ trợ chuyên nghiệp:</strong> Hãy liên hệ với một chuyên gia tâm lý để được tư vấn và hỗ trợ phù hợp.</li>" +
+                        "<li><strong>Các hoạt động thư giãn:</strong> Tham gia các lớp học yoga hoặc thiền để giúp giảm căng thẳng.</li>" +
+                        "<li><strong>Đi bộ ngoài trời:</strong> Dành thời gian ở ngoài trời và gần gũi với thiên nhiên có thể giúp cải thiện tâm trạng của bạn.</li>" +
+                        "</ul>" +
+                        "Hãy chăm sóc sức khỏe tâm thần của bạn và không ngần ngại tìm kiếm sự giúp đỡ khi cần thiết.</li>";
+                    break;
+            }
+
+            // 14. Cảm giác lo lắng
+            switch (formData.get('anxiety')) {
+                case 'rarely':
+                    advice += "<li><strong>Cảm giác lo lắng:</strong> Tuyệt vời! Bạn hiếm khi cảm thấy lo lắng, điều này cho thấy bạn đang có khả năng quản lý cảm xúc tốt. Để duy trì sự bình yên này, hãy thử: " +
+                        "<ul>" +
+                        "<li><strong>Duy trì thói quen tốt:</strong> Tiếp tục thực hiện các thói quen tích cực trong cuộc sống hàng ngày.</li>" +
+                        "<li><strong>Thực hành tự chăm sóc:</strong> Dành thời gian cho bản thân với các hoạt động mà bạn yêu thích.</li>" +
+                        "<li><strong>Giúp đỡ người khác:</strong> Tham gia vào các hoạt động tình nguyện có thể mang lại niềm vui và sự hài lòng.</li>" +
+                        "</ul>" +
+                        "Hãy tiếp tục nuôi dưỡng tinh thần tích cực này!</li>";
+                    break;
+                case 'sometimes':
+                    advice += "<li><strong>Cảm giác lo lắng:</strong> Bạn thỉnh thoảng cảm thấy lo lắng, điều này là bình thường trong cuộc sống hàng ngày. Để kiểm soát cảm giác này, hãy thử: " +
+                        "<ul>" +
+                        "<li><strong>Xác định nguyên nhân:</strong> Hãy viết ra những điều khiến bạn lo lắng và phân tích chúng để tìm cách giải quyết.</li>" +
+                        "<li><strong>Thực hành kỹ thuật hít thở:</strong> Hít thở sâu và chậm có thể giúp bạn thư giãn.</li>" +
+                        "<li><strong>Tham gia các hoạt động vui chơi:</strong> Dành thời gian cho những sở thích yêu thích có thể giúp giảm lo âu.</li>" +
+                        "</ul>" +
+                        "Hãy chú ý đến cảm xúc của bạn và chăm sóc bản thân.</li>";
+                    break;
+                case 'often':
+                    advice += "<li><strong>Cảm giác lo lắng:</strong> Bạn thường xuyên cảm thấy lo lắng, điều này có thể ảnh hưởng đến sức khỏe tinh thần và hiệu suất học tập. Hãy thử: " +
+                        "<ul>" +
+                        "<li><strong>Tìm kiếm sự hỗ trợ:</strong> Nếu cảm giác này kéo dài, hãy nói chuyện với ai đó mà bạn tin tưởng để nhận được sự hỗ trợ.</li>" +
+                        "<li><strong>Thực hành mindfulness:</strong> Các bài tập mindfulness có thể giúp bạn sống trong khoảnh khắc hiện tại và giảm lo âu.</li>" +
+                        "<li><strong>Cân bằng thời gian học và nghỉ:</strong> Đảm bảo rằng bạn có thời gian để thư giãn giữa các buổi học.</li>" +
+                        "</ul>" +
+                        "Đừng ngần ngại tìm kiếm sự giúp đỡ từ các chuyên gia tâm lý nếu cần.</li>";
+                    break;
+                case 'always':
+                    advice += "<li><strong>Cảm giác lo lắng:</strong> Bạn luôn cảm thấy lo lắng, điều này có thể là dấu hiệu của vấn đề tâm lý cần được giải quyết. Hãy cân nhắc: " +
+                        "<ul>" +
+                        "<li><strong>Tìm kiếm sự hỗ trợ chuyên nghiệp:</strong> Hãy tìm đến bác sĩ hoặc chuyên gia tâm lý để được tư vấn và hỗ trợ.</li>" +
+                        "<li><strong>Thực hành các hoạt động thư giãn:</strong> Các bài tập thể dục, yoga hoặc thiền có thể giúp bạn tìm lại sự bình yên.</li>" +
+                        "<li><strong>Tham gia các hoạt động xã hội:</strong> Kết nối với bạn bè hoặc tham gia các nhóm hỗ trợ có thể giúp bạn cảm thấy bớt cô đơn.</li>" +
+                        "</ul>" +
+                        "Điều quan trọng là chăm sóc sức khỏe tinh thần của bạn và không ngần ngại tìm kiếm sự giúp đỡ khi cần thiết.</li>";
+                    break;
+            }
+
+            // 15. Cảm giác buồn chán
+            switch (formData.get('depression')) {
+                case 'rarely':
+                    advice += "<li><strong>Cảm giác buồn chán:</strong> Rất tốt! Bạn hiếm khi cảm thấy buồn chán, điều này cho thấy bạn đang có một cuộc sống tích cực và năng động. Để duy trì tinh thần vui vẻ này, hãy thử: " +
+                        "<ul>" +
+                        "<li><strong>Khám phá sở thích mới:</strong> Dành thời gian để thử nghiệm các hoạt động mới như học một môn thể thao hay một sở thích nghệ thuật.</li>" +
+                        "<li><strong>Gặp gỡ bạn bè thường xuyên:</strong> Duy trì các mối quan hệ xã hội có thể mang lại niềm vui và hỗ trợ tinh thần.</li>" +
+                        "<li><strong>Tham gia vào các hoạt động cộng đồng:</strong> Sự tham gia vào các hoạt động tình nguyện có thể làm phong phú thêm cuộc sống của bạn.</li>" +
+                        "</ul>" +
+                        "Hãy tiếp tục duy trì những điều tích cực trong cuộc sống của bạn!</li>";
+                    break;
+                case 'sometimes':
+                    advice += "<li><strong>Cảm giác buồn chán:</strong> Bạn thỉnh thoảng cảm thấy buồn chán, điều này là bình thường. Để cải thiện cảm giác này, hãy thử: " +
+                        "<ul>" +
+                        "<li><strong>Thay đổi thói quen hàng ngày:</strong> Hãy thử làm một điều gì đó khác lạ trong ngày của bạn để tạo sự mới mẻ.</li>" +
+                        "<li><strong>Thực hành các hoạt động sáng tạo:</strong> Viết nhật ký, vẽ tranh, hoặc thử nấu một món ăn mới có thể giúp bạn cảm thấy hào hứng hơn.</li>" +
+                        "<li><strong>Gặp gỡ bạn bè:</strong> Dành thời gian với bạn bè có thể giúp bạn cảm thấy bớt buồn chán.</li>" +
+                        "</ul>" +
+                        "Hãy để cho bản thân trải nghiệm những điều mới mẻ!</li>";
+                    break;
+                case 'often':
+                    advice += "<li><strong>Cảm giác buồn chán:</strong> Bạn thường xuyên cảm thấy buồn chán, điều này có thể ảnh hưởng đến chất lượng cuộc sống của bạn. Hãy thử: " +
+                        "<ul>" +
+                        "<li><strong>Đặt ra mục tiêu nhỏ:</strong> Hãy tạo ra những mục tiêu nhỏ mà bạn có thể đạt được hàng ngày để cảm thấy có động lực hơn.</li>" +
+                        "<li><strong>Tham gia các hoạt động nhóm:</strong> Tham gia vào các câu lạc bộ hoặc nhóm thể thao có thể giúp bạn kết nối với người khác và làm phong phú thêm cuộc sống.</li>" +
+                        "<li><strong>Thực hành thiền:</strong> Thiền giúp bạn tìm lại sự bình yên và giảm cảm giác buồn chán.</li>" +
+                        "</ul>" +
+                        "Hãy chăm sóc bản thân và dành thời gian cho những điều bạn yêu thích.</li>";
+                    break;
+                case 'always':
+                    advice += "<li><strong>Cảm giác buồn chán:</strong> Bạn luôn cảm thấy buồn chán, điều này có thể là dấu hiệu của một vấn đề tâm lý cần được giải quyết. Hãy cân nhắc: " +
+                        "<ul>" +
+                        "<li><strong>Tìm kiếm sự hỗ trợ chuyên nghiệp:</strong> Nếu cảm giác buồn chán kéo dài, hãy tìm đến một chuyên gia tâm lý để được tư vấn và hỗ trợ.</li>" +
+                        "<li><strong>Thực hành các hoạt động thư giãn:</strong> Các bài tập thể dục, yoga hoặc thiền có thể giúp bạn tìm lại sự bình yên.</li>" +
+                        "<li><strong>Tham gia vào các hoạt động xã hội:</strong> Kết nối với bạn bè hoặc tham gia các nhóm hỗ trợ có thể giúp bạn cảm thấy bớt cô đơn.</li>" +
+                        "</ul>" +
+                        "Điều quan trọng là chăm sóc sức khỏe tâm thần của bạn và không ngần ngại tìm kiếm sự giúp đỡ khi cần thiết.</li>";
+                    break;
+            }
+            // 16. Tham gia các hoạt động giải trí hoặc thư giãn
+            switch (formData.get('leisure')) {
+                case 'rarely':
+                    advice += "<li><strong>Tham gia các hoạt động giải trí hoặc thư giãn:</strong> Bạn hiếm khi tham gia các hoạt động giải trí. Điều này có thể dẫn đến cảm giác căng thẳng và mệt mỏi. Hãy cố gắng tìm ra ít nhất một hoạt động mà bạn thích, như đọc sách, vẽ tranh, hoặc đi bộ trong công viên. Việc tham gia vào các hoạt động giải trí giúp bạn giảm stress và cải thiện sức khỏe tâm thần. Bạn có thể bắt đầu bằng cách dành 10-15 phút mỗi ngày để thư giãn.</li>";
+                    break;
+                case 'sometimes':
+                    advice += "<li><strong>Tham gia các hoạt động giải trí hoặc thư giãn:</strong> Bạn thỉnh thoảng tham gia vào các hoạt động giải trí. Điều này là một bước khởi đầu tốt, nhưng bạn nên tìm cách để tăng cường thói quen này. Hãy thử kết hợp những hoạt động giải trí vào lịch trình hàng tuần của bạn, ví dụ như tham gia một lớp học thể dục hoặc đi xem phim với bạn bè vào cuối tuần. Hãy nhớ rằng, việc giải trí không chỉ giúp bạn thư giãn mà còn giúp cải thiện tâm trạng và khả năng tập trung của bạn.</li>";
+                    break;
+                case 'often':
+                    advice += "<li><strong>Tham gia các hoạt động giải trí hoặc thư giãn:</strong> Bạn thường xuyên tham gia vào các hoạt động giải trí, điều này rất tích cực! Hãy tiếp tục khám phá những sở thích mới và tham gia vào các hoạt động mà bạn cảm thấy thoải mái. Bạn có thể thử những môn thể thao mới hoặc tham gia các câu lạc bộ sở thích để mở rộng mối quan hệ xã hội. Điều này không chỉ giúp bạn thư giãn mà còn mang lại cơ hội để gặp gỡ những người mới và xây dựng các mối quan hệ tích cực.</li>";
+                    break;
+                case 'daily':
+                    advice += "<li><strong>Tham gia các hoạt động giải trí hoặc thư giãn:</strong> Bạn tham gia các hoạt động giải trí hàng ngày, điều này rất tuyệt vời! Duy trì thói quen này không chỉ có lợi cho sức khỏe tinh thần mà còn giúp cải thiện sức khỏe thể chất của bạn. Hãy thử tạo ra những hoạt động mới để làm phong phú thêm cuộc sống của bạn, như tham gia vào các hoạt động tình nguyện, học một ngôn ngữ mới, hoặc thậm chí là tập yoga. Những hoạt động này sẽ giúp bạn cảm thấy hạnh phúc hơn và năng động hơn mỗi ngày.</li>";
+                    break;
+            }
+
+            // 17. Giao tiếp với bạn bè hoặc gia đình
+            switch (formData.get('socialInteraction')) {
+                case 'rarely':
+                    advice += "<li><strong>Giao tiếp với bạn bè hoặc gia đình:</strong> Bạn hiếm khi giao tiếp với bạn bè hoặc gia đình. Việc thiếu giao tiếp xã hội có thể dẫn đến cảm giác cô đơn và căng thẳng. Hãy thử đặt mục tiêu liên lạc với ít nhất một người bạn hoặc thành viên gia đình mỗi tuần. Bạn có thể gọi điện, nhắn tin, hoặc gặp mặt trực tiếp. Những mối quan hệ này rất quan trọng để bạn cảm thấy được hỗ trợ và có người chia sẻ. Bên cạnh đó, tham gia vào các hoạt động nhóm như thể thao hoặc hội thảo cũng là một cách tốt để kết nối với mọi người.</li>";
+                    break;
+                case 'sometimes':
+                    advice += "<li><strong>Giao tiếp với bạn bè hoặc gia đình:</strong> Bạn thỉnh thoảng giao tiếp với bạn bè hoặc gia đình. Điều này là tốt, nhưng hãy cố gắng tăng cường giao tiếp thường xuyên hơn. Hãy cân nhắc việc lên lịch cho những buổi gặp mặt định kỳ hoặc các hoạt động như đi ăn tối cùng nhau. Giao tiếp thường xuyên sẽ giúp bạn cảm thấy gần gũi hơn với những người xung quanh và hỗ trợ bạn trong việc giảm căng thẳng. Thêm vào đó, hãy chia sẻ những suy nghĩ và cảm xúc của bạn với họ để tạo ra một môi trường cởi mở và chân thành.</li>";
+                    break;
+                case 'often':
+                    advice += "<li><strong>Giao tiếp với bạn bè hoặc gia đình:</strong> Bạn thường xuyên giao tiếp với bạn bè hoặc gia đình, điều này rất tích cực! Hãy tiếp tục duy trì những mối quan hệ này và cố gắng khám phá các cách mới để giao tiếp, chẳng hạn như tham gia các hoạt động chung hoặc trò chuyện về những vấn đề mà bạn quan tâm. Việc này không chỉ giúp bạn cảm thấy vui vẻ mà còn giúp xây dựng những mối quan hệ sâu sắc hơn. Hãy luôn nhớ rằng, việc chia sẻ cảm xúc và hỗ trợ nhau trong những lúc khó khăn sẽ làm tăng thêm sức mạnh cho mối quan hệ của bạn.</li>";
+                    break;
+                case 'daily':
+                    advice += "<li><strong>Giao tiếp với bạn bè hoặc gia đình:</strong> Bạn giao tiếp với bạn bè hoặc gia đình hàng ngày. Điều này thật tuyệt vời! Việc duy trì những kết nối này giúp bạn cảm thấy vui vẻ và được hỗ trợ. Hãy tiếp tục chia sẻ những suy nghĩ, cảm xúc và trải nghiệm của bạn với họ. Bạn cũng có thể tham gia các hoạt động nhóm hoặc sự kiện xã hội để tăng cường mối quan hệ này. Hãy thử lên kế hoạch cho một chuyến đi cuối tuần cùng nhau hoặc tham gia vào các hoạt động tình nguyện để cùng nhau tạo ra những kỷ niệm đẹp.</li>";
+                    break;
+            }
+
+            advice += "</ul><h3>D. Sức khỏe thể chất</h3><ul>";
+            // 18. Đau đầu
+            switch (formData.get('headache')) {
+                case 'rarely':
+                    advice += "<li><strong>Đau đầu:</strong> Bạn hiếm khi bị đau đầu, điều này cho thấy bạn có thể đang chăm sóc tốt cho sức khỏe của mình. Hãy tiếp tục duy trì lối sống lành mạnh bằng cách uống đủ nước, ngủ đủ giấc và giảm stress. Hãy theo dõi chế độ ăn uống của bạn để đảm bảo bạn nhận đủ các chất dinh dưỡng cần thiết.</li>";
+                    break;
+                case 'sometimes':
+                    advice += "<li><strong>Đau đầu:</strong> Bạn thỉnh thoảng bị đau đầu. Có thể do căng thẳng, mất nước hoặc thiếu ngủ. Hãy thử các biện pháp thư giãn như yoga, thiền, hoặc tập thể dục nhẹ nhàng. Ngoài ra, hãy đảm bảo bạn uống đủ nước và có chế độ ngủ hợp lý để giảm thiểu cơn đau đầu.</li>";
+                    break;
+                case 'often':
+                    advice += "<li><strong>Đau đầu:</strong> Bạn thường xuyên bị đau đầu. Điều này có thể do nhiều nguyên nhân như căng thẳng, lo âu, hoặc thậm chí là vấn đề về thị lực. Bạn nên xem xét việc tham khảo ý kiến bác sĩ để xác định nguyên nhân cụ thể. Đồng thời, hãy thử duy trì thói quen nghỉ ngơi đều đặn và thực hiện các bài tập thư giãn để giảm căng thẳng.</li>";
+                    break;
+                case 'always':
+                    advice += "<li><strong>Đau đầu:</strong> Bạn luôn bị đau đầu. Điều này có thể ảnh hưởng nghiêm trọng đến chất lượng cuộc sống của bạn. Tôi khuyên bạn nên tìm kiếm sự hỗ trợ y tế ngay lập tức để xác định nguyên nhân và nhận được phương pháp điều trị thích hợp. Bên cạnh đó, hãy chú ý đến lối sống lành mạnh, tránh xa caffeine và thực hiện các biện pháp thư giãn để giảm thiểu cơn đau.</li>";
+                    break;
+            }
+
+            // 19. Đau lưng hoặc cổ
+            switch (formData.get('backNeckPain')) {
+                case 'rarely':
+                    advice += "<li><strong>Đau lưng hoặc cổ:</strong> Bạn hiếm khi bị đau lưng hoặc cổ, điều này cho thấy bạn có thể có thói quen sinh hoạt tốt. Hãy tiếp tục duy trì chế độ tập luyện và thường xuyên thay đổi tư thế khi ngồi hoặc làm việc để giữ cho cơ thể linh hoạt.</li>";
+                    break;
+                case 'sometimes':
+                    advice += "<li><strong>Đau lưng hoặc cổ:</strong> Bạn thỉnh thoảng cảm thấy đau lưng hoặc cổ. Có thể do ngồi sai tư thế hoặc căng thẳng. Hãy thử thực hiện các bài tập giãn cơ nhẹ nhàng và chú ý đến tư thế ngồi khi làm việc. Ngoài ra, hãy dành thời gian để nghỉ ngơi và thư giãn để giảm căng thẳng.</li>";
+                    break;
+                case 'often':
+                    advice += "<li><strong>Đau lưng hoặc cổ:</strong> Bạn thường xuyên bị đau lưng hoặc cổ. Điều này có thể ảnh hưởng đến cuộc sống hàng ngày của bạn. Tôi khuyên bạn nên tham khảo ý kiến bác sĩ để tìm ra nguyên nhân cụ thể. Thực hiện các bài tập thể dục nhằm tăng cường sức mạnh cho cơ lưng và cổ, như yoga hoặc pilates, có thể giúp giảm đau.</li>";
+                    break;
+                case 'always':
+                    advice += "<li><strong>Đau lưng hoặc cổ:</strong> Bạn luôn bị đau lưng hoặc cổ. Đây có thể là dấu hiệu của vấn đề sức khỏe nghiêm trọng hơn. Tôi khuyên bạn nên tìm kiếm sự giúp đỡ từ bác sĩ hoặc chuyên gia vật lý trị liệu để được khám và điều trị thích hợp. Đồng thời, hãy chú ý đến tư thế khi làm việc và thực hiện các bài tập tăng cường cơ lưng.</li>";
+                    break;
+            }
+
+            // 20. Các vấn đề về thị lực
+            switch (formData.get('visionProblems')) {
+                case 'no':
+                    advice += "<li><strong>Vấn đề về thị lực:</strong> Bạn không gặp vấn đề về thị lực. Hãy tiếp tục duy trì thói quen chăm sóc mắt như nghỉ ngơi định kỳ khi làm việc với màn hình và đảm bảo ánh sáng đầy đủ khi đọc sách hoặc làm việc.</li>";
+                    break;
+                case 'mild':
+                    advice += "<li><strong>Vấn đề về thị lực:</strong> Bạn có các vấn đề về thị lực nhẹ. Hãy kiểm tra mắt định kỳ và nếu cần thiết, hãy đeo kính hoặc kính áp tròng để bảo vệ sức khỏe thị lực của bạn. Đồng thời, giảm thời gian tiếp xúc với màn hình và thực hiện các bài tập cho mắt để giảm mỏi mắt.</li>";
+                    break;
+                case 'moderate':
+                    advice += "<li><strong>Vấn đề về thị lực:</strong> Bạn gặp các vấn đề về thị lực trung bình. Điều này cần được chú ý hơn. Hãy tham khảo ý kiến bác sĩ mắt để được khám và tư vấn điều trị. Hãy đảm bảo bạn đeo kính hoặc kính áp tròng đúng cách và thực hiện các bài tập mắt để cải thiện sức khỏe thị lực.</li>";
+                    break;
+                case 'severe':
+                    advice += "<li><strong>Vấn đề về thị lực:</strong> Bạn có các vấn đề về thị lực nghiêm trọng. Tôi khuyên bạn nên tìm kiếm sự trợ giúp y tế ngay lập tức để được khám và điều trị thích hợp. Hãy tránh lái xe và các hoạt động nguy hiểm khác cho đến khi bạn nhận được sự hỗ trợ y tế thích hợp.</li>";
+                    break;
+            }
+            // 21. Các vấn đề về tiêu hóa
+            switch (formData.get('digestiveIssues')) {
+                case 'rarely':
+                    advice += "<li><strong>Các vấn đề về tiêu hóa:</strong> Bạn hiếm khi gặp các vấn đề về tiêu hóa, điều này cho thấy bạn có thể có chế độ ăn uống lành mạnh. Hãy tiếp tục duy trì thói quen ăn uống hợp lý, bao gồm thực phẩm giàu chất xơ và đủ nước để hỗ trợ tiêu hóa.</li>";
+                    break;
+                case 'sometimes':
+                    advice += "<li><strong>Các vấn đề về tiêu hóa:</strong> Bạn thỉnh thoảng gặp các vấn đề về tiêu hóa. Điều này có thể do chế độ ăn uống không ổn định hoặc căng thẳng. Hãy chú ý đến chế độ ăn uống của bạn và thử áp dụng các biện pháp thư giãn như tập yoga hoặc thiền.</li>";
+                    break;
+                case 'often':
+                    advice += "<li><strong>Các vấn đề về tiêu hóa:</strong> Bạn thường xuyên gặp phải các vấn đề về tiêu hóa. Tôi khuyên bạn nên xem xét chế độ ăn uống của mình, tránh xa thực phẩm chế biến sẵn và tăng cường thực phẩm tươi sống. Nếu tình trạng không cải thiện, hãy tham khảo ý kiến bác sĩ.</li>";
+                    break;
+                case 'always':
+                    advice += "<li><strong>Các vấn đề về tiêu hóa:</strong> Bạn luôn gặp vấn đề về tiêu hóa. Điều này có thể ảnh hưởng đến sức khỏe của bạn. Tôi khuyên bạn nên tìm kiếm sự trợ giúp y tế ngay lập tức để xác định nguyên nhân và nhận được phương pháp điều trị thích hợp. Đừng quên chú ý đến chế độ ăn uống và sinh hoạt hàng ngày.</li>";
+                    break;
+            }
+
+            // 22. Cảm cúm
+            switch (formData.get('fluFrequency')) {
+                case 'rarely':
+                    advice += "<li><strong>Cảm cúm:</strong> Bạn hiếm khi bị cảm cúm. Hãy tiếp tục giữ gìn sức khỏe bằng cách ăn uống đủ dinh dưỡng, tập thể dục và ngủ đủ giấc. Điều này sẽ giúp tăng cường hệ miễn dịch của bạn.</li>";
+                    break;
+                case 'sometimes':
+                    advice += "<li><strong>Cảm cúm:</strong> Bạn thỉnh thoảng bị cảm cúm. Hãy chú ý đến việc rửa tay thường xuyên và tránh tiếp xúc với những người đang bị bệnh. Sử dụng các biện pháp phòng ngừa như tiêm phòng cúm hàng năm cũng là một ý tưởng tốt.</li>";
+                    break;
+                case 'often':
+                    advice += "<li><strong>Cảm cúm:</strong> Bạn thường xuyên bị cảm cúm. Điều này có thể cho thấy hệ miễn dịch của bạn đang bị suy giảm. Hãy tham khảo ý kiến bác sĩ để tìm hiểu nguyên nhân và nhận được lời khuyên phù hợp. Đừng quên duy trì thói quen ăn uống lành mạnh và tập thể dục đều đặn.</li>";
+                    break;
+                case 'very_often':
+                    advice += "<li><strong>Cảm cúm:</strong> Bạn rất thường xuyên bị cảm cúm. Điều này có thể là dấu hiệu của một vấn đề sức khỏe nghiêm trọng hơn. Tôi khuyên bạn nên tìm kiếm sự hỗ trợ y tế ngay lập tức để được kiểm tra và điều trị thích hợp. Hãy chú ý đến chế độ ăn uống và các biện pháp tăng cường sức khỏe.</li>";
+                    break;
+            }
+
+            advice += "</ul><h3>E. Học tập và công việc</h3><ul>";
+            // 23. Thời gian học tập
+            switch (formData.get('studyHours')) {
+                case 'less_than_2':
+                    advice += "<li><strong>Thời gian học tập:</strong> Bạn dành ít hơn 2 giờ mỗi ngày để học tập. Điều này có thể không đủ để nắm vững kiến thức. Tôi khuyên bạn nên cố gắng tăng thời gian học tập hàng ngày. Hãy tạo một lịch học cụ thể và ưu tiên các môn học quan trọng. Có thể bắt đầu từ việc phân chia thời gian thành các phiên học ngắn, dễ quản lý.</li>";
+                    break;
+                case '2_to_4':
+                    advice += "<li><strong>Thời gian học tập:</strong> Bạn dành từ 2 đến 4 giờ mỗi ngày để học tập. Đây là một khởi đầu tốt, nhưng bạn vẫn có thể tối ưu hóa thời gian học của mình. Hãy thử áp dụng các kỹ thuật học tập hiệu quả như Pomodoro để duy trì sự tập trung và tăng cường khả năng ghi nhớ. Đồng thời, hãy đánh giá lại nội dung học để đảm bảo bạn không bỏ sót điều gì quan trọng.</li>";
+                    break;
+                case '4_to_6':
+                    advice += "<li><strong>Thời gian học tập:</strong> Bạn dành từ 4 đến 6 giờ mỗi ngày để học tập. Đây là một khoảng thời gian hợp lý, nhưng hãy chắc chắn rằng bạn cũng dành thời gian để nghỉ ngơi và thư giãn. Việc cân bằng giữa học tập và giải trí là rất quan trọng để duy trì động lực học. Đừng quên tự thưởng cho mình sau khi hoàn thành những nhiệm vụ khó khăn.</li>";
+                    break;
+                case 'more_than_6':
+                    advice += "<li><strong>Thời gian học tập:</strong> Bạn dành hơn 6 giờ mỗi ngày để học tập. Điều này có thể cho thấy bạn rất nghiêm túc với việc học, nhưng cũng có thể dẫn đến kiệt sức. Hãy đảm bảo rằng bạn đang học theo cách hiệu quả và có thời gian thư giãn. Tìm kiếm các phương pháp học tập thông minh để tránh lãng phí thời gian và năng lượng.</li>";
+                    break;
+            }
+
+            // 24. Thói quen trì hoãn
+            switch (formData.get('procrastination')) {
+                case 'rarely':
+                    advice += "<li><strong>Thói quen trì hoãn:</strong> Bạn hiếm khi trì hoãn công việc. Đây là một thói quen tích cực, hãy tiếp tục duy trì sự kỷ luật của mình. Thường xuyên kiểm tra tiến độ học tập và đặt ra các mục tiêu cụ thể sẽ giúp bạn giữ vững động lực.</li>";
+                    break;
+                case 'sometimes':
+                    advice += "<li><strong>Thói quen trì hoãn:</strong> Bạn thỉnh thoảng trì hoãn công việc. Hãy chú ý đến lý do khiến bạn trì hoãn, có thể là do thiếu động lực hoặc lo lắng. Cố gắng chia nhỏ các công việc lớn thành các nhiệm vụ nhỏ hơn và thiết lập thời hạn cho từng nhiệm vụ để giảm bớt áp lực.</li>";
+                    break;
+                case 'often':
+                    advice += "<li><strong>Thói quen trì hoãn:</strong> Bạn thường xuyên trì hoãn công việc. Đây là một vấn đề cần phải giải quyết. Hãy thử tạo một danh sách công việc cần làm và đánh dấu từng công việc khi hoàn thành. Sử dụng các ứng dụng hoặc phương pháp quản lý thời gian có thể giúp bạn tăng cường tính hiệu quả.</li>";
+                    break;
+                case 'always':
+                    advice += "<li><strong>Thói quen trì hoãn:</strong> Bạn luôn trì hoãn công việc. Điều này có thể gây ảnh hưởng tiêu cực đến học tập của bạn. Tôi khuyên bạn nên tìm hiểu nguyên nhân gốc rễ của sự trì hoãn và thực hiện các biện pháp như kỹ thuật Pomodoro hoặc lên lịch học tập để tạo thói quen tốt hơn.</li>";
+                    break;
+            }
+
+            // 25. Cảm giác quá tải trong học tập
+            switch (formData.get('academicOverload')) {
+                case 'rarely':
+                    advice += "<li><strong>Cảm giác quá tải:</strong> Bạn hiếm khi cảm thấy quá tải với công việc học tập. Hãy tiếp tục duy trì thói quen quản lý thời gian hiệu quả và đảm bảo bạn có thời gian nghỉ ngơi hợp lý. Đây là một dấu hiệu cho thấy bạn có thể đang quản lý tốt khối lượng công việc của mình.</li>";
+                    break;
+                case 'sometimes':
+                    advice += "<li><strong>Cảm giác quá tải:</strong> Bạn thỉnh thoảng cảm thấy quá tải với công việc học tập. Hãy chú ý đến dấu hiệu của sự quá tải và thực hiện các biện pháp thư giãn như nghỉ ngơi hoặc tham gia các hoạt động giải trí. Nếu cảm thấy quá tải liên tục, hãy xem xét lại khối lượng công việc của mình.</li>";
+                    break;
+                case 'often':
+                    advice += "<li><strong>Cảm giác quá tải:</strong> Bạn thường xuyên cảm thấy quá tải với công việc học tập. Điều này có thể cho thấy bạn cần điều chỉnh khối lượng công việc hoặc phương pháp học tập. Hãy thử thảo luận với giáo viên hoặc người hướng dẫn để tìm ra cách giải quyết hiệu quả hơn.</li>";
+                    break;
+                case 'always':
+                    advice += "<li><strong>Cảm giác quá tải:</strong> Bạn luôn cảm thấy quá tải với công việc học tập. Đây là dấu hiệu cho thấy bạn cần phải tìm kiếm sự hỗ trợ từ bạn bè, gia đình hoặc các chuyên gia. Cân nhắc tham gia các lớp học bổ trợ hoặc tìm đến các nguồn tài liệu học tập có thể giúp bạn giảm bớt áp lực.</li>";
+                    break;
+            }
+            // 26. Tham gia các hoạt động ngoại khóa
+            switch (formData.get('extracurricularActivities')) {
+                case 'never':
+                    advice += "<li><strong>Tham gia hoạt động ngoại khóa:</strong> Bạn không bao giờ tham gia các hoạt động ngoại khóa. Đây có thể là một thiếu sót, vì các hoạt động này không chỉ giúp bạn giải tỏa căng thẳng mà còn phát triển kỹ năng mềm và mở rộng mối quan hệ xã hội. Tôi khuyên bạn nên khám phá các câu lạc bộ hoặc tổ chức trong trường để tìm kiếm những hoạt động phù hợp với sở thích của mình.</li>";
+                    break;
+                case 'rarely':
+                    advice += "<li><strong>Tham gia hoạt động ngoại khóa:</strong> Bạn hiếm khi tham gia các hoạt động ngoại khóa. Hãy cân nhắc tham gia ít nhất một hoạt động nào đó, vì điều này có thể giúp bạn cải thiện kỹ năng giao tiếp và kết nối với bạn bè. Có thể bắt đầu từ những hoạt động đơn giản như tham gia câu lạc bộ thể thao hoặc câu lạc bộ văn hóa.</li>";
+                    break;
+                case 'sometimes':
+                    advice += "<li><strong>Tham gia hoạt động ngoại khóa:</strong> Bạn thỉnh thoảng tham gia các hoạt động ngoại khóa. Điều này tốt, nhưng bạn có thể cân nhắc tăng cường sự tham gia của mình để có được nhiều trải nghiệm hơn. Tham gia đều đặn có thể giúp bạn phát triển kỹ năng và tìm kiếm cơ hội để thể hiện bản thân. Hãy đặt mục tiêu tham gia ít nhất một hoạt động mỗi tháng.</li>";
+                    break;
+                case 'often':
+                    advice += "<li><strong>Tham gia hoạt động ngoại khóa:</strong> Bạn thường xuyên tham gia các hoạt động ngoại khóa. Đây là một dấu hiệu tích cực cho thấy bạn đang chủ động trong việc phát triển bản thân. Tiếp tục duy trì thói quen này và thử tham gia vào các hoạt động mới để mở rộng kiến thức và kỹ năng của mình. Hãy xem xét việc trở thành thành viên tích cực hơn trong các câu lạc bộ hoặc tổ chức mà bạn tham gia.</li>";
+                    break;
+            }
+
+            advice += "</ul><h3>F. Các thói quen khác</h3><ul>";
+            // 27. Hút thuốc
+            switch (formData.get('smoking')) {
+                case 'never':
+                    advice += "<li><strong>Hút thuốc:</strong> Bạn không bao giờ hút thuốc. Đây là một thói quen tốt cho sức khỏe của bạn. Hãy tiếp tục duy trì lối sống lành mạnh này.</li>";
+                    break;
+                case 'occasionally':
+                    advice += "<li><strong>Hút thuốc:</strong> Bạn thỉnh thoảng hút thuốc. Hãy cân nhắc giảm tần suất này để bảo vệ sức khỏe của bạn. Có thể thử tìm hiểu về những cách để từ bỏ thuốc lá.</li>";
+                    break;
+                case 'regularly':
+                    advice += "<li><strong>Hút thuốc:</strong> Bạn thường xuyên hút thuốc. Điều này có thể gây hại cho sức khỏe của bạn. Hãy xem xét việc tham gia vào các chương trình hỗ trợ bỏ thuốc lá và tìm kiếm sự giúp đỡ từ những người xung quanh.</li>";
+                    break;
+                case 'trying_to_quit':
+                    advice += "<li><strong>Hút thuốc:</strong> Bạn đang cố gắng bỏ thuốc. Đó là một quyết định tích cực! Hãy kiên nhẫn với bản thân và tìm kiếm sự hỗ trợ từ bạn bè, gia đình hoặc các chuyên gia y tế.</li>";
+                    break;
+            }
+            // 28. Sử dụng mạng xã hội
+            switch (formData.get('socialMediaUsage')) {
+                case 'rarely':
+                    advice += "<li><strong>Sử dụng mạng xã hội:</strong> Bạn hiếm khi sử dụng mạng xã hội. Đây có thể là một cách tốt để tiết kiệm thời gian. Hãy cân nhắc cách bạn sử dụng thời gian rảnh rỗi của mình để cải thiện sức khỏe tinh thần.</li>";
+                    break;
+                case 'sometimes':
+                    advice += "<li><strong>Sử dụng mạng xã hội:</strong> Bạn thỉnh thoảng sử dụng mạng xã hội. Hãy chú ý đến việc dành quá nhiều thời gian trên mạng có thể ảnh hưởng đến tinh thần và sức khỏe của bạn. Hãy cân nhắc thời gian và nội dung bạn tiêu thụ trên mạng xã hội.</li>";
+                    break;
+                case 'often':
+                    advice += "<li><strong>Sử dụng mạng xã hội:</strong> Bạn thường xuyên sử dụng mạng xã hội. Điều này có thể là một phần của cuộc sống hiện đại, nhưng hãy chú ý đến việc không để nó ảnh hưởng đến các mối quan hệ và sức khỏe của bạn. Hãy cân nhắc các hoạt động khác để đa dạng hóa cuộc sống của bạn.</li>";
+                    break;
+                case 'very_often':
+                    advice += "<li><strong>Sử dụng mạng xã hội:</strong> Bạn rất thường xuyên sử dụng mạng xã hội. Hãy xem xét tác động của việc này đến sức khỏe tinh thần và thể chất của bạn. Bạn có thể thử giới hạn thời gian sử dụng mạng xã hội để cải thiện sức khỏe và sự tập trung.</li>";
+                    break;
+            }
+            // 29. Đọc sách
+            switch (formData.get('reading')) {
+                case 'rarely':
+                    advice += "<li><strong>Đọc sách:</strong> Bạn hiếm khi đọc sách không liên quan đến học tập. Hãy cân nhắc tìm kiếm một vài cuốn sách thú vị để đọc, vì đọc sách không chỉ giúp cải thiện kiến thức mà còn giúp giảm căng thẳng.</li>";
+                    break;
+                case 'sometimes':
+                    advice += "<li><strong>Đọc sách:</strong> Bạn thỉnh thoảng đọc sách. Hãy cố gắng tăng cường thời gian đọc sách để mở rộng hiểu biết và tạo thói quen tốt cho bản thân.</li>";
+                    break;
+                case 'often':
+                    advice += "<li><strong>Đọc sách:</strong> Bạn thường xuyên đọc sách. Điều này rất tốt! Hãy tiếp tục khám phá những thể loại và tác giả mới để làm phong phú thêm trải nghiệm đọc của bạn.</li>";
+                    break;
+                case 'daily':
+                    advice += "<li><strong>Đọc sách:</strong> Bạn đọc sách hàng ngày. Đây là một thói quen tuyệt vời. Hãy chia sẻ sở thích này với người khác, hoặc tham gia vào các câu lạc bộ sách để kết nối và thảo luận với những người cùng đam mê.</li>";
+                    break;
+            }
+            // 30. Tham gia hoạt động tình nguyện hoặc cộng đồng
+            switch (formData.get('volunteering')) {
+                case 'never':
+                    advice += "<li><strong>Tham gia hoạt động tình nguyện:</strong> Bạn không bao giờ tham gia các hoạt động tình nguyện. Hãy xem xét việc tham gia một số hoạt động tình nguyện trong tương lai. Các hoạt động này không chỉ giúp ích cho cộng đồng mà còn giúp bạn phát triển kỹ năng và mở rộng mạng lưới bạn bè.</li>";
+                    break;
+                case 'rarely':
+                    advice += "<li><strong>Tham gia hoạt động tình nguyện:</strong> Bạn hiếm khi tham gia các hoạt động tình nguyện. Hãy cân nhắc việc tham gia ít nhất một hoạt động tình nguyện trong năm để tạo sự kết nối với cộng đồng và trải nghiệm những niềm vui từ việc giúp đỡ người khác.</li>";
+                    break;
+                case 'sometimes':
+                    advice += "<li><strong>Tham gia hoạt động tình nguyện:</strong> Bạn thỉnh thoảng tham gia các hoạt động tình nguyện. Hãy cố gắng duy trì thói quen này và có thể lên kế hoạch tham gia nhiều hơn nữa. Bạn có thể tìm kiếm các tổ chức tình nguyện gần nơi bạn sống để khám phá những cơ hội phù hợp.</li>";
+                    break;
+                case 'often':
+                    advice += "<li><strong>Tham gia hoạt động tình nguyện:</strong> Bạn thường xuyên tham gia các hoạt động tình nguyện. Đây là một hành động tuyệt vời và có ý nghĩa! Hãy tiếp tục làm điều này và có thể chia sẻ những trải nghiệm của bạn với người khác để khuyến khích họ tham gia.</li>";
+                    break;
+            }
+
+            advice += "</ul><h3>G. Sức khỏe tổng quát</h3><ul>";
+            // 31. Đánh giá sức khỏe tổng quát
+            switch (formData.get('overallHealth')) {
+                case 'poor':
+                    advice += "<li><strong>Sức khỏe tổng quát:</strong> Bạn đánh giá sức khỏe của mình là kém. Đây có thể là dấu hiệu của các vấn đề sức khỏe nghiêm trọng. Hãy xem xét việc gặp bác sĩ để kiểm tra sức khỏe và có thể thực hiện các bước để cải thiện tình trạng sức khỏe của bạn.</li>";
+                    break;
+                case 'fair':
+                    advice += "<li><strong>Sức khỏe tổng quát:</strong> Bạn đánh giá sức khỏe của mình là tạm được. Hãy cố gắng duy trì thói quen ăn uống và tập luyện lành mạnh để cải thiện sức khỏe của bạn. Bạn cũng nên theo dõi các dấu hiệu bất thường để có thể hành động kịp thời.</li>";
+                    break;
+                case 'good':
+                    advice += "<li><strong>Sức khỏe tổng quát:</strong> Bạn đánh giá sức khỏe của mình là tốt. Đây là một dấu hiệu tích cực! Hãy duy trì lối sống lành mạnh và cân bằng để giữ gìn sức khỏe. Hãy thường xuyên tham gia các hoạt động thể chất và ăn uống đầy đủ dinh dưỡng.</li>";
+                    break;
+                case 'excellent':
+                    advice += "<li><strong>Sức khỏe tổng quát:</strong> Bạn đánh giá sức khỏe của mình là rất tốt. Đây là một kết quả đáng mừng! Tiếp tục duy trì chế độ ăn uống, tập thể dục đều đặn và kiểm tra sức khỏe định kỳ để giữ gìn sức khỏe bền vững.</li>";
+                    break;
+            }
+            // 32. Khám sức khỏe định kỳ
+            switch (formData.get('regularCheckups')) {
+                case 'never':
+                    advice += "<li><strong>Khám sức khỏe định kỳ:</strong> Bạn không bao giờ đi khám sức khỏe. Đây có thể là một dấu hiệu nguy hiểm. Khám sức khỏe định kỳ là rất quan trọng để phát hiện sớm các vấn đề sức khỏe. Hãy đặt lịch hẹn với bác sĩ để có một kiểm tra sức khỏe tổng quát.</li>";
+                    break;
+                case 'rarely':
+                    advice += "<li><strong>Khám sức khỏe định kỳ:</strong> Bạn hiếm khi đi khám sức khỏe. Hãy cố gắng đặt lịch khám sức khỏe ít nhất một lần mỗi năm để theo dõi tình trạng sức khỏe của bạn.</li>";
+                    break;
+                case 'sometimes':
+                    advice += "<li><strong>Khám sức khỏe định kỳ:</strong> Bạn thỉnh thoảng đi khám sức khỏe. Hãy đặt ra một lịch trình cụ thể cho các cuộc hẹn khám sức khỏe định kỳ để đảm bảo bạn không bỏ lỡ việc kiểm tra sức khỏe.</li>";
+                    break;
+                case 'regularly':
+                    advice += "<li><strong>Khám sức khỏe định kỳ:</strong> Bạn thường xuyên đi khám sức khỏe. Đây là một thói quen rất tốt! Hãy duy trì thói quen này và chia sẻ lợi ích của việc khám sức khỏe định kỳ với người thân và bạn bè.</li>";
+                    break;
+            }
+            // 33. Bệnh mãn tính
+            switch (formData.get('chronicIllness')) {
+                case 'no':
+                    advice += "<li><strong>Bệnh mãn tính:</strong> Bạn không mắc bệnh mãn tính. Đây là một dấu hiệu tốt cho sức khỏe của bạn! Hãy tiếp tục duy trì lối sống lành mạnh để phòng ngừa bệnh tật.</li>";
+                    break;
+                case 'yes_managed':
+                    advice += "<li><strong>Bệnh mãn tính:</strong> Bạn có mắc bệnh mãn tính nhưng đang được kiểm soát tốt. Tiếp tục theo dõi sức khỏe và tuân thủ theo hướng dẫn điều trị của bác sĩ.</li>";
+                    break;
+                case 'yes_unmanaged':
+                    advice += "<li><strong>Bệnh mãn tính:</strong> Bạn có mắc bệnh mãn tính và chưa được kiểm soát tốt. Rất quan trọng để tìm kiếm sự trợ giúp từ bác sĩ để có kế hoạch điều trị phù hợp.</li>";
+                    break;
+            }
+            // 34. Cảm giác mệt mỏi
+            switch (formData.get('fatigue')) {
+                case 'rarely':
+                    advice += "<li><strong>Cảm giác mệt mỏi:</strong> Bạn hiếm khi cảm thấy mệt mỏi. Đây là một dấu hiệu tích cực cho sức khỏe của bạn! Hãy tiếp tục duy trì thói quen sinh hoạt lành mạnh.</li>";
+                    break;
+                case 'sometimes':
+                    advice += "<li><strong>Cảm giác mệt mỏi:</strong> Bạn thỉnh thoảng cảm thấy mệt mỏi. Nếu tình trạng này kéo dài, hãy xem xét lại thói quen sinh hoạt và ăn uống của bạn.</li>";
+                    break;
+                case 'often':
+                    advice += "<li><strong>Cảm giác mệt mỏi:</strong> Bạn thường xuyên cảm thấy mệt mỏi. Đây có thể là dấu hiệu của stress hoặc thiếu ngủ. Cần điều chỉnh lại thói quen sinh hoạt và tìm cách thư giãn hơn.</li>";
+                    break;
+                case 'always':
+                    advice += "<li><strong>Cảm giác mệt mỏi:</strong> Bạn luôn cảm thấy mệt mỏi. Đây có thể là dấu hiệu của một vấn đề sức khỏe nghiêm trọng. Nên tham khảo ý kiến bác sĩ ngay lập tức.</li>";
+                    break;
+            }
+            // 35. Hài lòng với cân nặng hiện tại
+            switch (formData.get('weightSatisfaction')) {
+                case 'very_unsatisfied':
+                    advice += "<li><strong>Hài lòng với cân nặng:</strong> Bạn rất không hài lòng với cân nặng hiện tại. Hãy xem xét việc xây dựng một kế hoạch dinh dưỡng và tập luyện hợp lý để cải thiện tình trạng của bạn.</li>";
+                    break;
+                case 'unsatisfied':
+                    advice += "<li><strong>Hài lòng với cân nặng:</strong> Bạn không hài lòng với cân nặng của mình. Có thể cần tìm một chuyên gia dinh dưỡng để được tư vấn và hỗ trợ.</li>";
+                    break;
+                case 'neutral':
+                    advice += "<li><strong>Hài lòng với cân nặng:</strong> Bạn cảm thấy bình thường về cân nặng của mình. Hãy duy trì lối sống lành mạnh để giữ cân nặng ổn định.</li>";
+                    break;
+                case 'satisfied':
+                    advice += "<li><strong>Hài lòng với cân nặng:</strong> Bạn hài lòng với cân nặng hiện tại. Đây là một dấu hiệu tốt, nhưng hãy tiếp tục duy trì thói quen lành mạnh.</li>";
+                    break;
+                case 'very_satisfied':
+                    advice += "<li><strong>Hài lòng với cân nặng:</strong> Bạn rất hài lòng với cân nặng của mình. Hãy chia sẻ bí quyết với người khác để họ cũng có thể đạt được sự hài lòng về cân nặng.</li>";
+                    break;
+            }
+            advice += "</ul>";
+            advice += "<em><p><strong>Lưu ý:</strong> Đây chỉ là những lời khuyên chung dựa trên câu trả lời của bạn. Để có đánh giá chính xác và toàn diện về sức khỏe của bạn, vui lòng tham khảo ý kiến của các chuyên gia y tế. Chúc bạn sức khỏe tốt!</em></p>";
+            document.getElementById('results').innerHTML = advice;
+            document.getElementById('results').style.display = 'block';
+
+            Swal.fire({
+                icon: 'success',
+                title: 'Khảo sát thành công!',
+                text: 'Vui lòng xem kết quả bên dưới',
+                confirmButtonText: 'Đóng',
+                confirmButtonColor: '#3085d6'
+            });
+    
+        });
+    </script>
+</body>
+
+</html>

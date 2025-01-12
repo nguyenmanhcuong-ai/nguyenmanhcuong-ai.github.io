@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= lesson.title %> | Học tập Online</title>
+    <link rel="icon" href="/uploads/MC2.png" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --background-color: #ecf0f1;
+            --text-color: #34495e;
+            --text-light: #7f8c8d;
+            --accent-color: #e74c3c;
+        }
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            position: relative;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        .lesson-title {
+            color: var(--primary-color);
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            border-bottom: 3px solid var(--secondary-color);
+            padding-bottom: 15px;
+            font-weight: 700;
+        }
+        .lesson-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            font-size: 0.95rem;
+            color: var(--text-light);
+        }
+        .lesson-description {
+            font-style: italic;
+            color: var(--text-light);
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+            background-color: #f7f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid var(--accent-color);
+        }
+        .lesson-content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+        .lesson-content h2 {
+            color: var(--primary-color);
+            margin-top: 40px;
+            font-size: 2rem;
+            border-bottom: 2px solid #eaeaea;
+            padding-bottom: 10px;
+        }
+        .lesson-content p {
+            margin-bottom: 20px;
+        }
+        .lesson-content ul, .lesson-content ol {
+            margin-bottom: 20px;
+            padding-left: 25px;
+        }
+        .lesson-content img {
+            max-width: 100%;
+            height: auto;
+            margin: 30px 0;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        .lesson-content img:hover {
+            transform: scale(1.02);
+        }
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 1px solid #eee;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+        }
+        .nav-button {
+            padding: 12px 25px;
+            background-color: var(--secondary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+        }
+        .nav-button:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+        blockquote {
+            background-color: #f7f9fa;
+            border-left: 4px solid var(--accent-color);
+            padding: 20px;
+            margin: 20px 0;
+            font-style: italic;
+            border-radius: 0 10px 10px 0;
+        }
+        code {
+            background-color: #f0f4f8;
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9em;
+        }
+        .back-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 30px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+        .back-button:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            .lesson-title {
+                font-size: 2.2rem;
+            }
+            .nav-buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Học tập Online</h1>
+        <a href="/lessons" class="back-button"><i class="fas fa-arrow-left"></i> Quay về</a>
+    </div>
+    <div class="container">
+        <h1 class="lesson-title"><%= lesson.title %></h1>
+        <div class="lesson-meta">
+            <span class="reading-time"><i class="far fa-clock"></i> Thời gian đọc: Đang tính...</span>
+            <span class="lesson-level"><i class="fas fa-book-reader"></i> Cấp độ: </span>
+
+        </div>
+        <div class="lesson-description"><%= lesson.description %></div>
+        <div class="lesson-content">
+            <%- lesson.content %>
+        </div>
+        <div class="nav-buttons">
+            <% if (previousLesson) { %> <!-- Bài tiếp theo (bài mới hơn) ở bên trái -->
+                <a href="/lessons/detail/<%= previousLesson.id %>" class="nav-button">
+                    <i class="fas fa-arrow-left"></i> Bài trước: <%= previousLesson.title %>
+                </a>
+            <% } else { %>
+                <span class="nav-button" style="opacity: 0.5; cursor: not-allowed;">
+                    <i class="fas fa-arrow-left"></i> Không có bài trước
+                </span>
+            <% } %>
+        
+            <% if (nextLesson) { %> <!-- Bài trước (bài cũ hơn) ở bên phải -->
+                <a href="/lessons/detail/<%= nextLesson.id %>" class="nav-button">
+                    Bài tiếp theo: <%= nextLesson.title %> <i class="fas fa-arrow-right"></i>
+                </a>
+            <% } else { %>
+                <span class="nav-button" style="opacity: 0.5; cursor: not-allowed;">
+                    Không có bài tiếp theo <i class="fas fa-arrow-right"></i>
+                </span>
+            <% } %>
+        </div>
+                        <div class="footer">
+            &copy; 2024 Học tập Online. Mọi quyền được bảo lưu bởi Cường Nguyễn.
+        </div>
+    </div>
+    <script>
+        function calculateReadingTime() {
+            // Lấy nội dung từ phần tử có class 'lesson-content'
+            const content = document.querySelector('.lesson-content').innerText;
+        
+            // Đếm số từ
+            const wordCount = content.trim().split(/\s+/).length;
+        
+            let timeEstimate;
+            let level;
+        
+            // Phân chia thời gian đọc theo số từ
+            if (wordCount <= 2000) {
+                timeEstimate = '15 phút';
+                level = 'Cơ bản';
+            } else if (wordCount <= 4000) {
+                timeEstimate = '20 phút';
+                level = 'Trung cấp';
+            } else if (wordCount <= 6000) {
+                timeEstimate = '25 phút';
+                level = 'Nâng cao';
+            } else if (wordCount <= 8000) {
+                timeEstimate = '30 phút';
+                level = 'Chuyên sâu';
+            } else {
+                timeEstimate = '35 phút';
+                level = 'Chuyên gia';
+            }
+        
+            // Cập nhật phần tử HTML hiển thị thời gian đọc
+            const readingTimeElement = document.querySelector('.reading-time');
+            const levelElement = document.querySelector('.lesson-level'); // Giả sử bạn có một phần tử với class 'lesson-level'
+            
+            if (readingTimeElement) {
+                readingTimeElement.innerHTML = `<i class="far fa-clock"></i> Thời gian đọc: ${timeEstimate}`;
+            }
+            
+            if (levelElement) {
+                levelElement.innerHTML = `<i class="fas fa-book-reader"></i> Cấp độ: ${level}`;
+            }
+        }
+        
+        // Gọi hàm này sau khi nội dung đã được tải
+        document.addEventListener('DOMContentLoaded', calculateReadingTime);
+        
+        // Nếu bạn đang sử dụng TinyMCE và muốn cập nhật thời gian đọc khi nội dung thay đổi:
+        tinymce.init({
+            // ... các cài đặt khác của bạn ...
+            setup: function (editor) {
+                editor.on('Change', function () {
+                    calculateReadingTime();
+                });
+            }
+        });
+            </script>
+</body>
+
+</html>

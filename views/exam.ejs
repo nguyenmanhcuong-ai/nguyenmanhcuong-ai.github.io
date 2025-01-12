@@ -1,0 +1,1811 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-learning Submission | MC English</title>
+    <link rel="icon" href="/uploads/MC2.png" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --accent-color: #dbeafe;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --danger-color: #ef4444;
+            --success-color: #22c55e;
+            --warning-bg: #fff7ed;
+            --card-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+
+        body {
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f8fafc;
+            color: var(--text-primary);
+        }
+
+        /* Sidebar Styles */
+        /*.sidebar {
+            background: white;
+            border-right: 1px solid #e2e8f0;
+            height: 100vh;
+            position: fixed;
+            width: 280px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }*/
+
+        .sidebar-header {
+            padding: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+            margin-bottom: 1.5rem;
+        }
+
+        
+
+        .nav-link {
+            color: var(--text-secondary);
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 0.5rem;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .nav-link:hover {
+            background-color: var(--accent-color);
+            color: var(--primary-color);
+        }
+
+        .nav-link.active {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 500;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            margin-left: 280px;
+            padding: 2rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 1rem;
+            border: none;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+
+        .card-header {
+            background-color: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 1.25rem 1.5rem;
+        }
+
+        .card-title {
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 1.25rem;
+            margin: 0;
+        }
+
+        /* Tab Styles */
+        .nav-tabs {
+            border-bottom: 1px solid #e2e8f0;
+            gap: 0.5rem;
+            padding: 0 1rem;
+        }
+
+        .nav-tabs .nav-link {
+            border: none;
+            color: var(--text-secondary);
+            padding: 1rem 1.5rem;
+            margin-bottom: -1px;
+            font-weight: 500;
+        }
+
+        .nav-tabs .nav-link.active {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+            background-color: transparent;
+        }
+
+        /* File Upload Styles */
+        .file-upload-container {
+            border: 2px dashed #e2e8f0;
+            border-radius: 1rem;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            background: #f8fafc;
+        }
+
+        .file-upload-container:hover {
+            border-color: var(--primary-color);
+            background: var(--accent-color);
+        }
+
+/* Container with grid layout */
+.exam-files {
+    padding: 1rem;
+    max-width: 1024px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1rem; /* Giảm khoảng cách giữa các phần tử */
+    background: #ffffff;
+    border-radius: 1.5rem;
+}
+  
+  /* File item card */
+  .file-item {
+    display: flex;
+    flex-direction: column;
+    background: rgb(233, 232, 232);
+    border-radius: 0.75rem; /* Giảm kích thước border-radius */
+    border: 1px solid #e2e8f0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 1.5rem; /* Giảm kích thước padding */
+    position: relative;
+    overflow: hidden;
+    width: 230px; /* Điều chỉnh width nếu cần */
+    max-width: 100%; /* Đảm bảo không vượt quá chiều rộng của phần chứa */
+
+}
+  
+  /* Gradient hover effect */
+  .file-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(to right, #3b82f6, #60a5fa);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+  }
+  
+  .file-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.08);
+    border-color: #93c5fd;
+  }
+  
+  .file-item:hover::before {
+    transform: scaleX(1);
+  }
+  
+  /* Icon container */
+  .file-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    background: #eff6ff;
+    border-radius: 16px;
+    margin-bottom: 1rem;
+    color: #3b82f6;
+    font-size: 1.75rem;
+    transition: all 0.3s ease;
+  }
+  
+  .file-item:hover .file-icon {
+    background: #dbeafe;
+    transform: scale(1.05) rotate(-5deg);
+  }
+  
+  /* File info section */
+  .file-info {
+    flex: 1;
+  }
+  
+  .file-info h6 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin: 0 0 0.75rem 0;
+    line-height: 1.4;
+  }
+  
+  /* Enhanced download button */
+  .btn-outline-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #3b82f6;
+    background: #f8fafc;
+    border: 1px solid #93c5fd;
+    border-radius: 0.75rem;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    margin-top: auto;
+  }
+  
+  .btn-outline-primary:hover {
+    background: #3b82f6;
+    color: white;
+    border-color: #3b82f6;
+  }
+  
+  .btn-outline-primary i {
+    margin-right: 0.5rem;
+    font-size: 1rem;
+  }
+  
+        /* Button Styles */
+        .btn-primary {
+            background-color: var(--primary-color);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-1px);
+        }
+
+        /* Warning Section Styles */
+        .warning-text {
+            background-color: var(--warning-bg);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .warning-text h6 {
+            color: var(--danger-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .warning-text ol {
+            padding-left: 1.25rem;
+            margin-bottom: 0;
+        }
+
+        .warning-text li {
+            margin-bottom: 0.75rem;
+            line-height: 1.6;
+            color: red; /* Màu chữ đỏ */
+            font-style: italic; /* In nghiêng */
+        }
+        
+        /* Deadline Info Styles */
+        .deadline-info {
+            background-color: rgb(245, 249, 137);
+            border-radius: 0.75rem;
+            padding: 0.75rem 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid #bfdbfe;
+            display: inline-flex; /* Đổi sang inline-flex */
+            align-items: center;
+            gap: 0.75rem;
+            color: red; /* Màu chữ đỏ */
+        
+        }
+
+        /* Responsive Design */
+        /*@media (max-width: 991.98px) {
+            .sidebar {
+                transform: translateX(-100%);
+                z-index: 1000;
+            }
+
+            .sidebar.show {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .nav-tabs {
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                padding: 0.5rem;
+            }
+        }*/
+
+        /* Guidelines Styles */
+        .guidelines {
+            background-color: #f5f8fa;
+            border-radius: 8px;
+            padding: 20px;
+            border: 1px solid #e5e9ec;
+            width: 100%;
+            max-width: 2000px;
+            margin: 20px 0;
+            margin-top: -1px;
+          }
+          
+          .guidelines h5 {
+            color: #0068d1;
+            font-weight: 600;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #3498db;
+          }
+          
+          .guidelines ul {
+            padding-left: 20px;
+            margin-bottom: 20px;
+            list-style: none;
+          }
+          
+          .guidelines li {
+            margin-bottom: 12px;
+            line-height: 1.6;
+            color: #34495e;
+            padding-left: 20px;
+            position: relative;
+          }
+          
+          .guidelines li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: #3498db;
+          }      
+        /* Alert Styles */
+        .alert {
+            border-radius: 0.75rem;
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .alert-warning {
+            background-color: var(--warning-bg);
+            border: 1px solid #fed7aa;
+            color: #9a3412;
+            display: inline-flex; /* Thay đổi sang inline-flex */
+            align-items: center; /* Giữ cho nội dung căn giữa theo chiều dọc */
+            padding: 0.75rem 1rem; /* Điều chỉnh padding nếu cần thiết */
+            border-radius: 0.5rem; /* Tùy chọn: làm bo góc cho phần tử */
+        }
+
+        .alert-success {
+            background-color: #d1fae5; /* Thay đổi màu nền thành màu xanh nhạt */
+            border: 1px solid #bbf7d0; /* Thay đổi màu viền */
+            color: #065f46; /* Màu chữ */
+            display: block; /* Đặt thành block để nó chiếm toàn bộ chiều rộng */
+            width: fit-content; /* Đảm bảo chiều rộng chỉ vừa đủ với nội dung */
+            align-items: center; /* Giữ cho nội dung căn giữa theo chiều dọc */
+            padding: 0.75rem 1rem; /* Điều chỉnh padding nếu cần thiết */
+            border-radius: 0.5rem; /* Tùy chọn: làm bo góc cho phần tử */
+            margin-top: 1rem; /* Giữ lại khoảng cách trên nếu cần */
+            margin-left: auto; /* Tùy chọn: căn trái nếu muốn */
+            margin-right: auto; /* Tùy chọn: căn phải nếu muốn */
+        }
+                
+                .class-name {
+    background-color: #4CAF50; /* Màu nền đẹp, có thể thay đổi theo ý thích */
+    color: white; /* Màu chữ trắng để nổi bật trên nền xanh */
+    padding: 20px; /* Tạo khoảng cách giữa nội dung và viền */
+    border-radius: 10px; /* Làm mềm các góc */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Thêm đổ bóng */
+    transition: transform 0.3s; /* Hiệu ứng chuyển động */
+}
+
+.class-name:hover {
+    transform: scale(1.05); /* Tăng kích thước khi hover */
+}
+
+/*nut chinh sua*/
+.btn-warning {
+    background-color: #ffc107; /* Màu nền */
+    color: white; /* Màu chữ */
+}
+
+.btn-warning:hover {
+    background-color: #e0a800; /* Màu nền khi hover */
+    transform: scale(1.05); /* Hiệu ứng phóng to khi hover */
+}
+
+.btn-secondary {
+    background-color: #6c757d; /* Màu nền */
+    color: white; /* Màu chữ */
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268; /* Màu nền khi hover */
+    transform: scale(1.05); /* Hiệu ứng phóng to khi hover */
+}
+.topic-code {
+    font-family: 'Roboto Mono', monospace;
+    color: var(--primary-color);
+    font-weight: 500;
+}
+
+
+.stats-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    background-color: rgb(243, 243, 243);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+
+.stat-card:hover {
+    transform: scale(1.02); /* Phóng to nhẹ khi hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Tăng độ bóng khi hover */
+}
+
+.stat-icon {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.stat-primary {
+    background-color: rgba(79, 70, 229, 0.1);
+    color: var(--primary-color);
+}
+
+.stat-warning {
+    background-color: rgba(245, 158, 11, 0.1);
+    color: #d97706;
+}
+
+.stat-success {
+    background-color: rgba(16, 185, 129, 0.1);
+    color: #059669;
+}
+
+.stat-danger {
+    background-color: rgba(239, 68, 68, 0.1);
+    color: #dc2626;
+}
+
+.stat-value {
+    font-size: 1.875rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.stat-label {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
+.deadline-warning {
+    color: #d97706;
+    background-color: rgba(245, 158, 11, 0.1);
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.875rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.deadline-expired {
+    color: #dc2626;
+    background-color: rgba(239, 68, 68, 0.1);
+}
+
+.filters {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.filter-btn {
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    background-color: white;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.filter-btn.active {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .stats-container {
+        grid-template-columns: 1fr;
+    }
+
+    .filters {
+        flex-direction: column;
+    }
+
+    .search-box {
+        order: -1;
+    }
+}
+
+
+.table-warning td {
+    background-color: rgb(250, 255, 206); /* Màu vàng nhạt hơn */
+}
+
+.table-danger td {
+    background-color: rgb(255, 224, 224); /* Màu đỏ nhạt hơn */
+}
+
+
+
+
+/* Sidebar */
+.sidebar {
+    background: white;
+    border-right: 1px solid #e2e8f0;
+    height: 100vh;
+    width: 280px;
+    padding: 1.5rem;
+    position: fixed;
+    transition: all 0.3s ease;
+    z-index: 50;
+}
+
+/* Main Content */
+.main-content {
+    flex: 1;
+    margin-left: 280px;
+    padding: 1.5rem;
+    transition: margin-left 0.3s ease;
+}
+
+/* Hamburger Menu Button */
+.menu-toggle {
+    display: none;
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    z-index: 100;
+    padding: 0.5rem;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.375rem;
+    cursor: pointer;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .sidebar {
+        transform: translateX(-100%);
+    }
+    
+    .sidebar.active {
+        transform: translateX(0);
+    }
+    
+    .main-content {
+        margin-left: 0;
+    }
+    
+    .menu-toggle {
+        display: block;
+    }
+    
+    /* Optional: Add overlay when sidebar is open */
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 40;
+    }
+    
+    .sidebar-overlay.active {
+        display: block;
+    }
+}
+
+
+
+    </style>
+</head>
+<body>
+
+        <!-- Hamburger Menu Button -->
+        <button class="menu-toggle">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 12h18M3 6h18M3 18h18"></path>
+            </svg>
+        </button>
+    
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 col-lg-2 sidebar">
+                <div class="text-center mb-4 class-name">
+                    <h4><%= nameclass %></h4>
+                </div>
+                
+                <ul class="nav nav-pills flex-column" id="examTabs" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="guidelines-tab" data-bs-toggle="pill" href="#guidelines-content" role="tab">
+                            <i class="fas fa-book me-2"></i>Hướng dẫn làm bài
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="template-tab" data-bs-toggle="pill" href="#template-content" role="tab">
+                            <i class="fas fa-folder-open me-2"></i>Trình bày báo cáo
+                        </a>
+                    </li> 
+                    <li class="nav-item">
+                        <a class="nav-link" id="exam-tab" data-bs-toggle="pill" href="#exam-content" role="tab">
+                            <i class="fas fa-file-alt me-2"></i>Nội dung báo cáo
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="submit-tab" data-bs-toggle="pill" href="#submit-content" role="tab">
+                            <i class="fas fa-upload me-2"></i>Nộp báo cáo
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="discussion-tab" data-bs-toggle="pill" href="#discussion-content" role="tab">
+                            <i class="fas fa-comments me-2"></i>Thảo luận
+                        </a>
+                    </li>                   
+                </ul>
+            </div>
+            
+
+            <!-- Main Content -->
+            <div class="col-md-9 col-lg-10 main-content">
+                <div class="tab-content">
+                    <!-- Hướng Dẫn Content -->
+                    <div class="tab-pane fade show active" id="guidelines-content" role="tabpanel">
+                        <div class="card">
+                            <div class="card-header">
+                                <i class="fas fa-book me-2"></i><strong style="font-size: 1.5rem;">HƯỚNG DẪN LÀM BÀI VÀ NỘP BÀI</strong>
+                            </div>
+                            <div class="card-body">
+                                <div class="guidelines">
+                                    <h5>1. Chuẩn Bị Trước Khi Làm Bài</h5>
+                                    <ul>
+                                        <li><strong>Đọc Đề Bài</strong>: Đảm bảo bạn đã đọc kỹ đề bài và hiểu rõ yêu cầu. Nếu có bất kỳ phần nào không rõ, hãy hỏi giảng viên hoặc bạn bè để được giải đáp.</li>
+                                        <li><strong>Tài Liệu Học Tập</strong>: Chuẩn bị tài liệu tham khảo, sách giáo khoa và bất kỳ nguồn tài liệu nào có thể giúp bạn hoàn thành bài tập.</li>
+                                        <li><strong>Công Cụ Làm Bài</strong>: Sử dụng phần mềm hoặc công cụ phù hợp để làm bài (ví dụ: Microsoft Word, Google Docs, LaTeX cho tài liệu, hoặc phần mềm lập trình nếu cần).</li>
+                                    </ul>
+
+                                    <h5>2. Thực Hiện Bài Tập</h5>
+                                    <ul>
+                                        <li><strong>Bám Sát Đề Bài</strong>: Làm theo từng yêu cầu trong đề bài một cách có hệ thống.</li>
+                                        <li><strong>Ghi Chép Cẩn Thận</strong>: Lưu ý ghi lại các ý tưởng, giải pháp và kết quả của bạn trong quá trình làm bài.</li>
+                                        <li><strong>Kiểm Tra Lại</strong>: Sau khi hoàn thành, hãy đọc lại bài làm để kiểm tra lỗi chính tả, ngữ pháp và logic.</li>
+                                    </ul>
+
+                                    <h5>3. Chuẩn Bị Nộp Bài</h5>
+                                    <ul>
+                                        <li><strong>Định Dạng Tài Liệu</strong>: Đảm bảo tài liệu của bạn được định dạng đúng theo yêu cầu (font chữ, kích thước, cách trình bày).</li>
+                                        <li><strong>Tên Tệp</strong>: Đặt tên tệp theo quy định, thường là <code>HoTen_MaLop_KyThi</code> (ví dụ: <code>NguyenVanA_PT112024_Mid/Final.pdf</code>).</li>
+                                        <li><strong>Kiểm Tra Kích Thước Tệp</strong>: Đảm bảo rằng tệp không vượt quá giới hạn dung lượng cho phép (thường là 200MB).</li>
+                                    </ul>
+
+                                    <h5>4. Nộp Bài</h5>
+                                    <ul>
+                                        <li><strong>Truy Cập Hệ Thống Nộp Bài</strong>: Đăng nhập vào trang web hoặc hệ thống được chỉ định để nộp bài.</li>
+                                        <li><strong>Tải Tệp Lên</strong>: Chọn tệp bài tập từ máy tính của bạn và tải lên hệ thống.</li>
+                                        <li><strong>Xác Nhận Nộp Bài</strong>: Sau khi tải lên, hãy kiểm tra lại để đảm bảo rằng tệp đã được tải lên thành công.</li>
+                                        <li><strong>Ghi Nhớ Thời Hạn Nộp Bài</strong>: Chắc chắn bạn đã nộp bài trước thời hạn quy định. Hệ thống sẽ tự động đóng sau khi hết thời gian nộp.</li>
+                                    </ul>
+
+                                    <h5>5. Sau Khi Nộp Bài</h5>
+                                    <ul>
+                                        <li><strong>Lưu Giấy Chứng Nhận</strong>: Nếu có giấy xác nhận nộp bài, hãy lưu lại để có bằng chứng.</li>
+                                        <li><strong>Theo Dõi Phản Hồi</strong>: Chờ phản hồi từ giảng viên về bài làm của bạn. Nếu có điểm hoặc nhận xét, hãy kiểm tra chúng để cải thiện trong các bài tiếp theo.</li>
+                                    </ul>
+
+                                    <h5>6. Lưu Ý Quan Trọng</h5>
+                                    <ul>
+                                        <li><strong>Kiểm Tra Bài Làm</strong>: Đừng ngại làm lại bài hoặc nộp lại nếu bạn phát hiện ra lỗi sau khi đã nộp bài, miễn là còn trong thời hạn cho phép.</li>
+                                        <li><strong>Giữ Liên Lạc</strong>: Nếu bạn gặp khó khăn trong quá trình làm bài, hãy liên hệ với giảng viên hoặc bạn bè để được hỗ trợ.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+<!-- Mẫu Báo Cáo Content -->
+<div class="tab-pane fade show" id="template-content" role="tabpanel">
+    <div class="card-header">
+        <i class="fas fa-folder-open me-2"></i><strong style="font-size: 1.5rem;">TRÌNH BÀY BÁO CÁO / THẢO LUẬN</strong>
+    </div>
+    <div class="card shadow-sm border-light rounded mt-4">
+        <div class="card-header">
+            <i class="fas fa-download me-2"></i>
+            <strong>Tải về mẫu báo cáo</strong>
+        </div>
+        <div class="card-body">
+            <p>Để đảm bảo tính nhất quán, sinh viên <strong style="color:red">bắt buộc</strong> sử dụng mẫu báo cáo được cung cấp:</p>
+            <a href="/uploads/MauBaoCao-ThaoLuan-MCEnglish.zip" class="btn btn-success">
+                <i class="fas fa-file-download"></i> Tải mẫu báo cáo (Template)
+            </a>
+        </div>
+    </div>
+    <ol>
+        <li class="mb-4">
+            <strong>Cấu trúc báo cáo:</strong>
+            <p>- Báo cáo cần có <strong>"Trang bìa"</strong> với đầy đủ thông tin về tên đề tài, thông tin nhóm/thành viên, mã môn học và thông tin giảng viên hướng dẫn.</p>
+            <p>- Phần nội dung chính của báo cáo cần được trình bày theo cấu trúc logic, rõ ràng với các đề mục được đánh số thứ tự.</p>
+            <p>- Đảm bảo có đầy đủ các phần: Mục lục, Danh mục hình ảnh/bảng biểu (nếu có), Danh mục từ viết tắt (nếu có).</p>
+            <p><strong>Gợi ý:</strong> Sử dụng tính năng Styles trong Word để tạo và cập nhật mục lục tự động, giúp việc định dạng và điều chỉnh báo cáo dễ dàng hơn.</p>
+            <p><strong>Ví dụ:</strong> Một báo cáo về "Ứng dụng AI trong giáo dục" có thể có cấu trúc: 1. Giới thiệu, 2. Cơ sở lý thuyết, 3. Phương pháp nghiên cứu, 4. Kết quả và thảo luận, 5. Kết luận.</p>
+        </li>
+        <li class="mb-4">
+            <strong>Định dạng văn bản:</strong>
+            <p>- Font chữ: Times New Roman hoặc Arial, cỡ chữ 12 cho nội dung, 14 cho tiêu đề chính.</p>
+            <p>- Giãn dòng: 1.5 lines cho nội dung chính, single line cho bảng biểu và chú thích.</p>
+            <p>- Căn lề: Trái 3.5cm, Phải 2cm, Trên 2.5cm, Dưới 2.5cm.</p>
+            <p><strong>Chú ý:</strong> Đảm bảo định dạng nhất quán trong toàn bộ báo cáo. Sử dụng công cụ định dạng tự động của Word để duy trì tính nhất quán.</p>
+            <p><strong>Ví dụ:</strong> Các tiêu đề cấp 1 sử dụng font size 14, in đậm, các tiêu đề cấp 2 sử dụng font size 13, in đậm, nội dung sử dụng font size 12.</p>
+        </li>
+        <li class="mb-4">
+            <strong>Trình bày nội dung:</strong>
+            <p>- Mỗi phần trong báo cáo cần có phần mở đầu giới thiệu ngắn gọn về nội dung sắp trình bày.</p>
+            <p>- Sử dụng hình ảnh, bảng biểu, biểu đồ một cách hợp lý để minh họa cho nội dung.</p>
+            <p>- Trích dẫn và tài liệu tham khảo phải được thực hiện đúng quy định, thống nhất theo một chuẩn (VD: APA, IEEE).</p>
+            <p><strong>Lưu ý:</strong> Đảm bảo đánh số trang, đánh số hình ảnh/bảng biểu theo thứ tự. <strong style="color:Red"><i>Mọi hình ảnh/bảng biểu phải có tiêu đề và nguồn gốc rõ ràng.</i></strong></p>
+            <p><strong>Ví dụ:</strong> "Hình 1: Mô hình ứng dụng AI trong lớp học (Nguồn: Smith et al., 2023)"</p>
+        </li>
+    </ol>
+    <div class="alert alert-info mt-3">
+        <i class="fas fa-info-circle me-2"></i>
+        <strong>Quan trọng:</strong> Trước khi nộp bài, hãy kiểm tra lại toàn bộ định dạng, lỗi chính tả và tính logic của nội dung báo cáo.
+    </div>
+</div>
+
+
+
+<!-- Đề Thi Content -->
+<div class="tab-pane fade show" id="exam-content" role="tabpanel">
+    <div class="card">
+        <div class="card-header">
+            <i class="fas fa-file-alt me-2"></i><strong style="font-size: 1.5rem;">NỘI DUNG BÁO CÁO</strong>
+            
+            <!-- Tab Navigation -->
+            <ul class="nav nav-tabs mt-3" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" data-bs-toggle="tab" href="#midterm" role="tab">Giữa kỳ</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="tab" href="#finalterm" role="tab">Cuối kỳ</a>
+                </li>
+            </ul>
+        </div>
+        
+        <!-- Tab Content -->
+        <div class="tab-content">
+            <!-- Giữa kỳ Content -->
+            <div class="tab-pane fade show active" id="midterm" role="tabpanel">
+                <div class="card-body">
+                    <% const midtermExams = exams.filter(exam => exam.term.toLowerCase() === 'midterm'); %>
+                    <% if (midtermExams.length > 0) { %>
+                        <div class="deadline-info mb-4">
+                            <strong>Thời hạn nộp bài:</strong> 
+                            <%= new Date(midtermExams[0].deadline).toLocaleString('vi-VN') %>
+                        </div>
+                        <div class="mb-4" style="color: #dc3545;"> <!-- Thay đổi màu chữ nếu cần -->
+                            <i>Lưu ý: Sinh viên phải tải về tất cả nếu có nhiều file đính kèm.</i>
+                        </div>
+                
+                        <div class="exam-files">
+                            <% ['file1', 'file2', 'file3', 'file4', 'file5'].forEach((fileField, index) => { %>
+                                <% if (midtermExams[0][fileField]) { %>
+                                    <div class="file-item">
+                                        <i class="fas fa-file file-icon"></i>
+                                        <div class="file-info">
+                                            <h6 class="mb-0">File <%= index + 1 %></h6>
+                                            <a href="<%= midtermExams[0][fileField] %>" 
+                                               class="btn btn-sm btn-outline-primary mt-2"
+                                               target="_blank">
+                                                <i class="fas fa-download me-1"></i>Tải xuống
+                                            </a>
+                                        </div>
+                                    </div>
+                                <% } %>
+                            <% }) %>
+                        </div>
+                    <% } else { %>
+                        <p class="text-muted">Chưa có tài liệu đề thi giữa kỳ.</p>
+                    <% } %>
+                </div>
+            </div>
+
+            <!-- Cuối kỳ Content -->
+            <div class="tab-pane fade" id="finalterm" role="tabpanel">
+                <div class="card-body">
+                    <% const finaltermExams = exams.filter(exam => exam.term.toLowerCase() === 'finalterm'); %>
+                    <% if (finaltermExams.length > 0) { %>
+                        <div class="deadline-info mb-4">
+                            <strong>Thời hạn nộp bài:</strong> 
+                            <%= new Date(finaltermExams[0].deadline).toLocaleString('vi-VN') %>
+                        </div>
+                        <div class="mb-4" style="color: #dc3545;"> <!-- Thay đổi màu chữ nếu cần -->
+                            <i>Lưu ý: Sinh viên phải tải về tất cả nếu có nhiều file đính kèm.</i>
+                        </div>
+                        <div class="exam-files">
+                            <% ['file1', 'file2', 'file3', 'file4', 'file5'].forEach((fileField, index) => { %>
+                                <% if (finaltermExams[0][fileField]) { %>
+                                    <div class="file-item">
+                                        <i class="fas fa-file file-icon"></i>
+                                        <div class="file-info">
+                                            <h6 class="mb-0">File <%= index + 1 %></h6>
+                                            <a href="<%= finaltermExams[0][fileField] %>" 
+                                               class="btn btn-sm btn-outline-primary mt-2"
+                                               target="_blank">
+                                                <i class="fas fa-download me-1"></i>Tải xuống
+                                            </a>
+                                        </div>
+                                    </div>
+                                <% } %>
+                            <% }) %>
+                        </div>
+                    <% } else { %>
+                        <p class="text-muted">Chưa có tài liệu đề thi cuối kỳ.</p>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+                   
+<!-- Nộp Bài Content -->
+<div class="tab-pane fade" id="submit-content" role="tabpanel">
+    <div class="card">
+        <div class="card-header">
+            <i class="fas fa-upload me-2"></i><strong style="font-size: 1.5rem;">NỘP BÁO CÁO</strong>
+            
+            <!-- Tab Navigation -->
+            <ul class="nav nav-tabs mt-3" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" data-bs-toggle="tab" href="#submit-midterm" role="tab">Giữa kỳ</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="tab" href="#submit-finalterm" role="tab">Cuối kỳ</a>
+                </li>
+            </ul>
+        </div>
+        
+        <!-- Tab Content -->
+        <div class="tab-content">
+            <!-- Nộp bài Giữa kỳ Content -->
+<!-- Tab Content -->
+<div class="tab-content">
+    <!-- Nộp bài Giữa kỳ Content -->
+    <div class="tab-pane fade show active" id="submit-midterm" role="tabpanel">
+        <div class="card-body">
+            <div class="warning-text mt-4">
+                <h6><i class="fas fa-exclamation-triangle me-2"></i>Lưu ý:</h6>
+                <ol>
+                    <li>Đặt tên tệp theo quy định, thường là <code style="color: blue;">HoTen_MaLop_KyThi</code> (ví dụ: <code style="color: blue;">NguyenVanA_PT112024_Mid/Final.pdf</code>)</li>
+                    <li>Vì quyền lợi của sinh viên, sinh viên lưu ý kiểm tra kỹ bài làm của mình trước khi nộp bài để tránh xảy ra các trường hợp: nộp file lỗi, nộp nhầm môn, nộp nhầm báo cáo thực hành… (sinh viên có thể tải lại bài làm của mình sau khi đã nộp để tự kiểm tra).</li>
+                    <li>Đối với những trường hợp muốn thay đổi bài làm sau khi đã nộp bài (còn trong thời hạn nộp bài), sinh viên có thể chọn lại thao tác nộp bài, hệ thống sẽ ghi nhận file cuối cùng sinh viên đã nộp.</li>
+                    <li>Sau khi kết thúc thời gian nộp bài theo qui định, hệ thống sẽ đóng và sinh viên sẽ không nộp bài được.</li>
+                    <li>Đối với trường hợp sinh viên sao chép hình ảnh/ nội dung trên mạng, sao chép bài của các sinh viên khác, cho sinh viên khác sao chép bài, vi phạm liêm chính trong học thuật… sẽ bị xử lý kỷ luật theo Qui chế Công tác sinh viên hiện hành.</li>
+                </ol>
+            </div>
+
+            <% const midtermExam = exams.find(exam => exam.term.toLowerCase() === 'midterm'); %>
+            <div class="deadline-info mb-4">
+                <strong>Thời hạn nộp bài:</strong> 
+                <%= midtermExam ? new Date(midtermExam.deadline).toLocaleString('vi-VN') : 'Chưa có thông tin' %>
+            </div>
+            <% if (midtermExam && new Date() <= new Date(midtermExam.deadline)) { %>
+                <div class="file-upload-container">
+                    <form id="submissionForm" method="POST" enctype="multipart/form-data">
+                        <input type="hidden" name="examType" value="midterm">
+                        <input type="file" class="form-control mb-3" name="submission" id="fileInput"
+                               accept=".doc,.docx,.pdf,.zip,.rar" required 
+                               <% if (midtermSubmission) { %>disabled<% } %>>
+                        <small class="text-muted d-block mb-3">
+                            <strong>Sinh viên chỉ nộp file định dạng PDF. Nếu có nhiều file thì nén lại thành .zip hoặc .rar</strong><br>
+                            <strong>Dung lượng tối đa: 50MB</strong>
+                        </small>
+                        <div class="btn-group">
+                            <button type="submit" class="btn btn-primary" id="submitBtn"
+                                    <% if (midtermSubmission) { %>disabled<% } %>>
+                                <i class="fas fa-paper-plane me-2"></i>Nộp bài giữa kỳ
+                            </button>
+                            <% if (midtermSubmission) { %>
+                                <button type="button" class="btn btn-warning ms-2" id="editBtn" onclick="toggleEditMode()">
+                                    <i class="fas fa-edit me-2"></i>Chỉnh sửa
+                                </button>
+                                <button type="button" class="btn btn-secondary ms-2" id="cancelBtn" onclick="cancelEdit()" style="display: none;">
+                                    <i class="fas fa-times me-2"></i>Hủy
+                                </button>
+                            <% } %>
+                        </div>
+                    </form>
+
+                    <% if (midtermSubmission) { %>
+                        <div id="submissionInfo" class="alert alert-success mt-3">
+                            <strong>Bạn đã nộp bài thành công!</strong><br>
+                            <% 
+                                // Get submission history if available
+                                const submissions = midtermSubmission.submissions || [midtermSubmission];
+                                // Sort submissions by date if there's a timestamp available
+                                const latestSubmission = submissions[submissions.length - 1];
+                                const fullFileName = latestSubmission.url_submit.split('/').pop();
+                                const displayFileName = decodeURIComponent(fullFileName);
+                                const submissionTime = latestSubmission.submitted_at ? 
+                                    new Date(latestSubmission.submitted_at).toLocaleString('vi-VN') : '';
+                            %>
+                            <div class="latest-submission mt-2">
+                                <i class="fas fa-file me-2"></i>Bài nộp gần nhất:
+                                <a href="<%= latestSubmission.url_submit %>" target="_blank" class="text-primary">
+                                    <%= displayFileName %>
+                                </a>
+                                <% if (submissionTime) { %>
+                                    <small class="text-muted d-block mt-1">
+                                        <i class="fas fa-clock me-1"></i>Thời gian nộp: <%= submissionTime %>
+                                    </small>
+                                <% } %>
+                            </div>
+                        </div>
+                    <% } %>
+                    
+                    <div id="submissionMessage" class="mt-3"></div>
+                </div>
+
+                <script>
+                    function toggleEditMode() {
+                        const fileInput = document.getElementById('fileInput');
+                        const submitBtn = document.getElementById('submitBtn');
+                        const editBtn = document.getElementById('editBtn');
+                        const cancelBtn = document.getElementById('cancelBtn');
+                        
+                        fileInput.disabled = false;
+                        submitBtn.disabled = false;
+                        editBtn.style.display = 'none';
+                        cancelBtn.style.display = 'inline-block';
+                    }
+
+                    function cancelEdit() {
+                        const fileInput = document.getElementById('fileInput');
+                        const submitBtn = document.getElementById('submitBtn');
+                        const editBtn = document.getElementById('editBtn');
+                        const cancelBtn = document.getElementById('cancelBtn');
+                        
+                        fileInput.disabled = true;
+                        submitBtn.disabled = true;
+                        fileInput.value = '';
+                        editBtn.style.display = 'inline-block';
+                        cancelBtn.style.display = 'none';
+                    }
+                </script>
+            <% } else { %>
+                <div class="alert alert-warning">
+                    <i class="fas fa-clock me-2"></i>Đã hết hạn nộp bài giữa kỳ!
+                </div>
+            <% } %>
+        </div>
+    </div>
+
+        <!-- Nộp bài Cuối kỳ Content -->
+        <div class="tab-pane fade" id="submit-finalterm" role="tabpanel">
+            <div class="card-body">
+                <div class="warning-text mt-4">
+                    <h6><i class="fas fa-exclamation-triangle me-2"></i>Lưu ý:</h6>
+                    <ol>
+                        <li>Đặt tên tệp theo quy định, thường là <code style="color: blue;">HoTen_MaLop_KyThi</code> (ví dụ: <code style="color: blue;">NguyenVanA_PT112024_Mid/Final.pdf</code>)</li>
+                        <li>Vì quyền lợi của sinh viên, sinh viên lưu ý kiểm tra kỹ bài làm của mình trước khi nộp bài để tránh xảy ra các trường hợp: nộp file lỗi, nộp nhầm môn, nộp nhầm báo cáo thực hành… (sinh viên có thể tải lại bài làm của mình sau khi đã nộp để tự kiểm tra).</li>
+                        <li>Đối với những trường hợp muốn thay đổi bài làm sau khi đã nộp bài (còn trong thời hạn nộp bài), sinh viên có thể chọn lại thao tác nộp bài, hệ thống sẽ ghi nhận file cuối cùng sinh viên đã nộp.</li>
+                        <li>Sau khi kết thúc thời gian nộp bài theo qui định, hệ thống sẽ đóng và sinh viên sẽ không nộp bài được.</li>
+                        <li>Đối với trường hợp sinh viên sao chép hình ảnh/ nội dung trên mạng, sao chép bài của các sinh viên khác, cho sinh viên khác sao chép bài, vi phạm liêm chính trong học thuật… sẽ bị xử lý kỷ luật theo Qui chế Công tác sinh viên hiện hành.</li>
+                    </ol>
+                </div>
+
+                <% const finaltermExam = exams.find(exam => exam.term.toLowerCase() === 'finalterm'); %>
+                <div class="deadline-info mb-4">
+                    <strong>Thời hạn nộp bài:</strong> 
+                    <%= finaltermExam ? new Date(finaltermExam.deadline).toLocaleString('vi-VN') : 'Chưa có thông tin' %>
+                </div>
+
+                <% if (finaltermExam && new Date() <= new Date(finaltermExam.deadline)) { %>
+                    <div class="file-upload-container">
+                        <form id="submissionForm2" method="POST" enctype="multipart/form-data">
+                            <input type="hidden" name="examType" value="finalterm">
+                            <input type="file" class="form-control mb-3" name="submission" id="fileInput2"
+                                accept=".doc,.docx,.pdf,.zip,.rar" required 
+                                <% if (finaltermSubmission) { %>disabled<% } %>>
+                            <small class="text-muted d-block mb-3">
+                                <strong>Sinh viên chỉ nộp file định dạng PDF. Nếu có nhiều file thì nén lại thành .zip hoặc .rar</strong><br>
+                                <strong>Dung lượng tối đa: 50MB</strong>
+                            </small>
+                            <div class="btn-group">
+                                <button type="submit" class="btn btn-primary" id="submitBtn2"
+                                        <% if (finaltermSubmission) { %>disabled<% } %>>
+                                    <i class="fas fa-paper-plane me-2"></i>Nộp bài cuối kỳ
+                                </button>
+                                <% if (finaltermSubmission) { %>
+                                    <button type="button" class="btn btn-warning ms-2" id="editBtn2" onclick="toggleEditMode2()">
+                                        <i class="fas fa-edit me-2"></i>Chỉnh sửa
+                                    </button>
+                                    <button type="button" class="btn btn-secondary ms-2" id="cancelBtn2" onclick="cancelEdit2()" style="display: none;">
+                                        <i class="fas fa-times me-2"></i>Hủy
+                                    </button>
+                                <% } %>
+                            </div>
+                        </form>
+
+                        <% if (finaltermSubmission) { %>
+                            <div id="submissionInfo2" class="alert alert-success mt-3">
+                                <strong>Bạn đã nộp bài thành công!</strong><br>
+                                <% 
+                                    // Get submission history if available
+                                    const submissions = finaltermSubmission.submissions || [finaltermSubmission];
+                                    // Sort submissions by date if there's a timestamp available
+                                    const latestSubmission = submissions[submissions.length - 1];
+                                    const fullFileName = latestSubmission.url_submit.split('/').pop();
+                                    const displayFileName = decodeURIComponent(fullFileName);
+                                    const submissionTime = latestSubmission.submitted_at ? 
+                                        new Date(latestSubmission.submitted_at).toLocaleString('vi-VN') : '';
+                                %>
+                                <div class="latest-submission mt-2">
+                                    <i class="fas fa-file me-2"></i>Bài nộp gần nhất:
+                                    <a href="<%= latestSubmission.url_submit %>" target="_blank" class="text-primary">
+                                        <%= displayFileName %>
+                                    </a>
+                                    <% if (submissionTime) { %>
+                                        <small class="text-muted d-block mt-1">
+                                            <i class="fas fa-clock me-1"></i>Thời gian nộp: <%= submissionTime %>
+                                        </small>
+                                    <% } %>
+                                </div>
+                            </div>
+                        <% } %>
+                        
+                        <div id="submissionMessage2" class="mt-3"></div>
+                    </div>
+
+                    <script>
+                        function toggleEditMode2() {
+                            const fileInput = document.getElementById('fileInput2');
+                            const submitBtn = document.getElementById('submitBtn2');
+                            const editBtn = document.getElementById('editBtn2');
+                            const cancelBtn = document.getElementById('cancelBtn2');
+                            
+                            fileInput.disabled = false;
+                            submitBtn.disabled = false;
+                            editBtn.style.display = 'none';
+                            cancelBtn.style.display = 'inline-block';
+                        }
+
+                        function cancelEdit2() {
+                            const fileInput = document.getElementById('fileInput2');
+                            const submitBtn = document.getElementById('submitBtn2');
+                            const editBtn = document.getElementById('editBtn2');
+                            const cancelBtn = document.getElementById('cancelBtn2');
+                            
+                            fileInput.disabled = true;
+                            submitBtn.disabled = true;
+                            fileInput.value = '';
+                            editBtn.style.display = 'inline-block';
+                            cancelBtn.style.display = 'none';
+                        }
+                    </script>
+                <% } else { %>
+                    <div class="alert alert-warning">
+                        <i class="fas fa-clock me-2"></i>Đã hết hạn nộp bài cuối kỳ!
+                    </div>
+                <% } %>
+            </div>
+        </div>
+        </div>
+    </div>
+    </div>
+</div>
+
+
+<!-- Discussion Tab Content -->
+<div class="tab-pane fade" id="discussion-content" role="tabpanel">
+    <div class="card border-0">
+        <div class="card-header d-flex align-items-center">
+            <i class="fas fa-comments me-2"></i>
+            <strong class="bg-white text-dark p-2" style="border-radius: 5px; font-size: 1.5rem;">THẢO LUẬN</strong>
+        </div>
+        
+
+        <!-- Nested Tab Navigation -->
+        <ul class="nav nav-pills nav-fill mb-3 mt-3" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="guide-tab" data-bs-toggle="pill" data-bs-target="#guide-content" type="button" role="tab">
+                    <i class="fas fa-book-reader me-2"></i>Hướng dẫn thảo luận
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="topics-tab" data-bs-toggle="pill" data-bs-target="#topics-content" type="button" role="tab">
+                    <i class="fas fa-list-ul me-2"></i>Đề tài thảo luận
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="submit-discussion-tab" data-bs-toggle="pill" data-bs-target="#submit-discussion-content" type="button" role="tab">
+                    <i class="fas fa-upload me-2"></i>Nộp bài
+                </button>
+            </li>
+        </ul>
+
+<!-- Nested Tab Contents -->
+<div class="tab-content p-3">
+    <!-- Hướng dẫn thảo luận Content -->
+    <div class="tab-pane fade show active" id="guide-content" role="tabpanel">
+         <h5 class="mb-3">Hướng dẫn thảo luận</h5>
+        <ol>
+            <li class="mb-4">
+                <strong>Chọn đề tài:</strong>
+                <p>- Truy cập vào tab <strong>"Đề tài thảo luận"</strong> để xem danh sách các đề tài có sẵn. Mỗi đề tài sẽ có một mô tả ngắn gọn về nội dung, yêu cầu và các câu hỏi định hướng.</p>
+                <p>- Hãy dành thời gian để đọc kỹ mô tả của từng đề tài, chú ý đến các tiêu chí như độ khó, phạm vi nghiên cứu và khả năng thu thập tài liệu.</p>
+                <p>- Tổ chức một buổi thảo luận với các thành viên trong nhóm để lựa chọn đề tài phù hợp nhất với khả năng, sở thích và kinh nghiệm của mỗi người. Điều này sẽ giúp đảm bảo rằng tất cả các thành viên đều có thể đóng góp ý kiến và tham gia tích cực.</p>
+                <p><strong>Gợi ý:</strong> Trước khi quyết định, hãy cân nhắc thời gian cần thiết để hoàn thành đề tài và nguồn tài liệu có sẵn, cũng như các yêu cầu khác của giảng viên.</p>
+                <p><strong>Ví dụ:</strong> Nếu nhóm bạn có 3 thành viên, một người yêu thích công nghệ, một người có kinh nghiệm trong giáo dục, và người còn lại quan tâm đến tâm lý học, bạn có thể chọn đề tài "Tác động của công nghệ đến phương pháp dạy học".</p>
+            </li>
+            <li class="mb-4">
+                <strong>Thảo luận nhóm:</strong>
+                <p>- Sau khi đã chọn được đề tài, hãy tổ chức một buổi họp nhóm. Trong buổi họp, mỗi thành viên nên trình bày quan điểm, ý tưởng và đề xuất của mình về cách tiếp cận đề tài.</p>
+                <p>- Ghi chú lại các điểm chính trong cuộc thảo luận, những ý kiến quan trọng và các câu hỏi cần làm rõ hơn để tránh nhầm lẫn sau này.</p>
+                <p><strong>Chú ý:</strong> Nếu có sự bất đồng trong nhóm, hãy thảo luận một cách cởi mở và tôn trọng ý kiến của nhau để tìm ra giải pháp tốt nhất cho đề tài. Việc này không chỉ giúp xây dựng sự đồng thuận mà còn cải thiện kỹ năng làm việc nhóm.</p>
+                <p><strong>Ví dụ:</strong> Nếu nhóm bạn đang thảo luận về đề tài "Tác động của công nghệ đến phương pháp dạy học", hãy xem xét các khía cạnh như lợi ích và thách thức khi áp dụng công nghệ trong giáo dục, cùng với các ví dụ thực tiễn.</p>
+            </li>
+            <li class="mb-4">
+                <strong>Nộp bài:</strong>
+                <p>- Sau khi đã tổng hợp ý kiến và hoàn thành bài viết, hãy đảm bảo rằng bài viết đã đáp ứng đủ các yêu cầu và tiêu chí đã đề ra.</p>
+                <p>- Truy cập vào tab <strong>"Nộp bài"</strong> trên nền tảng, làm theo hướng dẫn để tải lên tài liệu. Hãy đảm bảo rằng bạn đã kiểm tra lại nội dung và định dạng của bài nộp trước khi thực hiện thao tác này.</p>
+                <p>- Đảm bảo rằng bạn nộp bài đúng hạn theo thời gian đã quy định. <strong style ="color:Red"> <i>Việc nộp muộn có thể ảnh hưởng đến điểm số của nhóm.</i></strong></p>
+                <p><strong>Lưu ý:</strong> Đảm bảo rằng tên file bài nộp đúng theo yêu cầu <code>(cách đặt tên file: [TenThanhVien_ID]_MaDeTai.docx)</code>. Điều này rất quan trọng để giáo viên dễ dàng phân loại và đánh giá bài nộp của bạn.</p>
+            </li>
+                    </ol>
+                <div class="alert alert-info mt-3">
+            <i class="fas fa-info-circle me-2"></i>
+            <strong>Lưu ý:</strong> Bài nộp cần đầy đủ thông tin nhóm và tuân thủ đúng format yêu cầu.
+        </div>
+    </div>
+
+    <!-- Đề tài thảo luận Content -->
+    <div class="tab-pane fade" id="topics-content" role="tabpanel">
+                        <!-- Thống kê -->
+                        <div class="stats-container">
+                            <div class="stat-card">
+                                <div class="stat-icon stat-primary">
+                                    <i class="fas fa-tasks"></i>
+                                </div>
+                                <div class="stat-value"><%= totalTopics %></div>
+                                <div class="stat-label">Tổng số đề tài</div>
+                            </div>
+                
+                            <div class="stat-card">
+                                <div class="stat-icon stat-warning">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div class="stat-value"><%= upcomingDeadlines %></div>
+                                <div class="stat-label">Đề tài sắp hết hạn (20 ngày, vàng)</div>
+                            </div>
+                
+                            <div class="stat-card">
+                                <div class="stat-icon stat-success">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <div class="stat-value"><%= activeTopics %></div>
+                                <div class="stat-label">Đề tài đang hoạt động</div>
+                            </div>
+                
+                            <div class="stat-card">
+                                <div class="stat-icon stat-danger">
+                                    <i class="fas fa-exclamation-circle"></i>
+                                </div>
+                                <div class="stat-value"><%= expiredTopics %></div>
+                                <div class="stat-label">Đề tài đã hết hạn (đỏ)</div>
+                            </div>
+                        </div>
+        
+        <h5 class="mb-3">Danh sách đề tài thảo luận</h5>
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th scope="col" width="10%">STT</th>
+                        <th scope="col" width="10%">Mã đề tài</th>
+                        <th scope="col" width="60%">Tên đề tài</th>
+                        <th scope="col" width="20%">Thời hạn nộp</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (topicData && topicData.length) { %>
+                        <% 
+                            // Sắp xếp topicData theo mã đề tài (topic_code) tăng dần
+                             topicData.sort((a, b) => a.topic_code.localeCompare(b.topic_code)); 
+                         %>
+                        <% topicData.forEach((topic, index) => { %>
+                            <%
+                                const now = new Date();
+                                const deadline = new Date(topic.deadline);
+                                const daysLeft = Math.floor((deadline - now) / (1000 * 60 * 60 * 24));
+                                const daysPassed = Math.floor((now - deadline) / (1000 * 60 * 60 * 24));
+                            %>
+                            <tr class="<%= deadline < now ? 'table-danger' : (daysLeft < 20 && daysLeft >= 0 ? 'table-warning' : '') %>">
+                                <td><%= index + 1 %></td>
+                                <td class="topic-code"><%= topic.topic_code %></td>
+                                <td><%= topic.topic_name %></td>
+                                <td>
+                                    <i class="far fa-calendar-alt"></i>
+                                    <%= deadline.toLocaleString('vi-VN',{ 
+                                        year: 'numeric', 
+                                        month: '2-digit', 
+                                        day: '2-digit', 
+                                        hour: '2-digit', 
+                                        minute: '2-digit', 
+                                        second: '2-digit' 
+                                    }) %>
+                                    <br>
+                                    <% if (daysLeft > 0) { %>
+                                        <p class="text-success mb-0"><strong>Còn <%= daysLeft %> ngày trước hạn!</strong></p>
+                                    <% } else if (daysLeft === 0) { %>
+                                        <p class="text-success mb-0"><strong>Hạn nộp hôm nay!</strong></p>
+                                    <% } else { %>
+                                        <p class="text-danger mb-0"><strong>Đề tài đã hết hạn <%= daysPassed %> ngày!</strong></p>
+                                    <% } %>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="4" class="text-center">Chưa có đề tài nào cho kỳ thi</td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+            </div>
+    
+<!-- Nộp bài Content -->
+<!-- Nộp bài Content -->
+<div class="tab-pane fade" id="submit-discussion-content" role="tabpanel">
+    <h5 class="mb-3">Nộp bài thảo luận</h5>
+    <form id="submissionForm3" action="" method="POST" enctype="multipart/form-data">
+        <div class="mb-3">
+            <label class="form-label">Chọn đề tài</label>
+            <select class="form-select" id="topicSelect" name="topicId" required>
+                <option value="" selected disabled>-- Chọn đề tài --</option>
+                <!-- Các đề tài sẽ được nạp động -->
+            </select>
+        </div>
+        <div id="deadlineMessage" style="color: red;"></div>
+        <div class="mb-3">
+            <label class="form-label">Thông tin nhóm</label>
+            <textarea 
+                class="form-control" 
+                name="groupInfo" 
+                rows="2" 
+                placeholder="Nhập tên và MSSV các thành viên..." 
+                required
+            ></textarea>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">File đính kèm</label>
+            <input 
+                type="file" 
+                id="attachment" 
+                class="form-control" 
+                name="attachment" 
+                accept=".pdf, .docx, .doc, .zip, .rar, .jpg, .jpeg, .png, .gif" 
+                required
+            >
+            <div class="form-text" style="color: red; font-size: 1rem;" ><i>Chỉ được nộp 1 lần duy nhất</i></div>
+            <div class="form-text">Cách đặt tên file: <code style="font-size: 1rem;">[TenThanhVien_ID]_MaDeTai.pdf</code></div>
+            <div class="form-text">Ví dụ: <code style="font-size: 1rem;">NguyenVanA_T011_TranThiB_B021_DT01.pdf</code></div>
+        </div>
+        <button type="submit" class="btn btn-primary">
+            <i class="fas fa-paper-plane me-2"></i>Nộp bài
+        </button>
+    </form>
+</div>
+</div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://kit.fontawesome.com/your-code.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const form = document.getElementById('submissionForm');
+            if (!form) return;
+        
+            const url = window.location.href;
+            const urlParts = url.split('/');
+            const iduser = urlParts[4]; // Ví dụ: 'mc1'
+            const idclass = urlParts[5]; // Ví dụ: 'PT112024'
+            
+            // Cập nhật action của form
+            form.action = `/submit-exam/${iduser}/${idclass}`;
+            
+            form.addEventListener('submit', async (event) => {
+                event.preventDefault();
+        
+                const fileInput = form.querySelector('input[type="file"]');
+                const file = fileInput.files[0];
+        
+                if (!file) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Cảnh báo!',
+                        text: 'Vui lòng chọn file để nộp',
+                        confirmButtonText: 'Đóng'
+                    });
+                    return;
+                }
+        
+                const allowedTypes = ['.doc', '.docx', '.pdf', '.zip', '.rar'];
+                const fileExtension = '.' + file.name.split('.').pop().toLowerCase();
+                if (!allowedTypes.includes(fileExtension)) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi!',
+                        text: 'Chỉ chấp nhận file định dạng .doc, .docx, .pdf, .zip, .rar',
+                        confirmButtonText: 'Đóng'
+                    });
+                    return;
+                }
+        
+                if (file.size > 50 * 1024 * 1024) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi!',
+                        text: 'Dung lượng file không được vượt quá 50MB',
+                        confirmButtonText: 'Đóng'
+                    });
+                    return;
+                }
+        
+                Swal.fire({
+                    title: 'Đang xử lý...',
+                    text: 'Vui lòng không tắt trình duyệt trong quá trình nộp bài',
+                    icon: 'info',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    allowEnterKey: false,
+                    showConfirmButton: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+        
+                const formData = new FormData(form);
+        
+                try {
+                    const response = await fetch(form.action, {
+                        method: 'POST',
+                        body: formData,
+                    });
+                    const data = await response.json();
+        
+                    Swal.close();
+                    const messageDiv = document.getElementById('submissionMessage');
+        
+                    if (data.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Thành công!',
+                            text: 'Bạn đã nộp bài thành công!',
+                            showConfirmButton: true,
+                            confirmButtonText: 'Đóng',
+                        }).then(() => {
+                            const fileName = formData.get('submission').name;
+                            const alertDiv = document.createElement('div');
+                            alertDiv.className = 'alert alert-success mt-3';
+                            alertDiv.innerHTML = `
+                                <strong>Bạn đã nộp bài thành công!</strong> 
+                                File: <span>${fileName}</span>
+                            `;
+                            messageDiv.innerHTML = ''; 
+                            messageDiv.appendChild(alertDiv);
+                            
+                            fileInput.disabled = true;
+                            form.querySelector('button[type="submit"]').disabled = true;
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi!',
+                            text: data.message || 'Có lỗi xảy ra khi nộp bài',
+                            confirmButtonText: 'Đóng'
+                        });
+                        //messageDiv.innerHTML = `<div style="color: red;">${data.message}</div>`;
+                    }
+        
+                } catch (error) {
+                    console.error('Error:', error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi!',
+                        text: 'Không thể kết nối đến máy chủ. Vui lòng thử lại sau.',
+                        confirmButtonText: 'Đóng'
+                    });
+        
+                    const messageDiv = document.getElementById('submissionMessage');
+                    messageDiv.innerHTML = `<div style="color: red;">Có lỗi xảy ra khi nộp bài.</div>`;
+                }
+            });
+        });
+            </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const form = document.getElementById('submissionForm2');
+            if (!form) return;
+        
+            const url = window.location.href;
+            const urlParts = url.split('/');
+            const iduser = urlParts[4];
+            const idclass = urlParts[5];
+        
+            form.action = `/submit-exam/${iduser}/${idclass}`;
+        
+            form.addEventListener('submit', async (event) => {
+                event.preventDefault();
+        
+                const fileInput = form.querySelector('input[type="file"]');
+                const file = fileInput.files[0];
+        
+                if (!file) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Cảnh báo!',
+                        text: 'Vui lòng chọn file để nộp',
+                        confirmButtonText: 'Đóng'
+                    });
+                    return;
+                }
+        
+                const allowedTypes = ['.doc', '.docx', '.pdf', '.zip', '.rar'];
+                const fileExtension = '.' + file.name.split('.').pop().toLowerCase();
+                if (!allowedTypes.includes(fileExtension)) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi!',
+                        text: 'Chỉ chấp nhận file định dạng .doc, .docx, .pdf, .zip, .rar',
+                        confirmButtonText: 'Đóng'
+                    });
+                    return;
+                }
+        
+                if (file.size > 50 * 1024 * 1024) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi!',
+                        text: 'Dung lượng file không được vượt quá 50MB',
+                        confirmButtonText: 'Đóng'
+                    });
+                    return;
+                }
+        
+                Swal.fire({
+                    title: 'Đang xử lý...',
+                    text: 'Vui lòng không tắt trình duyệt trong quá trình nộp bài',
+                    icon: 'info',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    allowEnterKey: false,
+                    showConfirmButton: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+        
+                const formData = new FormData(form);
+        
+                try {
+                    const response = await fetch(form.action, {
+                        method: 'POST',
+                        body: formData,
+                    });
+                    const data = await response.json();
+        
+                    Swal.close();
+                    const messageDiv = document.getElementById('submissionMessage2');
+        
+                    if (data.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Thành công!',
+                            text: 'Bạn đã nộp bài thành công!',
+                            showConfirmButton: true,
+                            confirmButtonText: 'Đóng',
+                        }).then(() => {
+                            const fileName = formData.get('submission').name;
+                            const alertDiv = document.createElement('div');
+                            alertDiv.className = 'alert alert-success mt-3';
+                            alertDiv.innerHTML = `
+                                <strong>Bạn đã nộp bài thành công!</strong> 
+                                File: <span>${fileName}</span>
+                            `;
+                            messageDiv.innerHTML = '';
+                            messageDiv.appendChild(alertDiv);
+        
+                            fileInput.disabled = true;
+                            form.querySelector('button[type="submit"]').disabled = true;
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi!',
+                            text: data.message || 'Có lỗi xảy ra khi nộp bài',
+                            confirmButtonText: 'Đóng'
+                        });
+                        //messageDiv.innerHTML = `<div style="color: red;">${data.message}</div>`;
+                    }
+        
+                } catch (error) {
+                    console.error('Error:', error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi!',
+                        text: 'Không thể kết nối đến máy chủ. Vui lòng thử lại sau.',
+                        confirmButtonText: 'Đóng'
+                    });
+        
+                    const messageDiv = document.getElementById('submissionMessage2');
+                    messageDiv.innerHTML = `<div style="color: red;">Có lỗi xảy ra khi nộp bài.</div>`;
+                }
+            });
+        });
+            </script>
+
+            <script>
+                document.addEventListener('DOMContentLoaded', async () => {
+                    try {
+                        const response = await fetch('/getTopics');
+                        const topics = await response.json();
+                
+                        const select = document.querySelector('select[name="topicId"]');
+                        const deadlineMessage = document.createElement('div'); // Tạo phần tử để hiển thị thông báo
+                        deadlineMessage.style.color = 'red'; // Đặt màu cho thông báo
+                        deadlineMessage.style.marginTop = '10px'; // Khoảng cách trên
+                        select.parentNode.appendChild(deadlineMessage); // Thêm thông báo vào bên dưới ô chọn
+                
+                        // Sắp xếp topics theo mã đề tài (topic_code) tăng dần
+                        topics.sort((a, b) => a.topic_code.localeCompare(b.topic_code));
+
+                        topics.forEach(topic => {
+                            const option = document.createElement('option');
+                            option.value = topic.topic_code; // Mã đề tài
+                            option.textContent = `${topic.topic_code} - ${topic.topic_name}`; // Hiển thị mã và tên đề tài
+                            option.dataset.deadline = topic.deadline; // Lưu hạn chót vào thuộc tính data
+                            select.appendChild(option);
+                        });
+                
+                        // Kiểm tra hạn chót khi chọn đề tài
+                        select.addEventListener('change', function() {
+                            const selectedOption = this.selectedOptions[0];
+                
+                            if (selectedOption) {
+                                const deadline = new Date(selectedOption.dataset.deadline);
+                                const now = new Date();
+                
+                                if (now > deadline) {
+                                    deadlineMessage.innerHTML = '<strong>Đề tài đã hết hạn. Hãy chọn đề tài khác.</strong>';
+                                    this.value = ''; // Reset lại ô chọn
+                                } else {
+                                    deadlineMessage.textContent = ''; // Xóa thông báo nếu chưa hết hạn
+                                }
+                            }
+                        });
+                    } catch (error) {
+                        console.error('Error fetching topics:', error);
+                    }
+                });
+                            </script>
+            
+            <script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    const pathParts = window.location.pathname.split('/');
+                    const idclass = pathParts[pathParts.length - 1];
+                    const iduser = pathParts[pathParts.length - 2];
+                    
+                    const form = document.getElementById('submissionForm3');
+                    const submitButton = form.querySelector('button[type="submit"]');
+                    
+                    // Set form action
+                    form.action = `/submit-discussion/${idclass}/${iduser}`;
+                    
+                    // Add form submission handler
+                    form.addEventListener('submit', async (e) => {
+                        e.preventDefault();
+                        
+                        try {
+                            // Show loading spinner with SweetAlert2
+                            Swal.fire({
+                                title: 'Đang xử lý nộp bài',
+                                html: 'Vui lòng đợi...',
+                                icon: 'info',
+                                allowOutsideClick: false,
+                                allowEscapeKey: false,
+                                allowEnterKey: false,
+                                showConfirmButton: false,
+                                didOpen: () => {
+                                    Swal.showLoading();
+                                }
+                            });
+                            
+                            const formData = new FormData(form);
+                            
+                            // Validate file size (20MB limit)
+                            const file = formData.get('attachment');
+                            if (file && file.size > 20 * 1024 * 1024) {
+                                throw new Error('File vượt quá dung lượng cho phép (20MB)');
+                            }
+                            
+                            const response = await fetch(form.action, {
+                                method: 'POST',
+                                body: formData
+                            });
+                            
+                            const result = await response.json();
+                            
+                            if (!response.ok) {
+                                throw new Error(result.message || 'Có lỗi xảy ra');
+                            }
+                            
+                            // Close loading spinner and show success message
+                            await Swal.fire({
+                                icon: 'success',
+                                title: 'Thành công',
+                                text: result.message,
+                                allowOutsideClick: false
+                            });
+                            
+                            // Reset form after successful submission
+                            window.location.reload();
+                            
+                        } catch (error) {
+                            // Close loading spinner and show error message
+                            await Swal.fire({
+                                icon: 'error',
+                                title: 'Lỗi',
+                                text: error.message
+                            });
+                        }
+                    });
+                    
+                    // Add file input validation
+                    const fileInput = form.querySelector('input[type="file"]');
+                    fileInput.addEventListener('change', (e) => {
+                        const file = e.target.files[0];
+                        if (file) {
+                            if (file.size > 20 * 1024 * 1024) {
+                                fileInput.value = '';
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Lỗi',
+                                    text: 'File vượt quá dung lượng cho phép (20MB)'
+                                });
+                            }
+                        }
+                    });
+                });
+
+
+
+                //khoa form neu da nop 
+                document.addEventListener('DOMContentLoaded', async () => {
+                    // Lấy ra form submit
+                    const submissionForm = document.getElementById('submissionForm3');
+                    const pathParts = window.location.pathname.split('/');
+                    const idclass = pathParts[pathParts.length - 1];
+                    const iduser = pathParts[pathParts.length - 2];
+                
+                    const submitTab = document.getElementById('submit-discussion-content');
+                    
+                    try {
+                        const response = await fetch(`/check-submission/${idclass}/${iduser}`);
+                        const data = await response.json();
+                        
+                        if (data.success) {
+                            // Nếu đã nộp bài, ẩn form và hiển thị thông báo
+                            submissionForm.style.display = 'none'; // Ẩn form
+                            
+                            // Tạo và hiển thị thông báo
+                            const successMessage = document.createElement('div');
+                            successMessage.className = 'alert alert-success';
+                            successMessage.innerHTML = `
+                                <h5 class="mb-3" style="text-align: center;">Trạng thái nộp bài</h5>
+                                <div>
+                                    <p><strong>Thông báo:</strong> ${data.message}</p>
+                                    <p><strong>Thời gian nộp:</strong> ${new Date(data.submission.time_nop).toLocaleString()}</p>
+                                    <p><strong>Trạng thái:</strong> ${data.submission.late ? '<span class="text-danger">Nộp trễ</span>' : '<span class="text-success">Đúng hạn</span>'}</p>
+                                    <p><strong>File đã nộp:</strong> <a href="${data.submission.submit_url}" target="_blank" class="btn btn-sm btn-primary">
+                                        <i class="fas fa-download me-2"></i>Tải file</a>
+                                    </p>
+                                </div>
+                            `;
+                            
+                            // Chèn thông báo vào tab content
+                            submitTab.appendChild(successMessage);
+                        } else {
+                            console.log('Chưa nộp bài:', data.message);
+                        }
+                        
+                    } catch (error) {
+                        console.error('Lỗi khi kiểm tra trạng thái nộp bài:', error);
+                        const errorAlert = document.createElement('div');
+                        errorAlert.className = 'alert alert-danger';
+                        errorAlert.textContent = 'Có lỗi xảy ra khi kiểm tra trạng thái nộp bài';
+                        submitTab.insertBefore(errorAlert, submissionForm);
+                    }
+                });
+                                </script>
+          
+                                
+                                <script>
+                                    // Ngăn người dùng nhấn chuột phải
+                                    document.addEventListener('contextmenu', function (e) {
+                                        e.preventDefault();
+                                    });
+                            
+                                    // Ngăn người dùng nhấn F12 (Mở Developer Tools)
+                                    document.addEventListener('keydown', function (e) {
+                                        if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+                                            e.preventDefault();
+                                        }
+                                    });
+                                    document.addEventListener('keydown', function(event) {
+                                        if (event.ctrlKey && (event.key === 'u' || event.key === 'U')) {
+                                            event.preventDefault(); // Ngăn Ctrl+U
+                                        }
+                                    });
+                                </script> 
+
+                                <script>
+                                    // Toggle sidebar
+                                    const menuToggle = document.querySelector('.menu-toggle');
+                                    const sidebar = document.querySelector('.sidebar');
+                                    const overlay = document.querySelector('.sidebar-overlay');
+                            
+                                    function toggleSidebar() {
+                                        sidebar.classList.toggle('active');
+                                        overlay.classList.toggle('active');
+                                    }
+                            
+                                    menuToggle.addEventListener('click', toggleSidebar);
+                                    overlay.addEventListener('click', toggleSidebar);
+                                </script>
+                            
+                                
+</body>
+</html>
+

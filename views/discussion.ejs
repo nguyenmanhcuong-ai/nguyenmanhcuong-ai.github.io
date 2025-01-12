@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh sách Đề tài Thảo luận</title>
+    <link rel="icon" href="/uploads/MC2.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4f46e5;
+            --primary-hover: #4338ca;
+            --background-color: #f9fafb;
+            --border-color: #e5e7eb;
+            --text-primary: #111827;
+            --text-secondary: #6b7280;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-primary);
+            line-height: 1.5;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            font-size: 1.875rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .btn-add {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+
+        .btn-add:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .table-container {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background-color: #f8fafc;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        /*tbody tr:hover {
+            background-color: #f8fafc;
+        }*/
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-secondary);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: 0.75rem;
+            width: 100%;
+            max-width: 500px;
+            padding: 1.5rem;
+            position: relative;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-secondary {
+            background-color: #f3f4f6;
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .topic-code {
+            font-family: 'Roboto Mono', monospace;
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .deadline {
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+
+            .table-container {
+                overflow-x: auto;
+            }
+
+            .modal-content {
+                margin: 1rem;
+                max-width: calc(100% - 2rem);
+            }
+        }
+
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background-color: white;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .stat-icon {
+            width: 3rem;
+            height: 3rem;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .stat-primary {
+            background-color: rgba(79, 70, 229, 0.1);
+            color: var(--primary-color);
+        }
+
+        .stat-warning {
+            background-color: rgba(245, 158, 11, 0.1);
+            color: #d97706;
+        }
+
+        .stat-success {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: #059669;
+        }
+
+        .stat-danger {
+            background-color: rgba(239, 68, 68, 0.1);
+            color: #dc2626;
+        }
+
+        .stat-value {
+            font-size: 1.875rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        .deadline-warning {
+            color: #d97706;
+            background-color: rgba(245, 158, 11, 0.1);
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.875rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .deadline-expired {
+            color: #dc2626;
+            background-color: rgba(239, 68, 68, 0.1);
+        }
+
+        .filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            background-color: white;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .filter-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+
+            .filters {
+                flex-direction: column;
+            }
+
+            .search-box {
+                order: -1;
+            }
+        }
+
+
+        .table-warning {
+            background-color: rgba(255, 193, 7, 0.3); /* Màu vàng nhạt hơn */
+        }
+        
+        .table-danger {
+            background-color: rgba(255, 7, 7, 0.3); /* Màu đỏ nhạt hơn */
+        }
+        
+        .action-btn {
+            width: 25px;
+            height: 25px;
+            padding: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.5rem;
+            margin: 0 0.25rem;
+            transition: all 0.2s;
+        }
+
+        .action-btn:hover {
+            transform: scale(1.1);
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Danh sách Đề tài Thảo luận</h1>
+            <button class="btn-add" onclick="openModal()">
+                <i class="fas fa-plus"></i>
+                Thêm đề tài
+            </button>
+        </div>
+
+                <!-- Thống kê -->
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-icon stat-primary">
+                            <i class="fas fa-tasks"></i>
+                        </div>
+                        <div class="stat-value"><%= totalTopics %></div>
+                        <div class="stat-label">Tổng số đề tài</div>
+                    </div>
+        
+                    <div class="stat-card">
+                        <div class="stat-icon stat-warning">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-value"><%= upcomingDeadlines %></div>
+                        <div class="stat-label">Đề tài sắp hết hạn (20 ngày)</div>
+                    </div>
+        
+                    <div class="stat-card">
+                        <div class="stat-icon stat-success">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stat-value"><%= activeTopics %></div>
+                        <div class="stat-label">Đề tài đang hoạt động</div>
+                    </div>
+        
+                    <div class="stat-card">
+                        <div class="stat-icon stat-danger">
+                            <i class="fas fa-exclamation-circle"></i>
+                        </div>
+                        <div class="stat-value"><%= expiredTopics %></div>
+                        <div class="stat-label">Đề tài đã hết hạn</div>
+                    </div>
+                </div>
+        
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Mã đề tài</th>
+                        <th>Tên đề tài</th>
+                        <th>Thời hạn nộp</th>
+                        <th>Thao tác</th><!-- Thêm cột mới -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (topics.length > 0) { 
+                        // Sắp xếp các đề tài theo mã đề tài (topic_code) theo thứ tự tăng dần
+                        topics.sort((a, b) => a.topic_code.localeCompare(b.topic_code)); 
+                    %>
+                        <% topics.forEach((topic, index) => { 
+                            const deadlineDate = new Date(topic.deadline);
+                            const isExpired = deadlineDate < new Date();
+                            const isUpcoming = deadlineDate > new Date() && deadlineDate <= new Date(Date.now() + 20 * 24 * 60 * 60 * 1000); // 20 ngày tới
+                            const rowClass = isExpired ? 'table-danger' : (isUpcoming ? 'table-warning' : '');
+                        %>
+                            <tr class="<%= rowClass %>">
+                                <td><%= index + 1 %></td>
+                                <td class="topic-code"><%= topic.topic_code %></td>
+                                <td><%= topic.topic_name %></td>
+                                <td class="deadline"><i class="far fa-calendar-alt"></i> <%= formatDate(topic.deadline) %></td>
+                                <td>
+                                    <button class="btn btn-info action-btn" onclick="viewTopic('<%= topic.topic_code %>')" title="Xem chi tiết">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="5" class="text-center">Chưa có đề tài thảo luận</td><!-- Điều chỉnh colspan thành 5 -->
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>        
+        </div>
+    </div>
+
+    <!-- Modal Thêm đề tài -->
+    <div class="modal" id="addTopicModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Thêm đề tài mới</h3>
+                <button type="button" class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <form id="addTopicForm" onsubmit="handleSubmit(event)">
+                <div class="form-group">
+                    <label class="form-label" for="topicCode">Mã đề tài</label>
+                    <input type="text" 
+                           class="form-control" 
+                           id="topicCode" 
+                           name="topicCode"
+                           required
+                           pattern="[A-Za-z0-9-_]+"
+                           maxlength="50"
+                           placeholder="Nhập mã đề tài">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="topicName">Tên đề tài</label>
+                    <input type="text" 
+                           class="form-control" 
+                           id="topicName"
+                           name="topicName" 
+                           required
+                           maxlength="255"
+                           placeholder="Nhập tên đề tài">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="deadline">Thời hạn nộp</label>
+                    <input type="datetime-local" 
+                           class="form-control" 
+                           id="deadline"
+                           name="deadline"
+                           required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Thêm đề tài</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+
+        
+        const modal = document.getElementById('addTopicModal');
+        const form = document.getElementById('addTopicForm');
+        
+        function openModal() {
+            modal.classList.add('show');
+            // Reset form when opening modal
+            form.reset();
+        }
+        
+        function closeModal() {
+            modal.classList.remove('show');
+        }
+        
+        async function handleSubmit(e) {
+            e.preventDefault();
+            
+            try {
+                const formData = new FormData(form);
+                const topicData = {
+                    topicCode: formData.get('topicCode'),
+                    topicName: formData.get('topicName'),
+                    deadline: formData.get('deadline')
+                };
+        
+                // Validate deadline is not in the past
+                if (new Date(topicData.deadline) < new Date()) {
+                    alert('Thời hạn nộp không thể là thời điểm trong quá khứ');
+                    return;
+                }
+        
+                const response = await fetch('/api/topics', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(topicData)
+                });
+        
+                const result = await response.json();
+        
+                if (!response.ok) {
+                    throw new Error(result.message || 'Có lỗi xảy ra');
+                }
+        
+                alert('Thêm đề tài thành công!');
+                closeModal();
+                // Optionally refresh the topics list
+                // refreshTopicsList();
+        
+            } catch (error) {
+                console.error('Error:', error);
+                alert(error.message);
+            }
+        }
+        
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target === modal) {
+                closeModal();
+            }
+        };
+
+
+        function viewTopic(topicCode) {
+            // Chuyển hướng đến trang topicresult.ejs với mã đề tài
+            window.location.href = `/topicresult/${topicCode}`; // Đảm bảo đường dẫn này đúng với cấu trúc router của bạn
+        }
+        
+            </script>
+</body>
+</html>

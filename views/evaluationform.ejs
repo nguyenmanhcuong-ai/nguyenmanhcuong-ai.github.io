@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đánh giá chất lượng giảng dạy</title>
+    <link rel="icon" href="/uploads/MC2.png" type="image/x-icon">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <style>
+        :root {
+            --primary-color: #2c3e50; /* Màu chính */
+            --secondary-color: #3498db; /* Màu phụ */
+            --background-color: #f5f7fa; /* Màu nền */
+            --light-background: #ffffff; /* Màu nền sáng */
+            --text-color: #34495e; /* Màu chữ */
+            --border-color: #e0e6ed; /* Màu viền */
+            --hover-color: #2980b9; /* Màu hover */
+            --card-shadow: rgba(0, 0, 0, 0.15); /* Đổ bóng cho các thẻ */
+            --transition-speed: 0.3s; /* Thời gian chuyển tiếp cho các hiệu ứng */
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+        
+        .container {
+            max-width: 1000px; /* Tăng chiều rộng của container */
+            margin: 0 auto;
+            background-color: var(--light-background);
+            border-radius: 12px;
+            box-shadow: 0 4px 30px var(--card-shadow);
+            padding: 40px;
+            transition: box-shadow var(--transition-speed) ease;
+        }
+        
+        .container:hover {
+            box-shadow: 0 6px 40px var(--card-shadow);
+        }
+        
+        h1 {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 30px; /* Tăng kích thước chữ */
+            font-weight: 700;
+        }
+        
+        .instructions {
+            background-color: rgb(204, 230, 246);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+            font-size: 16px; /* Tăng kích thước chữ */
+            box-shadow: 0 2px 5px var(--card-shadow);
+        }
+        
+        .instructions h2 {
+            margin-top: 0;
+            color: var(--primary-color);
+            font-size: 22px; /* Tăng kích thước chữ */
+            font-weight: 600;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+        
+        th,
+        td {
+            padding: 20px; /* Tăng padding cho ô */
+            text-align: left;
+            background-color: var(--light-background);
+            border: 1px solid var(--border-color);
+            transition: background-color var(--transition-speed) ease;
+            
+        }
+        
+        th {
+            background-color: var(--primary-color);
+            color: #ffffff;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            text-align: center;
+
+        }
+        
+        td:hover {
+            background-color: var(--background-color);
+        }
+        
+        .rating {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .rating input[type="radio"] {
+            display: none;
+        }
+        
+        .rating label {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 40px; /* Tăng kích thước nút chọn */
+            height: 40px; /* Tăng kích thước nút chọn */
+            border: 2px solid var(--border-color);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all var(--transition-speed) ease;
+            font-weight: bold;
+            font-size: 16px;
+            color: var(--text-color);
+            background-color: var(--light-background);
+        }
+        
+        .rating label:hover {
+            background-color: var(--secondary-color);
+            color: #ffffff;
+            border-color: var(--secondary-color);
+        }
+        
+        .rating input[type="radio"]:checked + label {
+            background-color: var(--secondary-color);
+            color: #ffffff;
+            border-color: var(--secondary-color);
+        }
+        
+        .submit-btn {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 14px 28px; /* Tăng padding cho nút */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            display: block;
+            margin: 30px auto 0;
+            transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease;
+            box-shadow: 0 2px 5px var(--card-shadow);
+        }
+        
+        .submit-btn:hover {
+            background-color: var(--hover-color);
+            transform: translateY(-2px);
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px; /* Giảm padding cho thiết bị nhỏ */
+            }
+        
+            th,
+            td {
+                padding: 15px; /* Giảm padding cho ô */
+            }
+        
+            .rating label {
+                width: 35px; /* Giảm kích thước nút chọn trên thiết bị nhỏ */
+                height: 35px;
+                font-size: 14px; /* Giảm kích thước chữ */
+            }
+        
+            h1 {
+                font-size: 26px; /* Giảm kích thước chữ trên thiết bị nhỏ */
+            }
+        
+            .instructions h2 {
+                font-size: 20px; /* Giảm kích thước chữ trên thiết bị nhỏ */
+            }
+        }
+        tr:nth-child(even) td {
+            background-color: #ecf4f9; /* Màu nền cho hàng chẵn (xanh nhạt) */
+        }
+        
+        tr:nth-child(odd) td {
+            background-color: var(--light-background); /* Màu nền cho hàng lẻ (trắng) */
+        }
+        
+            </style>
+
+</head>
+
+<body>
+    <div class="container">
+        <h1>ĐÁNH GIÁ CHẤT LƯỢNG GIẢNG DẠY</h1>
+        <p>ID sinh viên: <span id="iduser"></span></p>
+        <!-- Hiển thị thời gian hiện tại -->
+        <p>Thời gian hiện tại: <span id="time"></span></p>
+        <div class="instructions">
+            <h2>Hướng dẫn đánh giá</h2>
+            <p>Vui lòng đánh giá các tiêu chí dưới đây theo thang điểm từ 1 đến 5:</p>
+            <ul>
+                <li>1 - Rất không hài lòng</li>
+                <li>2 - Không hài lòng</li>
+                <li>3 - Bình thường</li>
+                <li>4 - Hài lòng</li>
+                <li>5 - Rất hài lòng</li>
+            </ul>
+        </div>
+        <div id="countdown-container">
+            <p>
+            <div id="countdown"></div>
+            </p>
+        </div>
+
+
+        <div id="evaluation-form-container" style="display: none;">
+            <form id="evaluation-form" method="POST" action="/submit-evaluation" >
+                <table>
+                    <tr>
+                        <th>Tiêu chí đánh giá</th>
+                        <th>Mô tả</th>
+                        <th>Đánh giá</th>
+                    </tr>
+                    <tr>
+                        <td>Nội dung giảng dạy</td>
+                        <td>Giảng viên đã xây dựng nội dung bài học một cách có hệ thống, bắt đầu từ những khái niệm cơ bản và dần dần chuyển sang những vấn đề phức tạp hơn. Nội dung không chỉ tập trung vào lý thuyết mà còn kết hợp các ví dụ thực tiễn và tình huống cụ thể giúp sinh viên dễ dàng hình dung và áp dụng kiến thức đã học. Những buổi thảo luận, phân tích tình huống thực tế đã góp phần làm phong phú thêm kiến thức cho sinh viên.</td>
+                        <td>
+                            <div class="rating">
+                                <input type="radio" id="content1" name="content" value="1"><label
+                                    for="content1">1</label>
+                                <input type="radio" id="content2" name="content" value="2"><label
+                                    for="content2">2</label>
+                                <input type="radio" id="content3" name="content" value="3"><label
+                                    for="content3">3</label>
+                                <input type="radio" id="content4" name="content" value="4"><label
+                                    for="content4">4</label>
+                                <input type="radio" id="content5" name="content" value="5"><label
+                                    for="content5">5</label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Phương pháp giảng dạy</td>
+                        <td>Giảng viên đã áp dụng nhiều phương pháp giảng dạy khác nhau như thuyết trình, thảo luận nhóm, và các hoạt động thực hành. Điều này không chỉ giúp sinh viên tiếp thu kiến thức một cách hiệu quả mà còn khuyến khích sự tham gia tích cực của sinh viên. Giảng viên đã biết sử dụng công cụ trực quan như slide và video minh họa, giúp làm sáng tỏ các khái niệm trừu tượng và tạo ra một không gian học tập năng động và thú vị.</td>
+                        <td>
+                            <div class="rating">
+                                <input type="radio" id="method1" name="method" value="1"><label for="method1">1</label>
+                                <input type="radio" id="method2" name="method" value="2"><label for="method2">2</label>
+                                <input type="radio" id="method3" name="method" value="3"><label for="method3">3</label>
+                                <input type="radio" id="method4" name="method" value="4"><label for="method4">4</label>
+                                <input type="radio" id="method5" name="method" value="5"><label for="method5">5</label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Tương tác với sinh viên</td>
+                        <td>Giảng viên đã thể hiện sự quan tâm và chăm sóc đến sinh viên bằng cách thường xuyên khuyến khích sinh viên đặt câu hỏi và chia sẻ ý kiến trong lớp học. Việc tạo ra các hoạt động nhóm giúp sinh viên có cơ hội giao lưu, thảo luận và học hỏi lẫn nhau. Sự gần gũi và cởi mở của giảng viên đã làm tăng mức độ tương tác và sự kết nối giữa giảng viên và sinh viên.</td>
+                        <td>
+                            <div class="rating">
+                                <input type="radio" id="interaction1" name="interaction" value="1"><label
+                                    for="interaction1">1</label>
+                                <input type="radio" id="interaction2" name="interaction" value="2"><label
+                                    for="interaction2">2</label>
+                                <input type="radio" id="interaction3" name="interaction" value="3"><label
+                                    for="interaction3">3</label>
+                                <input type="radio" id="interaction4" name="interaction" value="4"><label
+                                    for="interaction4">4</label>
+                                <input type="radio" id="interaction5" name="interaction" value="5"><label
+                                    for="interaction5">5</label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Đánh giá và phản hồi</td>
+                        <td>Giảng viên đã thực hiện các đánh giá một cách công bằng, dựa trên tiêu chí rõ ràng và minh bạch. Các phản hồi được đưa ra kịp thời và cụ thể, giúp sinh viên hiểu rõ điểm mạnh cũng như những vấn đề cần cải thiện. Giảng viên không chỉ đưa ra điểm số mà còn cung cấp các gợi ý để sinh viên có thể nâng cao hiệu quả học tập. Những phản hồi này đã góp phần không nhỏ trong việc thúc đẩy sinh viên phát triển và hoàn thiện bản thân.</td>
+                        <td>
+                            <div class="rating">
+                                <input type="radio" id="feedback1" name="feedback" value="1"><label
+                                    for="feedback1">1</label>
+                                <input type="radio" id="feedback2" name="feedback" value="2"><label
+                                    for="feedback2">2</label>
+                                <input type="radio" id="feedback3" name="feedback" value="3"><label
+                                    for="feedback3">3</label>
+                                <input type="radio" id="feedback4" name="feedback" value="4"><label
+                                    for="feedback4">4</label>
+                                <input type="radio" id="feedback5" name="feedback" value="5"><label
+                                    for="feedback5">5</label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Thời lượng học</td>
+                        <td>Giảng viên đã bố trí thời gian giảng dạy một cách hợp lý, giúp sinh viên không cảm thấy quá tải mà vẫn đảm bảo được nội dung bài học. Mỗi buổi học được thiết kế với thời gian vừa đủ, tạo cơ hội cho sinh viên đặt câu hỏi và trao đổi ý kiến. Việc chia nhỏ nội dung thành các phần ngắn gọn đã giúp sinh viên dễ dàng tiếp thu và ghi nhớ thông tin hơn.</td>
+                        <td>
+                            <div class="rating">
+                                <input type="radio" id="duration1" name="duration" value="1"><label
+                                    for="duration1">1</label>
+                                <input type="radio" id="duration2" name="duration" value="2"><label
+                                    for="duration2">2</label>
+                                <input type="radio" id="duration3" name="duration" value="3"><label
+                                    for="duration3">3</label>
+                                <input type="radio" id="duration4" name="duration" value="4"><label
+                                    for="duration4">4</label>
+                                <input type="radio" id="duration5" name="duration" value="5"><label
+                                    for="duration5">5</label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Sử dụng tài liệu học</td>
+                        <td>Giảng viên đã cung cấp tài liệu học phong phú và đa dạng, bao gồm sách giáo khoa, bài viết, video, và các tài liệu trực tuyến. Những tài liệu này không chỉ giúp sinh viên củng cố kiến thức mà còn khuyến khích họ tự nghiên cứu thêm. Sự hướng dẫn cụ thể về cách sử dụng các tài liệu này đã giúp sinh viên tối ưu hóa quá trình học tập và nâng cao hiểu biết cá nhân.</td>
+                        <td>
+                            <div class="rating">
+                                <input type="radio" id="material1" name="material" value="1"><label
+                                    for="material1">1</label>
+                                <input type="radio" id="material2" name="material" value="2"><label
+                                    for="material2">2</label>
+                                <input type="radio" id="material3" name="material" value="3"><label
+                                    for="material3">3</label>
+                                <input type="radio" id="material4" name="material" value="4"><label
+                                    for="material4">4</label>
+                                <input type="radio" id="material5" name="material" value="5"><label
+                                    for="material5">5</label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Sự tiếp cận của bài học</td>
+                        <td>Nội dung bài học được trình bày một cách mạch lạc và dễ hiểu. Giảng viên đã sử dụng ngôn ngữ đơn giản và ví dụ cụ thể để minh họa cho các khái niệm phức tạp. Sự linh hoạt trong cách trình bày đã giúp sinh viên dễ dàng theo dõi và tiếp thu bài học mà không gặp khó khăn.</td>
+                        <td>
+                            <div class="rating">
+                                <input type="radio" id="catchField1" name="catchField" value="1"><label
+                                    for="catchField1">1</label>
+                                <input type="radio" id="catchField2" name="catchField" value="2"><label
+                                    for="catchField2">2</label>
+                                <input type="radio" id="catchField3" name="catchField" value="3"><label
+                                    for="catchField3">3</label>
+                                <input type="radio" id="catchField4" name="catchField" value="4"><label
+                                    for="catchField4">4</label>
+                                <input type="radio" id="catchField5" name="catchField" value="5"><label
+                                    for="catchField5">5</label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Hỗ trợ ngoài giờ học</td>
+                        <td>Giảng viên đã chủ động cung cấp hỗ trợ cho sinh viên ngoài giờ học thông qua email, nhóm chat hoặc các nền tảng trực tuyến khác. Sinh viên có thể dễ dàng liên lạc để giải đáp thắc mắc hoặc xin thêm thông tin về bài học. Sự hỗ trợ này không chỉ tạo ra một môi trường học tập tích cực mà còn giúp sinh viên cảm thấy được quan tâm và đánh giá cao.</td>
+                        <td>
+                            <div class="rating">
+                                <input type="radio" id="support1" name="support" value="1"><label
+                                    for="support1">1</label>
+                                <input type="radio" id="support2" name="support" value="2"><label
+                                    for="support2">2</label>
+                                <input type="radio" id="support3" name="support" value="3"><label
+                                    for="support3">3</label>
+                                <input type="radio" id="support4" name="support" value="4"><label
+                                    for="support4">4</label>
+                                <input type="radio" id="support5" name="support" value="5"><label
+                                    for="support5">5</label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Khả năng truyền đạt</td>
+                        <td>Giảng viên đã thể hiện khả năng truyền đạt xuất sắc, với sự rõ ràng và mạch lạc trong từng câu nói. Giảng viên biết cách nhấn mạnh những điểm quan trọng và trình bày thông tin theo cách dễ hiểu, giúp sinh viên dễ dàng theo dõi. Phong cách giảng dạy nhiệt tình và lôi cuốn đã tạo động lực cho sinh viên tham gia tích cực hơn trong quá trình học.</td>
+                        <td>
+                            <div class="rating">
+                                <input type="radio" id="speak1" name="speak" value="1"><label for="speak1">1</label>
+                                <input type="radio" id="speak2" name="speak" value="2"><label for="speak2">2</label>
+                                <input type="radio" id="speak3" name="speak" value="3"><label for="speak3">3</label>
+                                <input type="radio" id="speak4" name="speak" value="4"><label for="speak4">4</label>
+                                <input type="radio" id="speak5" name="speak" value="5"><label for="speak5">5</label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Khả năng tạo động lực</td>
+                        <td>Giảng viên đã thể hiện khả năng tạo động lực cho sinh viên thông qua những hoạt động thú vị và các câu chuyện truyền cảm hứng. Việc khuyến khích sinh viên tham gia vào các hoạt động nhóm và thảo luận đã giúp họ cảm thấy tự tin hơn trong việc thể hiện ý kiến của mình. Giảng viên đã biết cách khơi dậy niềm đam mê học tập và khám phá kiến thức mới.</td>
+                        <td>
+                            <div class="rating">
+                                <input type="radio" id="motivation1" name="motivation" value="1"><label
+                                    for="motivation1">1</label>
+                                <input type="radio" id="motivation2" name="motivation" value="2"><label
+                                    for="motivation2">2</label>
+                                <input type="radio" id="motivation3" name="motivation" value="3"><label
+                                    for="motivation3">3</label>
+                                <input type="radio" id="motivation4" name="motivation" value="4"><label
+                                    for="motivation4">4</label>
+                                <input type="radio" id="motivation5" name="motivation" value="5"><label
+                                    for="motivation5">5</label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Công nghệ hỗ trợ giảng dạy</td>
+                        <td>Giảng viên đã tích cực sử dụng công nghệ trong giảng dạy, như phần mềm trình chiếu, video minh họa và các công cụ tương tác trực tuyến. Việc áp dụng công nghệ không chỉ giúp bài học trở nên sinh động mà còn tăng cường sự tham gia của sinh viên. Các công cụ này đã hỗ trợ giảng viên trong việc truyền đạt kiến thức một cách hiệu quả hơn.</td>
+                        <td>
+                            <div class="rating">
+                                <input type="radio" id="tech1" name="tech" value="1"><label for="tech1">1</label>
+                                <input type="radio" id="tech2" name="tech" value="2"><label for="tech2">2</label>
+                                <input type="radio" id="tech3" name="tech" value="3"><label for="tech3">3</label>
+                                <input type="radio" id="tech4" name="tech" value="4"><label for="tech4">4</label>
+                                <input type="radio" id="tech5" name="tech" value="5"><label for="tech5">5</label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Sự công bằng trong đánh giá</td>
+                        <td>Các đánh giá được thực hiện một cách công bằng và khách quan. Giảng viên đã sử dụng các tiêu chí đánh giá rõ ràng, giúp sinh viên hiểu được tiêu chí mà họ cần đạt được. Sự minh bạch trong cách thức đánh giá đã tạo niềm tin cho sinh viên vào quá trình học tập.</td>
+                        <td>
+                            <div class="rating">
+                                <input type="radio" id="fair1" name="fair" value="1"><label for="fair1">1</label>
+                                <input type="radio" id="fair2" name="fair" value="2"><label for="fair2">2</label>
+                                <input type="radio" id="fair3" name="fair" value="3"><label for="fair3">3</label>
+                                <input type="radio" id="fair4" name="fair" value="4"><label for="fair4">4</label>
+                                <input type="radio" id="fair5" name="fair" value="5"><label for="fair5">5</label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Thái độ và phong cách làm việc</td>
+                        <td>Giảng viên đã thể hiện thái độ tích cực, chuyên nghiệp và tôn trọng sinh viên. Sự gần gũi và thân thiện trong phong cách làm việc đã tạo ra một môi trường học tập thoải mái, giúp sinh viên dễ dàng tiếp cận và tương tác với giảng viên.</td>
+                        <td>
+                            <div class="rating">
+                                <input type="radio" id="attitude1" name="attitude" value="1"><label
+                                    for="attitude1">1</label>
+                                <input type="radio" id="attitude2" name="attitude" value="2"><label
+                                    for="attitude2">2</label>
+                                <input type="radio" id="attitude3" name="attitude" value="3"><label
+                                    for="attitude3">3</label>
+                                <input type="radio" id="attitude4" name="attitude" value="4"><label
+                                    for="attitude4">4</label>
+                                <input type="radio" id="attitude5" name="attitude" value="5"><label
+                                    for="attitude5">5</label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Hỗ trợ tài liệu tham khảo</td>
+                        <td>Giảng viên đã cung cấp tài liệu tham khảo phong phú và hướng dẫn cụ thể về cách sử dụng những tài liệu này. Sự chỉ dẫn từ giảng viên đã giúp sinh viên nắm bắt các nguồn tài liệu có giá trị và ứng dụng chúng trong việc nghiên cứu và học tập.</td>
+                        <td>
+                            <div class="rating">
+                                <input type="radio" id="refer1" name="refer" value="1"><label for="refer1">1</label>
+                                <input type="radio" id="refer2" name="refer" value="2"><label for="refer2">2</label>
+                                <input type="radio" id="refer3" name="refer" value="3"><label for="refer3">3</label>
+                                <input type="radio" id="refer4" name="refer" value="4"><label for="refer4">4</label>
+                                <input type="radio" id="refer5" name="refer" value="5"><label for="refer5">5</label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Tác phong và phẩm chất của giảng viên</td>
+                        <td>Giảng viên đã thể hiện sự chuyên nghiệp và phẩm chất đạo đức cao trong suốt quá trình giảng dạy. Sự nhất quán trong hành động và thái độ của giảng viên đã tạo dựng niềm tin và sự kính trọng từ phía sinh viên.
+                        </td>
+                        <td>
+                            <div class="rating">
+                                <input type="radio" id="style1" name="style" value="1"><label for="style1">1</label>
+                                <input type="radio" id="style2" name="style" value="2"><label for="style2">2</label>
+                                <input type="radio" id="style3" name="style" value="3"><label for="style3">3</label>
+                                <input type="radio" id="style4" name="style" value="4"><label for="style4">4</label>
+                                <input type="radio" id="style5" name="style" value="5"><label for="style5">5</label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Sự chuẩn bị bài giảng</td>
+                        <td>Giảng viên đã chuẩn bị bài giảng một cách chu đáo và có tổ chức, giúp buổi học diễn ra suôn sẻ. Sự chuẩn bị kỹ lưỡng đã góp phần tạo nên sự tự tin cho giảng viên và giúp sinh viên nắm bắt nội dung hiệu quả hơn.</td>
+                        <td>
+                            <div class="rating">
+                                <input type="radio" id="prep1" name="prep" value="1"><label for="prep1">1</label>
+                                <input type="radio" id="prep2" name="prep" value="2"><label for="prep2">2</label>
+                                <input type="radio" id="prep3" name="prep" value="3"><label for="prep3">3</label>
+                                <input type="radio" id="prep4" name="prep" value="4"><label for="prep4">4</label>
+                                <input type="radio" id="prep5" name="prep" value="5"><label for="prep5">5</label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Khả năng xử lý tình huống</td>
+                        <td>Giảng viên đã thể hiện khả năng ứng phó linh hoạt với các tình huống bất ngờ trong lớp học. Việc xử lý khéo léo các tình huống này không chỉ giúp duy trì không khí học tập tích cực mà còn thể hiện sự chín chắn và chuyên nghiệp của giảng viên.</td>
+                        <td>
+                            <div class="rating">
+                                <input type="radio" id="situation1" name="situation" value="1"><label for="situation1">1</label>
+                                <input type="radio" id="situation2" name="situation" value="2"><label for="situation2">2</label>
+                                <input type="radio" id="situation3" name="situation" value="3"><label for="situation3">3</label>
+                                <input type="radio" id="situation4" name="situation" value="4"><label for="situation4">4</label>
+                                <input type="radio" id="situation5" name="situation" value="5"><label for="situation5">5</label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Độ linh hoạt trong giảng dạy</td>
+                        <td>Giảng viên đã cho thấy sự linh hoạt trong việc điều chỉnh nội dung và phương pháp giảng dạy dựa trên phản hồi từ sinh viên. Khả năng này giúp giảng viên đáp ứng kịp thời nhu cầu học tập của sinh viên và tối ưu hóa quá trình học.</td>
+                        <td>
+                            <div class="rating">
+                                <input type="radio" id="flexible1" name="flexible" value="1"><label for="flexible1">1</label>
+                                <input type="radio" id="flexible2" name="flexible" value="2"><label for="flexible2">2</label>
+                                <input type="radio" id="flexible3" name="flexible" value="3"><label for="flexible3">3</label>
+                                <input type="radio" id="flexible4" name="flexible" value="4"><label for="flexible4">4</label>
+                                <input type="radio" id="flexible5" name="flexible" value="5"><label for="flexible5">5</label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Mối quan hệ với sinh viên</td>
+                        <td>Giảng viên đã xây dựng mối quan hệ thân thiện và cởi mở với sinh viên, giúp họ cảm thấy thoải mái và tự tin khi giao tiếp. Sự kết nối này đã tạo ra một môi trường học tập tích cực và khuyến khích sự tham gia của sinh viên.</td>
+                        <td>
+                            <div class="rating">
+                                <input type="radio" id="relationship1" name="relationship" value="1"><label for="relationship1">1</label>
+                                <input type="radio" id="relationship2" name="relationship" value="2"><label for="relationship2">2</label>
+                                <input type="radio" id="relationship3" name="relationship" value="3"><label for="relationship3">3</label>
+                                <input type="radio" id="relationship4" name="relationship" value="4"><label for="relationship4">4</label>
+                                <input type="radio" id="relationship5" name="relationship" value="5"><label for="relationship5">5</label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Khả năng kết nối giữa lý thuyết và thực tiễn</td>
+                        <td>Giảng viên đã thành công trong việc liên hệ giữa lý thuyết và thực tiễn, giúp sinh viên thấy rõ ứng dụng của các khái niệm lý thuyết trong cuộc sống và công việc. Sự minh họa cụ thể và ví dụ thực tế đã làm cho bài học trở nên sống động và dễ hiểu hơn.</td>
+                        <td>
+                            <div class="rating">
+                                <input type="radio" id="connect1" name="connect" value="1"><label for="connect1">1</label>
+                                <input type="radio" id="connect2" name="connect" value="2"><label for="connect2">2</label>
+                                <input type="radio" id="connect3" name="connect" value="3"><label for="connect3">3</label>
+                                <input type="radio" id="connect4" name="connect" value="4"><label for="connect4">4</label>
+                                <input type="radio" id="connect5" name="connect" value="5"><label for="connect5">5</label>
+                            </div>
+                        </td>
+                    </tr>                                        
+                </table>
+                <p class="thank-you-text" style="text-align: center; font-weight: bold; font-style: italic; color: #003366;">
+                    Cám ơn anh-chị đã dành thời gian điền thông tin vào Bảng đánh giá này.<br>
+                    Sự tham gia đóng góp ý kiến nghiêm túc của anh-chị là rất quan trọng đối với giảng viên.<br>
+                    Xin chân thành cảm ơn và chúc anh-chị sức khỏe - thành công!
+                </p>
+                
+                <button type="submit" class="submit-btn">Gửi đánh giá</button>
+            </form>
+        </div>
+        <script>
+            // Hàm lấy id sinh viên từ URL
+            function getIdFromUrl() {
+                // Lấy URL hiện tại
+                var url = window.location.href;
+
+                // Tách phần sau dấu "?" nếu có, chỉ lấy phần đường dẫn chính
+                var baseUrl = url.split("?")[0];
+
+                // Tách lấy iduser từ URL (phần nằm sau dấu / cuối cùng)
+                var parts = baseUrl.split("/");
+                var iduser = parts[parts.length - 1]; // SV1001 trong ví dụ của bạn
+
+                return iduser;
+            }
+
+            // Hàm bỏ dấu tiếng Việt
+            function removeDiacritics(str) {
+                return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+            }
+
+            // Hàm lấy thời gian hiện tại và hiển thị
+            function displayCurrentTime() {
+                var currentTime = new Date();
+                var formattedTime = currentTime.toLocaleString(); // Hiển thị thời gian định dạng 'dd/mm/yyyy, hh:mm:ss'
+                document.getElementById("time").innerText = formattedTime;
+            }
+
+            // Khi trang đã tải xong
+            window.onload = function () {
+                // Lấy id sinh viên từ URL và hiển thị
+                var iduser = getIdFromUrl();
+                document.getElementById("iduser").innerText = iduser;
+
+                // Gọi hàm để hiển thị thời gian ngay khi trang được tải
+                displayCurrentTime();
+            };
+
+            function resetForm() {
+                setTimeout(function () {
+                    window.location.reload(); // Tải lại trang
+                }, 1000); // Thời gian chờ 1 giây trước khi tải lại
+            }
+
+            document.addEventListener('DOMContentLoaded', function () {
+                document.getElementById('evaluation-form').addEventListener('submit', function (event) {
+                    event.preventDefault();
+            
+                    // Hiển thị loading spinner khi bắt đầu submit
+                    Swal.fire({
+                        title: 'Đang xử lý...',
+                        text: 'Vui lòng chờ trong giây lát',
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        showConfirmButton: false,
+                        willOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
+            
+                    const formData = {};
+                    formData.iduser = document.getElementById('iduser').innerText;
+            
+                    this.querySelectorAll('input[type="radio"]:checked').forEach(input => {
+                        formData[input.name] = input.value;
+                    });
+            
+                    console.log("Data to be sent:", formData);
+            
+                    fetch('/submit-evaluation', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(formData),
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Thành công!',
+                                text: data.message,
+                                confirmButtonText: 'Đóng',
+                                confirmButtonColor: '#3085d6'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    resetForm()
+                                    // Có thể thêm code để vô hiệu hóa form hoặc chuyển hướng người dùng ở đây
+                                }
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Lỗi!',
+                                text: data.message,
+                                confirmButtonText: 'Thử lại',
+                                confirmButtonColor: '#d33'
+                            });
+                            console.error('Server Error:', data);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Đã xảy ra lỗi!',
+                            text: 'Có lỗi xảy ra khi gửi đánh giá. Vui lòng thử lại sau.',
+                            confirmButtonText: 'Đóng',
+                            confirmButtonColor: '#d33'
+                        });
+                    });
+                });
+            });
+            document.addEventListener("DOMContentLoaded", () => {
+                const countdownContainer = document.getElementById("countdown-container");
+                const formContainer = document.getElementById("evaluation-form-container");
+
+                // Lấy thời gian đánh giá tiếp theo từ server
+                const nextEvaluationDate = new Date('<%= nextEvaluationDate.toISOString() %>').getTime();
+
+                // Cập nhật countdown mỗi giây
+                const countdownInterval = setInterval(() => {
+                    const now = new Date().getTime();
+                    const timeRemaining = nextEvaluationDate - now;
+
+                    if (timeRemaining > 0) {
+                        // Tính toán và hiển thị thời gian còn lại
+                        const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+                        const hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                        const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+                        const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+
+                        document.getElementById("countdown").innerHTML = `<b> Bạn đã đánh thành công. Lần đánh giá tiếp theo còn: </b> <b style="color: red;">${days} ngày ${hours} giờ ${minutes} phút ${seconds} giây</b>`;
+                    } else {
+                        // Thời gian đã hết
+                        clearInterval(countdownInterval);
+                        countdownContainer.style.display = "none";
+                        formContainer.style.display = "block";
+                    }
+                }, 1000);
+            });
+        </script>
+
+</body>
+
+</html>

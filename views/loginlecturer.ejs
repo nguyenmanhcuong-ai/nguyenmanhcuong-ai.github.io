@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecturer Portal - Cường Nguyễn - Đăng nhập</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Cường Nguyễn. Đăng Nhập. Cổng thông tin Giảng viên - Viên chức của Cường Nguyễn là nền tảng trực tuyến chuyên dụng, giúp giảng viên và viên chức quản lý toàn diện thông tin học tập, giảng dạy và các dịch vụ liên quan đến sinh viên. Với hệ thống quản lý tích hợp, giảng viên có thể dễ dàng theo dõi lịch dạy học, quản lý điểm danh, xử lý bài tập và truy cập các tài liệu học tập quan trọng. Cổng thông tin này còn cung cấp các công cụ tiên tiến để giúp giảng viên cập nhật thông tin học viên, quản lý các lớp học và theo dõi tiến độ học tập của sinh viên một cách hiệu quả.">
+    <link rel="icon" href="/uploads/MC2.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+        <!-- Open Graph tags for better social media sharing -->
+        <meta property="og:title" content="Lecturer Portal - Cường Nguyễn - Đăng nhập">
+        <meta property="og:description" content="Cường Nguyễn. Đăng Nhập. Cổng thông tin Giảng viên - Viên chức của Cường Nguyễn là nền tảng trực tuyến chuyên dụng, giúp giảng viên và viên chức quản lý toàn diện thông tin học tập, giảng dạy và các dịch vụ liên quan đến sinh viên. Với hệ thống quản lý tích hợp, giảng viên có thể dễ dàng theo dõi lịch dạy học, quản lý điểm danh, xử lý bài tập và truy cập các tài liệu học tập quan trọng. Cổng thông tin này còn cung cấp các công cụ tiên tiến để giúp giảng viên cập nhật thông tin học viên, quản lý các lớp học và theo dõi tiến độ học tập của sinh viên một cách hiệu quả.">
+        <meta property="og:image" content="/uploads/logo.png">
+        <meta property="og:url" content="https://mccheckin.edu.vn/lecturer-login">
+        <meta property="og:image" content="https://www.mccheckin.edu.vn/uploads/MC.png">
+        <meta property="og:image:alt" content="Logo Cổng thông tin sinh viên Cường Nguyễn">
+        <meta property="og:type" content="website">
+        <meta property="fb:profile_id" content="09nmc">
+
+        <script type="application/ld+json">
+            {
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              "url": "https://mccheckin.edu.vn/lecturer-login",
+              "name": "Lecturer Portal MC",
+              "headline": "Cổng thông tin sinh viên MC",
+              "alternateName": "Lecturer Portal Cường Nguyễn",
+              "description": "Cường Nguyễn. Đăng Nhập. Cổng thông tin Giảng viên - Viên chức của Cường Nguyễn là nền tảng trực tuyến chuyên dụng, giúp giảng viên và viên chức quản lý toàn diện thông tin học tập, giảng dạy và các dịch vụ liên quan đến sinh viên. Với hệ thống quản lý tích hợp, giảng viên có thể dễ dàng theo dõi lịch dạy học, quản lý điểm danh, xử lý bài tập và truy cập các tài liệu học tập quan trọng. Cổng thông tin này còn cung cấp các công cụ tiên tiến để giúp giảng viên cập nhật thông tin học viên, quản lý các lớp học và theo dõi tiến độ học tập của sinh viên một cách hiệu quả.",
+              "potentialAction": {
+                "@type": "SearchAction",
+                "target": "https://www.mccheckin.edu.vn/search?q={search_term_string}",
+                "query-input": "required name=search_term_string"
+              },
+              "logo": "https://mccheckin.edu.vn/uploads/MC.png",
+              "sameAs": [
+                "https://www.facebook.com/09nmc"
+              ]
+            }
+            </script>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+
+        :root {
+            --primary-color: #1a237e;
+            --secondary-color: #c62828;
+            --background-color: #f0f4f8;
+            --text-color: #333;
+            --accent-color: #3f51b5;
+            --gradient-start: #1a237e;
+            --gradient-end: #3949ab;
+        }
+
+        body,
+        html {
+            font-family: 'Roboto', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background-color: var(--background-color);
+        }
+
+        .container {
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .image-container {
+            flex: 1.5;
+            background-image: url('/uploads/login.jpg');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .image-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(26, 35, 126, 0.7), rgba(57, 73, 171, 0.7));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .overlay-content {
+            color: white;
+            text-align: center;
+        }
+
+        .overlay-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .overlay-content p {
+            font-size: 1.2rem;
+            max-width: 80%;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .login-container {
+            flex: 1;
+            background-color: #ffffff;
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            box-shadow: -10px 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 2rem;
+            margin-top: -70px;
+        }
+
+        .logo img {
+            max-width: 150px;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+
+        .greeting {
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .greeting p {
+            font-size: 1.2rem;
+            margin: 0;
+            font-weight: 500;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .form-group i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--accent-color);
+        }
+
+        input {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(63, 81, 181, 0.1);
+        }
+
+        .info {
+            color: var(--text-color);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-style: italic;
+        }
+
+        button {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(26, 35, 126, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .image-container {
+                display: none;
+            }
+
+            .login-container {
+                padding: 2rem;
+            }
+        }
+
+        .error {
+            color: red;
+            /* Màu chữ cho thông báo lỗi */
+            font-weight: bold;
+            /* Để chữ đậm */
+            margin-bottom: 20px;
+            /* Khoảng cách trên thông báo lỗi */
+            text-align: center;
+            /* Căn giữa thông báo lỗi */
+            font-size: 1.1em;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="image-container">
+            <div class="image-overlay">
+                <div class="overlay-content">
+                    <h2>Chào mừng đến với</h2>
+                    <h2>Cổng thông tin Giảng viên - Viên chức</h2>
+                    <p>Nơi kết nối, chia sẻ và phát triển cùng cộng đồng giáo dục</p>
+                </div>
+            </div>
+        </div>
+        <div class="login-container">
+            <div class="logo">
+                <img src="/uploads/MC.png" alt="Logo trường">
+            </div>
+            <h1>Đăng nhập</h1>
+            <div class="greeting">
+                <p>Chúc quý thầy cô một ngày làm việc hiệu quả!</p>
+            </div>
+            <% if (error) { %>
+                <p class="error">
+                    <%= error %>
+                </p>
+                <% } %>
+                    <form action="/auth/lecturer-login" method="POST">
+                        <div class="form-group">
+                            <i class="fas fa-user"></i>
+                            <input type="text" name="username" placeholder="Tên tài khoản" required>
+                        </div>
+                        <div class="form-group">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" name="password" placeholder="Mật khẩu" required>
+                        </div>
+                        <p class="info">Vui lòng đăng nhập bằng tài khoản do MC Human Resources Department cung cấp
+
+                        </p>
+                        <button type="submit">Đăng nhập</button>
+                    </form>
+        </div>
+    </div>
+    <script>
+
+        // Ẩn thông báo lỗi sau 2 giây
+        window.onload = function () {
+            const errorMessage = document.querySelector('.error');
+            if (errorMessage) {
+                setTimeout(() => {
+                    errorMessage.style.display = 'none';
+                }, 3000); // Thời gian 2 giây
+            }
+        };
+
+
+        function preventBack() {
+            window.history.forward();
+        }
+        setTimeout("preventBack()", 0);
+        window.onunload = function () { null };
+
+    </script>
+
+    <script>
+        // Ngăn người dùng nhấn chuột phải
+        document.addEventListener('contextmenu', function (e) {
+            e.preventDefault();
+        });
+
+        // Ngăn người dùng nhấn F12 (Mở Developer Tools)
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+                e.preventDefault();
+            }
+        });
+        document.addEventListener('keydown', function(event) {
+            if (event.ctrlKey && (event.key === 'u' || event.key === 'U')) {
+                event.preventDefault(); // Ngăn Ctrl+U
+            }
+        });
+    </script> 
+</body>
+
+</html>

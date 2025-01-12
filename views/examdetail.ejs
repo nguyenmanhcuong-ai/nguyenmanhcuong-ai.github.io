@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản Lý Kỳ Thi</title>
+    <link rel="icon" href="/uploads/MC2.png" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css">
+    <!-- Thêm SweetAlert vào tệp HTML -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3f37c9;
+            --accent-color: #4895ef;
+            --background-color: #f8f9fa;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            background-color: var(--background-color);
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        .dashboard-container {
+            padding: 2rem;
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+
+        .stats-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.2s;
+        }
+
+        .stats-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .table-container {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: var(--card-shadow);
+        }
+
+        .custom-table {
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        .custom-table thead th {
+            background-color: #f8f9fa;
+            border: none;
+            padding: 1rem;
+            font-weight: 600;
+        }
+
+        .custom-table tbody td {
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+            vertical-align: middle;
+        }
+
+        .file-preview {
+            max-width: 150px;
+            padding: 0.5rem;
+            background-color: #f8f9fa;
+            border-radius: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .file-preview a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .btn-add {
+            background: var(--primary-color);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            transition: all 0.3s;
+        }
+
+        .btn-add:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        .action-btn {
+            width: 36px;
+            height: 36px;
+            padding: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.5rem;
+            margin: 0 0.25rem;
+            transition: all 0.2s;
+        }
+
+        .action-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .modal-content {
+            border-radius: 1rem;
+            border: none;
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: 1rem 1rem 0 0;
+            border: none;
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        .form-control {
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            border: 1px solid #dee2e6;
+        }
+
+        .form-control:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 0.2rem rgba(67, 97, 238, 0.25);
+        }
+
+        .deadline-badge {
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .deadline-approaching {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .deadline-normal {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .deadline-expired {
+            background-color: #f8d7da; /* Màu đỏ nhạt */
+            color: #721c24; /* Màu chữ tối */
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Header Section -->
+        <div class="page-header d-flex justify-content-between align-items-center">
+            <div>
+                <h2 class="mb-0">Quản Lý Kỳ Thi</h2>
+                <p class="mb-0 mt-2 text-white-50">Quản lý và theo dõi các kỳ thi một cách hiệu quả</p>
+            </div>
+            <button type="button" class="btn btn-add text-white" data-bs-toggle="modal" data-bs-target="#addExamModal">
+                <i class="fas fa-plus me-2"></i> Thêm Kỳ Thi Mới
+            </button>
+        </div>
+
+        <!-- Statistics Cards -->
+        <div class="row">
+            <div class="col-md-3">
+                <div class="stats-card">
+                    <h5 class="text-muted mb-3">Tổng Số Kỳ Thi</h5>
+                    <h3 class="mb-0"><%= exams.length %></h3>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stats-card">
+                    <h5 class="text-muted mb-3">Kỳ Thi Đang Diễn Ra (Xanh)</h5>
+                    <h3 class="mb-0"><%= exams.filter(e => new Date(e.deadline) > new Date()).length %></h3>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stats-card">
+                    <h5 class="text-muted mb-3">Kỳ Thi Sắp Đến Hạn (Vàng)</h5>
+                    <h3 class="mb-0"><%= exams.filter(e => {
+                        const deadline = new Date(e.deadline);
+                        const now = new Date();
+                        const diff = deadline - now;
+                        return diff > 0 && diff <= 3 * 24 * 60 * 60 * 1000;
+                    }).length %></h3>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stats-card">
+                    <h5 class="text-muted mb-3">Kỳ Thi Đã Hết Hạn (Đỏ)</h5>
+                    <h3 class="mb-0"><%= exams.filter(e => new Date(e.deadline) <= new Date()).length %></h3>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Table Section -->
+        <div class="table-container">
+            <div class="table-responsive">
+                <table class="table custom-table">
+                    <thead>
+                        <tr>
+                            <th>Mã Lớp</th>
+                            <th>Học Kỳ</th>
+                            <th>Tài Liệu</th>
+                            <th>Ngày Tạo</th>
+                            <th>Hạn Nộp</th>
+                            <th>Thao Tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% exams.forEach(exam => { %>
+                            <tr>
+                                <td><strong><%= exam.idclass %></strong></td>
+                                <td><%= exam.term %></td>
+                                <td>
+                                    <div class="d-flex gap-2 flex-wrap">
+                                        <% ['file1', 'file2', 'file3', 'file4', 'file5'].forEach((file, index) => { %>
+                                            <% if (exam[file]) { %>
+                                                <div class="file-preview">
+                                                    <a href="<%= exam[file] %>" target="_blank">
+                                                        <i class="fas fa-file-alt me-1"></i>
+                                                        Tài liệu <%= index + 1 %>
+                                                    </a>
+                                                </div>
+                                            <% } %>
+                                        <% }) %>
+                                    </div>
+                                </td>
+                                <td><%= new Date(exam.createdat).toLocaleString('vi-VN') %></td>
+                                <td>
+                                    <% 
+                                    const deadline = new Date(exam.deadline);
+                                    const now = new Date();
+                                    const diff = deadline - now;
+                                    let deadlineClass;
+
+                                    if (diff <= 0) {
+                                        deadlineClass = 'deadline-expired'; // Kỳ thi đã hết hạn
+                                    } else if (diff <= 3 * 24 * 60 * 60 * 1000) {
+                                        deadlineClass = 'deadline-approaching'; // Kỳ thi sắp hết hạn
+                                    } else {
+                                        deadlineClass = 'deadline-normal'; // Kỳ thi bình thường
+                                    }
+                                    %>
+                                    <span class="deadline-badge <%= deadlineClass %>">
+                                        <%= deadline.toLocaleString('vi-VN') %>
+                                    </span>                                
+                                </td>
+                                <td>
+                                    <button class="btn btn-info action-btn" 
+                                    onclick="window.location.href='/submitdetail/<%= exam.idclass %>/<%= exam.term %>'">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                
+                                    <button class="btn btn-primary action-btn" 
+                                            data-bs-toggle="modal" 
+                                            data-bs-target="#editExamModal"
+                                            data-exam-id="<%= exam.id %>">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="btn btn-danger action-btn" 
+                                    onclick="deleteExam('<%= exam.id %>', '<%= exam.idclass %>', '<%= exam.term %>')">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                                                            </td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Modals -->
+        <div class="modal fade" id="addExamModal" tabindex="-1">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Thêm Kỳ Thi Mới</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="/admin/exam/add" method="POST" enctype="multipart/form-data">
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Mã Lớp</label>
+                                    <select class="form-control" name="idclass" id="classSelect" required>
+                                        <option value="" disabled selected>Chọn mã lớp</option>
+                                        <!-- Các tùy chọn sẽ được thêm vào đây qua JavaScript -->
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Học Kỳ</label>
+                                    <select class="form-control" name="term" required>
+                                        <option value="" disabled selected>Chọn học kỳ</option>
+                                        <option value="Midterm">Midterm</option>
+                                        <option value="Finalterm">Finalterm</option>
+                                    </select>
+                                </div>
+                                
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label">Tài Liệu</label>
+                                <div class="row g-3">
+                                    <% for(let i = 1; i <= 5; i++) { %>
+                                        <div class="col-md-6">
+                                            <div class="input-group">
+                                                <span class="input-group-text">Tài liệu <%= i %></span>
+                                                <input type="file" class="form-control" name="file<%= i %>">
+                                            </div>
+                                        </div>
+                                    <% } %>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Hạn Nộp</label>
+                                <input type="datetime-local" class="form-control" name="deadline" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                            <button type="submit" class="btn btn-primary">Thêm</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="editExamModal" tabindex="-1">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Chỉnh Sửa Kỳ Thi</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="/admin/exam/edit" method="POST" enctype="multipart/form-data">
+                        <input type="hidden" name="examId" id="editExamId">
+                        <div class="modal-body">
+                            <!-- Các trường tương tự như form thêm mới -->
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Mã Lớp</label>
+                                    <input type="text" class="form-control" name="idclass" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Học Kỳ</label>
+                                    <input type="text" class="form-control" name="term" required>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label">Tài Liệu</label>
+                                <div class="row g-3">
+                                    <% for(let i = 1; i <= 5; i++) { %>
+                                        <div class="col-md-6">
+                                            <div class="input-group">
+                                                <span class="input-group-text">Tài liệu <%= i %></span>
+                                                <input type="file" class="form-control" name="file<%= i %>">
+                                            </div>
+                                        </div>
+                                    <% } %>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Hạn Nộp</label>
+                                <input type="datetime-local" class="form-control" name="deadline" required>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                                <button type="submit" class="btn btn-primary">Lưu Thay Đổi</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            // Hàm hiển thị thông báo
+            function showNotification(title, text, icon) {
+                Sweetalert2.fire({
+                    title: title,
+                    text: text,
+                    icon: icon,
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true
+                });
+            }
+    
+            // Hàm xóa kỳ thi
+            function deleteExam(examId, idclass, term) {
+                Sweetalert2.fire({
+                    title: 'Xác nhận xóa?',
+                    text: 'Bạn có chắc chắn muốn xóa kỳ thi này?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Xóa',
+                    cancelButtonText: 'Hủy',
+                    confirmButtonColor: '#dc3545',
+                    cancelButtonColor: '#6c757d',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        fetch(`/admin/exam/delete/${examId}`, { // Chuyển examId vào URL
+                            method: 'DELETE',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ idclass, term }) // Gửi idclass và term cần thiết
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                showNotification('Thành công', 'Đã xóa kỳ thi', 'success');
+                                setTimeout(() => location.reload(), 1000);
+                            } else {
+                                showNotification('Lỗi', 'Có lỗi xảy ra khi xóa kỳ thi', 'error');
+                            }
+                        })
+                        .catch(error => {
+                            console.error(error);
+                            showNotification('Lỗi', 'Không thể kết nối đến máy chủ', 'error');
+                        });
+                    }
+                });
+            }
+                            
+            // Xử lý form upload file
+            document.querySelectorAll('input[type="file"]').forEach(input => {
+                input.addEventListener('change', function(e) {
+                    const fileName = this.files[0]?.name;
+                    if (fileName) {
+                        const filePreview = document.createElement('small');
+                        filePreview.classList.add('text-muted', 'd-block', 'mt-1');
+                        filePreview.textContent = `Đã chọn: ${fileName}`;
+                        
+                        // Xóa preview cũ nếu có
+                        const existingPreview = this.parentElement.querySelector('small');
+                        if (existingPreview) {
+                            existingPreview.remove();
+                        }
+                        
+                        this.parentElement.appendChild(filePreview);
+                    }
+                });
+            });
+    
+            // Xử lý việc chỉnh sửa kỳ thi
+            document.getElementById('editExamModal').addEventListener('show.bs.modal', function(event) {
+                const button = event.relatedTarget;
+                const examId = button.getAttribute('data-exam-id');
+                
+                // Lấy thông tin kỳ thi từ server
+                fetch(`/admin/exam/${examId}`)
+                    .then(response => response.json())
+                    .then(exam => {
+                        const modal = this;
+                        modal.querySelector('#editExamId').value = exam.id;
+                        modal.querySelector('input[name="idclass"]').value = exam.idclass;
+                        modal.querySelector('input[name="term"]').value = exam.term;
+                        
+                        // Format deadline để hiển thị trong input datetime-local
+                        const deadline = new Date(exam.deadline);
+                        const formattedDeadline = deadline.toISOString().slice(0, 16);
+                        modal.querySelector('input[name="deadline"]').value = formattedDeadline;
+                        
+                        // Hiển thị tên file hiện tại
+                        ['file1', 'file2', 'file3', 'file4', 'file5'].forEach(fileKey => {
+                            if (exam[fileKey]) {
+                                const input = modal.querySelector(`input[name="${fileKey}"]`);
+                                const filePreview = document.createElement('small');
+                                filePreview.classList.add('text-muted', 'd-block', 'mt-1');
+                                filePreview.textContent = `File hiện tại: ${exam[fileKey].split('/').pop()}`;
+                                
+                                const existingPreview = input.parentElement.querySelector('small');
+                                if (existingPreview) {
+                                    existingPreview.remove();
+                                }
+                                
+                                input.parentElement.appendChild(filePreview);
+                            }
+                        });
+                    })
+                    .catch(error => {
+                        showNotification('Lỗi', 'Không thể tải thông tin kỳ thi', 'error');
+                    });
+            });
+    
+            // Xử lý submit form
+// Xử lý submit form
+document.querySelectorAll('form').forEach(form => {
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(this);
+        const url = this.action;
+        const method = this.method;
+
+        // Hiển thị thông báo "Đang xử lý..."
+        Swal.fire({
+            title: 'Đang xử lý...',
+            html: 'Vui lòng chờ trong giây lát',
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading()
+            }
+        });
+
+        fetch(url, {
+            method: method,
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Response from server:', data); // Log phản hồi để kiểm tra
+
+            // Đóng thông báo "Đang xử lý..."
+            Swal.close();
+
+            if (data.success) {
+                showNotification('Thành công', data.message, 'success');
+                setTimeout(() => location.href = '/examdetail', 1000);
+            } else {
+                showNotification('Lỗi', data.message || 'Có lỗi xảy ra', 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Fetch error:', error);
+            // Đóng thông báo "Đang xử lý..."
+            Swal.close();
+            showNotification('Lỗi', 'Không thể kết nối đến máy chủ', 'error');
+        });
+        
+    });
+});
+                
+            // Hiển thị số lượng file đã chọn
+            function updateFileCounter() {
+                const fileInputs = document.querySelectorAll('input[type="file"]');
+                const fileCount = Array.from(fileInputs).filter(input => input.files.length > 0).length;
+                
+                if (fileCount > 0) {
+                    const badge = document.createElement('span');
+                    badge.classList.add('badge', 'bg-primary', 'ms-2');
+                    badge.textContent = `${fileCount} file`;
+                    
+                    const labels = document.querySelectorAll('.form-label');
+                    labels.forEach(label => {
+                        if (label.textContent.includes('Tài Liệu')) {
+                            const existingBadge = label.querySelector('.badge');
+                            if (existingBadge) {
+                                existingBadge.remove();
+                            }
+                            label.appendChild(badge.cloneNode(true));
+                        }
+                    });
+                }
+            }
+    
+            // Theo dõi thay đổi của các input file
+            document.querySelectorAll('input[type="file"]').forEach(input => {
+                input.addEventListener('change', updateFileCounter);
+            });
+    
+            // Hiệu ứng loading khi submit form
+            function showLoading() {
+                const loadingOverlay = document.createElement('div');
+                loadingOverlay.classList.add('position-fixed', 'top-0', 'start-0', 'w-100', 'h-100', 'd-flex', 'justify-content-center', 'align-items-center');
+                loadingOverlay.style.backgroundColor = 'rgba(0,0,0,0.5)';
+                loadingOverlay.style.zIndex = '9999';
+                
+                const spinner = document.createElement('div');
+                spinner.classList.add('spinner-border', 'text-light');
+                loadingOverlay.appendChild(spinner);
+                
+                document.body.appendChild(loadingOverlay);
+                return loadingOverlay;
+            }
+    
+            // Khởi tạo tooltips
+            const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+        </script>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const classSelect = document.getElementById('classSelect');
+        
+                // Hàm để fetch mã lớp từ API
+                async function fetchClasses() {
+                    try {
+                        const response = await fetch('/api/unique-classes');
+                        if (!response.ok) throw new Error('Network response was not ok');
+        
+                        const classes = await response.json();
+                        
+                        // Xóa tất cả tùy chọn hiện tại
+                        classSelect.innerHTML = '<option value="" disabled selected>Chọn mã lớp</option>';
+        
+                        // Thêm các tùy chọn mới
+                        classes.forEach(classItem => {
+                            const option = document.createElement('option');
+                            option.value = classItem.idclass;
+                            option.textContent = classItem.idclass;
+                            classSelect.appendChild(option);
+                        });
+                    } catch (error) {
+                        console.error('Có lỗi xảy ra khi fetch mã lớp:', error);
+                    }
+                }
+        
+                // Fetch mã lớp khi modal được mở
+                const addExamModal = document.getElementById('addExamModal');
+                addExamModal.addEventListener('show.bs.modal', fetchClasses);
+            });
+        </script>
+
+        
+        
+    </body>
+    </html>

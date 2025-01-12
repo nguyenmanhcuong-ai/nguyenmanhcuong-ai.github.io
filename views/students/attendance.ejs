@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/uploads/MC2.png" type="image/x-icon">
+    <title><%= title %></title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+        :root {
+            --primary-color: #4a90e2;
+            --secondary-color: #2ecc71;
+            --background-color: #f4f7f9;
+            --text-color: #333;
+            --border-color: #e0e0e0;
+            --header-bg: #2c3e50;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            background-color: var(--header-bg);
+            color: #fff;
+            padding: 1rem 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .student-info {
+            background-color: var(--primary-color);
+            color: #fff;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        .student-info span {
+            font-weight: 600;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin-bottom: 2rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+        }
+
+        th {
+            background-color: var(--primary-color);
+            color: #fff;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        tr:hover {
+            background-color: #e9ecef;
+        }
+
+        .month-completion {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            font-weight: 500;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .fee-button {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            color: #fff;
+            background-color: #e74c3c;
+            text-align: center;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .fee-button.paid {
+            background-color: var(--secondary-color);
+        }
+
+        .fee-button:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: flex-start;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .action-button {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: #fff;
+            padding: 0.75rem 1.5rem;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .action-button:hover {
+            background-color: #3a7bd5;
+            transform: translateY(-2px);
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 2rem;
+            font-size: 1.1rem;
+            color: #666;
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        @media screen and (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            table, th, td {
+                font-size: 0.9rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .action-button {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-graduation-cap"></i> MC English
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1><%= title %></h1>
+        
+        <div class="card">
+            <div class="student-info">
+                <i class="fas fa-user-graduate"></i> Thông tin sinh viên: <span><%= user.fullname %></span> (ID: <%= user.iduser %>)
+            </div>
+
+            <div class="table-container">
+                <% if (attendanceRecords.length > 0) { 
+                    attendanceRecords.sort((a, b) => new Date(a.time) - new Date(b.time));
+
+                    let recordsPerMonth = 8;
+                    let currentMonth = 1;
+                    let displayedRecords = 0;
+                %>
+                <table>
+                    <thead>
+                        <tr>
+                            <th><i class="far fa-clock"></i> Thời Gian</th>
+                            <th><i class="fas fa-check-circle"></i> Trạng Thái</th>
+                            <th><i class="fas fa-chalkboard-teacher"></i> Mã Lớp</th>
+                            <th><i class="fas fa-calendar-day"></i> Buổi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% attendanceRecords.forEach((record, index) => { %>
+                            <tr>
+                                <td><%= new Date(record.time).toLocaleString() %></td>
+                                <td><%= record.check_status ? 'Có mặt' : 'Vắng mặt' %></td>
+                                <td><%= record.idclass %></td>
+                                <td><%= record.day %></td>
+                            </tr>
+                            <% 
+                            displayedRecords++;
+                            if (displayedRecords === recordsPerMonth) { 
+                                const feePaid = attendanceRecords.some(att => att.pay_status && att.month === currentMonth);
+                            %>
+                                <tr>
+                                    <td colspan="4" class="month-completion">
+                                        <i class="fas fa-check-double"></i> Đã xong tháng thứ <%= currentMonth %>
+                                        <% if (isAdmin) { %>
+                                            <% if (feePaid) { %>
+                                                <button class="fee-button paid" disabled>
+                                                    <i class="fas fa-check"></i> Đã nộp học phí
+                                                </button>
+                                            <% } else { %>
+                                                <button id="fee-button-<%= currentMonth %>" class="fee-button" 
+                                                    onclick="handleFeePayment('<%= user.iduser %>', '<%= attendanceRecords[0].idclass %>', 
+                                                    '<%= currentMonth %>', 'fee-button-<%= currentMonth %>', '<%= displayedRecords %>')">
+                                                    <i class="fas fa-money-bill-wave"></i> Nộp học phí
+                                                </button>
+                                            <% } %>
+                                        <% } %>
+                                    </td>
+                                </tr>
+                                <% 
+                                currentMonth++;
+                                displayedRecords = 0;
+                            } 
+                            %>
+                        <% }); %>
+                
+                        <% if (displayedRecords > 0) { %>
+                            <tr>
+                                <td colspan="4" class="month-completion">
+                                    <i class="fas fa-hourglass-half"></i> Đang học tháng thứ <%= currentMonth %>: <%= displayedRecords %>/8 buổi
+                                    <% if (isAdmin) { %>
+                                        <button id="fee-button-<%= currentMonth %>" class="fee-button" 
+                                            onclick="handleFeePayment('<%= user.iduser %>', '<%= attendanceRecords[0].idclass %>', 
+                                            '<%= currentMonth %>', 'fee-button-<%= currentMonth %>', '<%= displayedRecords %>')">
+                                            <i class="fas fa-money-bill-wave"></i> Nộp học phí
+                                        </button>
+                                    <% } %>
+                                </td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+                <% } else { %>
+                    <div class="no-data"><i class="fas fa-exclamation-circle"></i> Không có lịch sử điểm danh cho sinh viên này.</div>
+                <% } %>
+            </div>
+        </div>
+        
+        <div class="action-buttons">
+            <a class="action-button" href="/admin/dashboard"><i class="fas fa-arrow-left"></i> Quay lại Dashboard</a>
+            <a class="action-button" href="/admin/fee-history/<%= iduser %>/<%= idclass %>"><i class="fas fa-history"></i> Xem lịch sử đóng phí</a>
+        </div>
+    </div>
+    
+    <script>
+        function handleFeePayment(iduser, idclass, currentMonth, buttonId, displayedRecords) {
+            const button = document.getElementById(buttonId);
+            const isPaid = button.classList.contains('paid');
+        
+            if (isPaid) {
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Thông báo',
+                    text: 'Học phí tháng này đã được nộp.',
+                    confirmButtonText: 'OK'
+                });
+                return;
+            }
+        
+            if (displayedRecords < 8) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Cảnh báo',
+                    text: 'Tháng này chưa đủ buổi. Không thể nộp học phí.',
+                    confirmButtonText: 'OK'
+                });
+                return;
+            }
+        
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '/admin/pay-fee', true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        const response = JSON.parse(xhr.responseText);
+                        button.classList.add('paid');
+                        button.innerHTML = '<i class="fas fa-check"></i> Đã nộp học phí';
+                        button.disabled = true;
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Thành công',
+                            text: response.message || 'Nộp học phí thành công!',
+                            confirmButtonText: 'OK'
+                        });
+                    } else if (xhr.status === 400) {
+                        const response = JSON.parse(xhr.responseText);
+                        Swal.fire({
+                            icon: 'info',
+                            title: 'Thông báo',
+                            text: response.message || 'Học phí tháng này đã được nộp.',
+                            confirmButtonText: 'OK'
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Có lỗi xảy ra',
+                            text: 'Có lỗi xảy ra khi nộp học phí.',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                }
+            };
+        
+            const paymentData = {
+                iduser: iduser,
+                idclass: idclass,
+                month: currentMonth,
+                pay_status: true,
+            };
+        
+            xhr.send(JSON.stringify(paymentData));
+        }
+    </script>
+</body>
+</html>

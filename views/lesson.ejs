@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tạo Bài Học Mới</title>
+    <link rel="icon" href="/uploads/MC2.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="https://cdn.tiny.cloud/1/2bt2zm8ioca5bg3l1j95qhr7epif06im1r3zyil4ruv6tqls/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: auto; }
+        h1 { text-align: center; }
+        form { background: #f4f4f4; padding: 20px; border-radius: 8px; }
+        label { display: block; margin: 10px 0 5px; }
+        input[type="text"], textarea { width: 100%; padding: 8px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 4px; }
+        #editor { min-height: 300px; margin-bottom: 20px; }
+        button { display: block; width: 100%; padding: 10px; background: #333; color: #fff; border: none; border-radius: 4px; cursor: pointer; }
+        button:hover { background: #555; }
+        .view-lessons-btn { background-color: #4CAF50; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><i class="fas fa-book"></i> Tạo Bài Học Mới</h1>
+        
+        <!-- Nút Xem Danh Sách Bài Học -->
+        <button class="view-lessons-btn" onclick="window.location.href='/lessons'">
+            Xem Danh Sách Bài Học
+        </button>
+
+        <!-- Form tạo bài học -->
+        <form id="lessonForm">
+            <label for="title">Tiêu đề:</label>
+            <input type="text" id="title" name="title" required>
+            
+            <label for="description">Mô tả ngắn:</label>
+            <textarea id="description" name="description" rows="3" required></textarea>
+            
+            <label for="content">Nội dung bài học:</label>
+            <textarea id="content" name="content"></textarea>
+            
+            <button type="submit">Lưu Bài Học</button>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        tinymce.init({
+            selector: '#content',
+            height: 600,
+            width: '100%',
+            menubar: true,
+            plugins: [
+                'advlist autolink lists link image charmap print preview anchor',
+                'searchreplace visualblocks code fullscreen',
+                'insertdatetime media table paste code help wordcount',
+                'codesample directionality emoticons hr nonbreaking pagebreak quickbars',
+                'save searchreplace table template textpattern visualchars',
+                'table'
+
+            ],
+            
+            toolbar1: 'undo redo | formatselect | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent',
+            toolbar2: 'forecolor backcolor | subscript superscript | link image media | table | removeformat | code fullscreen help',
+            toolbar3: 'fontselect fontsizeselect | cut copy paste pastetext | searchreplace | charmap emoticons hr | visualchars visualblocks nonbreaking pagebreak',
+            toolbar_mode: 'sliding',
+            contextmenu: 'link image table',
+            fontsize_formats: '8pt 9pt 10pt 11pt 12pt 14pt 16pt 18pt 24pt 36pt 48pt',
+            font_formats: 'Andale Mono=andale mono,times; Arial=arial,helvetica,sans-serif; Arial Black=arial black,avant garde; Book Antiqua=book antiqua,palatino; Comic Sans MS=comic sans ms,sans-serif; Courier New=courier new,courier; Georgia=georgia,palatino; Helvetica=helvetica; Impact=impact,chicago; Symbol=symbol; Tahoma=tahoma,arial,helvetica,sans-serif; Terminal=terminal,monaco; Times New Roman=times new roman,times; Trebuchet MS=trebuchet ms,geneva; Verdana=verdana,geneva; Webdings=webdings; Wingdings=wingdings,zapf dingbats',
+            content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
+            paste_data_images: true,
+            paste_as_text: false,
+            paste_enable_default_filters: true,
+            paste_word_valid_elements: "table[border],tr,td[valign|width|height|align|colspan|rowspan],th[valign|width|height|align|colspan|rowspan],div,p,br,span,strong,em,u,h1,h2,h3,h4,h5,h6,ul,ol,li,a[href|name],sub,sup,strike,b,i",
+        
+            codesample_languages: [
+                { text: 'HTML/XML', value: 'markup' },
+                { text: 'JavaScript', value: 'javascript' },
+                { text: 'CSS', value: 'css' },
+                { text: 'PHP', value: 'php' },
+                { text: 'Ruby', value: 'ruby' },
+                { text: 'Python', value: 'python' },
+                { text: 'Java', value: 'java' },
+                { text: 'C', value: 'c' },
+                { text: 'C#', value: 'csharp' },
+                { text: 'C++', value: 'cpp' }
+            ],
+            table_class_list: [
+                {title: 'None', value: ''},
+                {title: 'Table Strip', value: 'table-striped'},
+                {title: 'Table Bordered', value: 'table-bordered'},
+                {title: 'Table Hover', value: 'table-hover'},
+                {title: 'Table Condensed', value: 'table-condensed'}
+            ],
+            table_cell_class_list: [
+                {title: 'None', value: ''},
+                {title: 'Active', value: 'active'},
+                {title: 'Success', value: 'success'},
+                {title: 'Info', value: 'info'},
+                {title: 'Warning', value: 'warning'},
+                {title: 'Danger', value: 'danger'}
+            ],
+            textpattern_patterns: [
+                {start: '#', format: 'h1'},
+                {start: '##', format: 'h2'},
+                {start: '###', format: 'h3'},
+                {start: '####', format: 'h4'},
+                {start: '#####', format: 'h5'},
+                {start: '######', format: 'h6'},
+                {start: '* ', cmd: 'InsertUnorderedList'},
+                {start: '- ', cmd: 'InsertUnorderedList'},
+                {start: '1. ', cmd: 'InsertOrderedList', value: { 'list-style-type': 'decimal' }},
+                {start: '1) ', cmd: 'InsertOrderedList', value: { 'list-style-type': 'decimal' }},
+                {start: 'a. ', cmd: 'InsertOrderedList', value: { 'list-style-type': 'lower-alpha' }},
+                {start: 'a) ', cmd: 'InsertOrderedList', value: { 'list-style-type': 'lower-alpha' }},
+            ],
+            templates: [
+                { title: 'Nội dung mẫu 1', description: 'Mô tả cho nội dung mẫu 1', content: 'Nội dung của mẫu 1 ở đây' },
+                { title: 'Nội dung mẫu 2', description: 'Mô tả cho nội dung mẫu 2', content: 'Nội dung của mẫu 2 ở đây' }
+            ],
+            color_map: [
+                "000000", "Black",
+                "993300", "Burnt orange",
+                "333300", "Dark olive",
+                "003300", "Dark green",
+                "003366", "Dark azure",
+                "000080", "Navy Blue",
+                "333399", "Indigo",
+                "333333", "Very dark gray",
+                "800000", "Maroon",
+                "FF6600", "Orange",
+                "808000", "Olive",
+                "008000", "Green",
+                "008080", "Teal",
+                "0000FF", "Blue",
+                "666699", "Grayish blue",
+                "808080", "Gray",
+                "FF0000", "Red",
+                "FF9900", "Amber",
+                "99CC00", "Yellow green",
+                "339966", "Sea green",
+                "33CCCC", "Turquoise",
+                "3366FF", "Royal blue",
+                "800080", "Purple",
+                "999999", "Medium gray",
+                "FF00FF", "Magenta",
+                "FFCC00", "Gold",
+                "FFFF00", "Yellow",
+                "00FF00", "Lime",
+                "00FFFF", "Aqua",
+                "00CCFF", "Sky blue",
+                "993366", "Red violet",
+                "FFFFFF", "White",
+                "FF99CC", "Pink",
+                "FFCC99", "Peach",
+                "FFFF99", "Light yellow",
+                "CCFFCC", "Pale green",
+                "CCFFFF", "Pale cyan",
+                "99CCFF", "Light sky blue",
+                "CC99FF", "Plum"
+            ],
+            
+            
+            setup: function (editor) {
+                editor.on('init', function () {
+                    editor.getBody().style.fontSize = '14px';
+                });
+            }
+        });
+        document.getElementById('lessonForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const title = document.getElementById('title').value;
+            const description = document.getElementById('description').value;
+            const content = tinymce.get('content').getContent();
+        
+            try {
+                const response = await fetch('/admin/create-lesson', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ title, description, content })
+                });
+        
+                const result = await response.json();
+                if (result.success) {
+                    alert('Bài học đã được lưu thành công!');
+                } else {
+                    throw new Error(result.message);
+                }
+            } catch (error) {
+                console.error('Lỗi khi lưu bài học:', error);
+                alert('Có lỗi xảy ra khi lưu bài học. Vui lòng thử lại.');
+            }
+        });
+    </script>
+</body>
+</html>

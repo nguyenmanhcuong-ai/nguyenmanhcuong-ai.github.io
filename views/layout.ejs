@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <% if (user) { %>
+                    <li>
+                        <a href="<%= user.isAdmin ? '/admin/create-class' : `/students/${user.iduser}/home` %>">Trang chủ</a>
+                    </li>
+                    <% if (user.isAdmin) { %>
+                        <li><a href="/admin/dashboard">Quản lý</a></li>
+                    <% } else { %>
+                        <li><a href="/student/attendance">Điểm danh</a></li>
+                    <% } %>
+                    <li><a href="/auth/logout">Đăng xuất</a></li>
+                <% } else { %>
+                    <li><a href="/auth/login">Đăng nhập</a></li>
+                <% } %>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <%- body %> <!-- Đây là nơi nội dung của từng trang sẽ được chèn -->
+    </main>
+</body>
+</html>

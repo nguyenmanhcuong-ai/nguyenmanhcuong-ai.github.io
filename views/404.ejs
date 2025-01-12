@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - MC Group English</title>
+    <link rel="icon" href="/uploads/MC2.png" type="image/x-icon">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.7.32/sweetalert2.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.7.32/sweetalert2.min.js"></script>
+    
+    <style>
+        body {
+            background: linear-gradient(135deg, #EEF2FF 0%, #E0E7FF 100%);
+            min-height: 100vh;
+            position: relative;
+        }
+
+        .background-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(circle at 25% 25%, rgba(99, 102, 241, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(139, 92, 246, 0.05) 0%, transparent 50%);
+            z-index: 0;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .button-primary {
+            background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
+            transition: all 0.3s ease;
+        }
+
+        .button-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(79, 70, 229, 0.2);
+        }
+
+        .button-secondary {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .button-secondary:hover {
+            background: rgba(255, 255, 255, 0.95);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 640px) {
+            .error-container {
+                flex-direction: column;
+            }
+            
+            .error-number {
+                font-size: 120px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-pattern"></div>
+    
+    <div class="min-h-screen w-full flex items-center justify-center">
+        <main class="w-full max-w-4xl mx-auto px-4 py-8 relative z-10">
+            <div class="error-container flex items-center justify-center space-x-8 mb-12 sm:space-x-12">
+                <img src="/uploads/MC2.png" alt="Logo" class="h-24 sm:h-32 md:h-40 w-auto">
+                <h1 class="font-black gradient-text leading-none animate-pulse" style="font-size: 180px;">
+                    404
+                </h1>
+            </div>
+            
+            <div class="text-center max-w-2xl mx-auto mb-12 px-4">
+                <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-4">
+                    Không tìm thấy trang
+                </h2>
+                <p class="text-base sm:text-lg md:text-xl text-gray-700">
+                    Trang bạn đang tìm kiếm không tồn tại hoặc đã được di chuyển.
+                </p>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center px-4">
+                <a href="/" class="button-primary text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-semibold text-base sm:text-lg text-center">
+                    Về trang chủ
+                </a>
+                <button onclick="handleSupport()" class="button-secondary px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-semibold text-base sm:text-lg text-gray-700 text-center">
+                    Liên hệ hỗ trợ
+                </button>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function handleSupport() {
+            Swal.fire({
+                title: 'Đang gửi yêu cầu hỗ trợ',
+                html: `
+                    <div class="w-full p-4">
+                        <div class="w-full bg-gray-200 rounded-full h-2 mb-4">
+                            <div class="bg-blue-600 h-2 rounded-full" style="width: 0%" id="progress-bar"></div>
+                        </div>
+                        <p class="text-gray-600">Đang gửi yêu cầu hỗ trợ đến Quản trị viên...</p>
+                    </div>
+                `,
+                showConfirmButton: false,
+                allowOutsideClick: false
+            });
+
+            let width = 0;
+            const interval = setInterval(() => {
+                width += 2;
+                document.getElementById('progress-bar').style.width = width + '%';
+                if (width >= 100) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Gửi yêu cầu thành công!',
+                            text: 'Vấn đề sẽ sớm được khắc phục.',
+                            confirmButtonColor: '#4F46E5'
+                        });
+                    }, 500);
+                }
+            }, 50);
+        }
+    </script>
+</body>
+</html>

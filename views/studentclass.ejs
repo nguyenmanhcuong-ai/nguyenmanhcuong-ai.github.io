@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/uploads/MC2.png" type="image/x-icon">
+    <title>Danh sách lớp học</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+        :root {
+            --primary-color: #4a90e2;
+            --secondary-color: #50c878;
+            --tertiary-color: #f39c12;
+            --text-color: #333333;
+            --background-color: #f8f9fa;
+            --card-background: #ffffff;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+        }
+        
+        body {
+            font-family: 'Roboto', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            font-size: 16px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: -20px 0;
+            text-align: center;
+            box-shadow: 0 4px 6px var(--shadow-color);
+        }
+        
+        h1 {
+            margin: 0;
+            font-size: 2.8em;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        
+        .student-id {
+            font-size: 1.3em;
+            margin-top: 15px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .class-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .class-card {
+            background-color: var(--card-background);
+            border-radius: 15px;
+            box-shadow: 0 10px 20px var(--shadow-color);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .class-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px var(--shadow-color);
+        }
+        
+        .class-header {
+            background: linear-gradient(45deg, var(--primary-color), var(--tertiary-color));
+            color: white;
+            padding: 25px;
+            font-size: 1.4em;
+            font-weight: 600;
+        }
+        
+        .class-body {
+            padding: 25px;
+        }
+        
+        .class-info p {
+            margin: 12px 0;
+            display: flex;
+            align-items: center;
+            font-size: 1.1em;
+        }
+        
+        .class-info i {
+            margin-right: 12px;
+            color: var(--primary-color);
+            font-size: 1.2em;
+        }
+        
+        .button-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .btn {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 500;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.3s ease;
+            flex: 1;
+            min-width: 100px;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-secondary {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .btn-third {
+            background: linear-gradient(135deg, #ff6a00, #ee0979); /* Gradient màu cam và hồng */
+            color: #fff;
+                        }
+        
+        
+        /* Nút thứ tư */
+        .btn-fourth {
+            background: linear-gradient(135deg, #6a5acd, #4b0082); /* Gradient tím */
+            color: #fff;
+                        }
+                
+        
+        .btn-tertiary {
+            background-color: var(--tertiary-color);
+            color: white;
+        }
+        
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+        
+        .no-classes {
+            text-align: center;
+            font-size: 1.4em;
+            color: #888;
+            margin-top: 50px;
+        }
+        
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .modal-content {
+            background-color: var(--card-background);
+            margin: 10% auto;
+            padding: 0;
+            width: 90%;
+            max-width: 500px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            overflow: hidden;
+            transform: scale(0.9);
+            animation: scaleIn 0.3s ease-out forwards;
+        }
+        
+        @keyframes scaleIn {
+            to { transform: scale(1); }
+        }
+        
+        .modal-header {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 25px;
+            font-size: 1.6em;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .close {
+            color: white;
+            font-size: 32px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        
+        .close:hover {
+            color: #f1f1f1;
+            transform: scale(1.1);
+        }
+        
+        .modal-body {
+            padding: 30px;
+        }
+        
+        #classInfo, #attendanceDate {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            color: var(--text-color);
+        }
+        
+        .attendance-form button {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            padding: 15px;
+            font-size: 1.2em;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 20px;
+        }
+        
+        .attendance-form button:hover {
+            background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        footer {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            margin-top: 80px;
+            font-size: 1.1em;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .class-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .btn {
+                padding: 10px 15px;
+                font-size: 0.9em;
+            }
+            
+            h1 {
+                font-size: 2.2em;
+            }
+            
+            .student-id {
+                font-size: 1.1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>DANH SÁCH LỚP HỌC</h1>
+            <div class="student-id">Sinh viên ID: <%= userId %></div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="class-grid">
+            <% if (classes && classes.length > 0) { %>
+                <% classes.forEach(function(classItem) { %>
+                    <div class="class-card">
+                        <div class="class-header">
+                            <%= classItem.nameclass %>
+                        </div>
+                        <div class="class-body">
+                            <div class="class-info">
+                                <p><i class="fas fa-fingerprint"></i> ID lớp: <%= classItem.idclass %></p>
+                                <p><i class="far fa-calendar-alt"></i> Thời gian tạo: <%= new Date(classItem.createdat).toLocaleString() %></p>
+                            </div>
+                            <div class="button-group">
+                                <button class="btn btn-primary attendance-btn" data-idclass="<%= classItem.idclass %>" data-nameclass="<%= classItem.nameclass %>">Điểm danh</button>
+                                <a href="/students/<%= userId %>/attendance/<%= classItem.idclass %>" class="btn btn-secondary">Lịch sử điểm danh</a>
+                                <a href="/admin/fee-history/<%= classItem.iduser %>/<%= classItem.idclass %>" class="btn btn-fourth">Học phí</a> <!-- Thêm nút Học phí ở đây -->
+                                <a href="/stdgraduation/<%= classItem.iduser %>/<%= classItem.idclass %>" class="btn btn-third" style="display: block; margin-top: 10px;" target="_blank">Tốt nghiệp</a>
+
+                            </div>
+                                <a href="/course-details/<%= classItem.idclass %>" class="btn btn-fifth" style="display: block; margin-top: 10px;" target="_blank">Chi tiết khóa học</a>
+                                <!--<a href="/exam/<%= classItem.iduser %>/<%= classItem.idclass %>" class="btn btn-fifth" style="display: block; margin-top: 10px;" target="_blank">Kỳ thi</a>-->
+
+                            </div>
+                        
+                    </div>
+                <% }); %>
+            <% } else { %>
+                <p class="no-classes">Không có lớp học nào.</p>
+            <% } %>
+        </div>
+    </main>
+
+    <!-- Modal điểm danh -->
+    <div id="attendanceModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">ĐIỂM DANH</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p id="classInfo"></p>
+                <p id="attendanceDate"></p> <!-- Hiển thị ngày hiện tại -->
+                <form id="attendanceForm" class="attendance-form">
+                    <input type="hidden" id="idclass" name="idclass">
+                    <input type="hidden" id="day" name="day" value="1"> <!-- Đặt giá trị mặc định cho ngày -->
+                    <button type="submit">Xác nhận điểm danh</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var modal = document.getElementById("attendanceModal");
+            var attendanceBtns = document.querySelectorAll(".attendance-btn");
+            var span = document.getElementsByClassName("close")[0];
+            var form = document.getElementById("attendanceForm");
+            var attendanceDate = document.getElementById("attendanceDate");
+        
+            // Lấy ngày hiện tại
+            var today = new Date();
+            var day = today.getDate();
+            var month = today.getMonth() + 1; // Tháng bắt đầu từ 0
+            var year = today.getFullYear();
+            attendanceDate.textContent = `Đây là form điểm danh buổi học ngày ${day} tháng ${month} năm ${year}`;            
+        
+            attendanceBtns.forEach(function (btn) {
+                btn.onclick = function () {
+                    var idclass = this.getAttribute('data-idclass');
+                    var nameclass = this.getAttribute('data-nameclass');
+
+                    
+        
+                    // Kiểm tra trạng thái điểm danh trước khi mở modal
+                    fetch(`/check-status/${idclass}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (!data.status) {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Đã đóng điểm danh!',
+                                    text: 'Không thể điểm danh cho lớp này.',
+                                });
+                            } else {
+                                document.getElementById('idclass').value = idclass;
+                                document.getElementById('classInfo').textContent = "Lớp: " + nameclass + " (ID: " + idclass + ")";
+                                modal.style.display = "block";
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error checking status:', error);
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Lỗi!',
+                                text: 'Có lỗi xảy ra khi kiểm tra trạng thái lớp học.',
+                            });
+                        });
+                };
+            });
+        
+            span.onclick = function () {
+                modal.style.display = "none";
+            }
+        
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        
+            form.onsubmit = function (e) {
+                e.preventDefault();
+                var formData = new FormData(form);
+                var data = {
+                    iduser: '<%= userId %>',
+                    idclass: formData.get('idclass')
+                };
+        
+                                                // Hiển thị loading spinner khi bắt đầu submit
+                                                Swal.fire({
+                                                    title: 'Đang xử lý...',
+                                                    text: 'Vui lòng chờ trong giây lát',
+                                                    allowOutsideClick: false,
+                                                    allowEscapeKey: false,
+                                                    showConfirmButton: false,
+                                                    willOpen: () => {
+                                                        Swal.showLoading();
+                                                    }
+                                                });
+                
+                // Gửi dữ liệu điểm danh lên server
+                fetch('/submit-attendance', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+                    .then(response => response.json())
+                    .then(result => {
+                        if (result.success) {
+                            Swal.fire({
+                                title: 'Thành công!',
+                                text: 'Điểm danh thành công.',
+                                icon: 'success',
+                                confirmButtonText: 'OK'
+                            });
+                            modal.style.display = "none";
+                        } else {
+                            throw new Error(result.error);
+                        }
+                    })
+                    .catch(error => {
+                        Swal.fire({
+                            title: 'Nhắc nhở!',
+                            text: error.message,
+                            icon: 'info',
+                            confirmButtonText: 'OK'
+                        });
+                    });
+            };
+        
+        });
+                    
+    </script>
+    
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Hệ thống quản lý sinh viên. Tất cả các quyền được bảo lưu by Cuong Nguyen - Version 24.7</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('contextmenu', function(event) {
+            event.preventDefault(); // Ngăn không cho mở menu chuột phải
+        });
+
+        document.addEventListener('keydown', function(event) {
+            if (event.ctrlKey && (event.key === 'u' || event.key === 'U')) {
+                event.preventDefault(); // Ngăn Ctrl+U
+            }
+        });
+    </script>
+</body>
+</html>
